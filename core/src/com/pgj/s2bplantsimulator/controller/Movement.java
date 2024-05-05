@@ -1,4 +1,4 @@
-package com.pgj.s2bplantsimulator.character;
+package com.pgj.s2bplantsimulator.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -10,17 +10,20 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.pgj.s2bplantsimulator.S2BPlantSimulator;
 
 
 public class Movement extends InputAdapter implements Screen {
     private static final int FRAME_COLS = 4, FRAME_ROWS = 4;
-    private OrthographicCamera camera;
+    //    private OrthographicCamera camera;
     private float speed = 100;
     private S2BPlantSimulator game;
     private Texture img;
-    private float playerX = Gdx.graphics.getWidth()/2 - 32;
-    private float playerY = Gdx.graphics.getHeight()/2 - 32;
+    private float playerX = Gdx.graphics.getWidth() / 2 - 32;
+    private float playerY = Gdx.graphics.getHeight() / 2 - 32;
     private float stateTime;
     private Animation[] up;
     private Animation[] down;
@@ -28,14 +31,18 @@ public class Movement extends InputAdapter implements Screen {
     private Animation[] right;
     private Animation[] stand;
     private Sprite sprite;
+
+    public TiledMap map;
+    public OrthogonalTiledMapRenderer renderer;
+
     public Movement(S2BPlantSimulator game) {
         this.game = game;
         sprite = new Sprite(new Texture("Basic Charakter Spritesheet.png"));
         sprite.setPosition(0, 0);
         sprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        camera = new OrthographicCamera(30, 30 * (Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth()));
-        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
-        camera.update();
+        game.camera = new OrthographicCamera(30, 30 * (Gdx.graphics.getHeight() / (float) Gdx.graphics.getWidth()));
+        game.camera.position.set(game.camera.viewportWidth / 2f, game.camera.viewportHeight / 2f, 0);
+        game.camera.update();
 
 
         img = new Texture("Basic Charakter Spritesheet.png");
@@ -66,8 +73,10 @@ public class Movement extends InputAdapter implements Screen {
 
     @Override
     public void show() {
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 600);
+        map = new TmxMapLoader().load("map.tmx");
+        renderer = new OrthogonalTiledMapRenderer(map);
+        game.camera = new OrthographicCamera();
+        game.camera.setToOrtho(false, 800, 600);
 
     }
 
@@ -75,50 +84,52 @@ public class Movement extends InputAdapter implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        camera.update();
+        game.camera.update();
+        renderer.setView(game.camera);
+        renderer.render();
         stateTime += delta;
         game.batch.begin();
-        game.batch.setProjectionMatrix(camera.combined);
+        game.batch.setProjectionMatrix(game.camera.combined);
 
-        game.batch.draw(sprite, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+//        game.batch.draw(sprite, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         // Không cho đi chéo =))
         if (!Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
-            game.batch.draw((TextureRegion) stand[0].getKeyFrame(stateTime, true), playerX, playerY, 64, 64);
+            game.batch.draw((TextureRegion) stand[0].getKeyFrame(stateTime, true), playerX, playerY);
 
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             playerY += speed * Gdx.graphics.getDeltaTime();
-            game.batch.draw((TextureRegion) up[0].getKeyFrame(stateTime, true), playerX, playerY, 64, 64);
-            camera.translate(0, speed * Gdx.graphics.getDeltaTime());
+            game.batch.draw((TextureRegion) up[0].getKeyFrame(stateTime, true), playerX, playerY);
+            game.camera.translate(0, speed * Gdx.graphics.getDeltaTime());
         } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             playerY -= speed * Gdx.graphics.getDeltaTime();
-            game.batch.draw((TextureRegion) down[0].getKeyFrame(stateTime, true), playerX, playerY, 64, 64);
-            camera.translate(0, -speed * Gdx.graphics.getDeltaTime());
+            game.batch.draw((TextureRegion) down[0].getKeyFrame(stateTime, true), playerX, playerY);
+            game.camera.translate(0, -speed * Gdx.graphics.getDeltaTime());
         } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             playerX -= speed * Gdx.graphics.getDeltaTime();
-            game.batch.draw((TextureRegion) left[0].getKeyFrame(stateTime, true), playerX, playerY, 64, 64);
-            camera.translate(-speed * Gdx.graphics.getDeltaTime(), 0);
+            game.batch.draw((TextureRegion) left[0].getKeyFrame(stateTime, true), playerX, playerY);
+            game.camera.translate(-speed * Gdx.graphics.getDeltaTime(), 0);
         } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             playerX += speed * Gdx.graphics.getDeltaTime();
-            game.batch.draw((TextureRegion) right[0].getKeyFrame(stateTime, true), playerX, playerY, 64, 64);
-            camera.translate(speed * Gdx.graphics.getDeltaTime(), 0);
+            game.batch.draw((TextureRegion) right[0].getKeyFrame(stateTime, true), playerX, playerY);
+            game.camera.translate(speed * Gdx.graphics.getDeltaTime(), 0);
         }
 
-        if (playerX < 0) {
-            playerX = 0;
-            camera.translate(speed * Gdx.graphics.getDeltaTime(), 0);
+        if (playerX < -18) {
+            playerX = -18;
+            game.camera.translate(speed * Gdx.graphics.getDeltaTime(), 0);
         }
-        if (playerX > Gdx.graphics.getWidth()) {
-            playerX = Gdx.graphics.getWidth();
-            camera.translate(-speed * Gdx.graphics.getDeltaTime(), 0);
+        if (playerX > Gdx.graphics.getWidth()-30) {
+            playerX = Gdx.graphics.getWidth()-30;
+            game.camera.translate(-speed * Gdx.graphics.getDeltaTime(), 0);
         }
-        if (playerY < 0) {
-            playerY = 0;
-            camera.translate(0, speed * Gdx.graphics.getDeltaTime());
+        if (playerY < -18) {
+            playerY = -18;
+            game.camera.translate(0, speed * Gdx.graphics.getDeltaTime());
         }
-        if (playerY > Gdx.graphics.getHeight()) {
-            playerY = Gdx.graphics.getHeight();
-            camera.translate(0, -speed * Gdx.graphics.getDeltaTime());
+        if (playerY > Gdx.graphics.getHeight() - 30) {
+            playerY = Gdx.graphics.getHeight() - 30;
+            game.camera.translate(0, -speed * Gdx.graphics.getDeltaTime());
         }
 
 
