@@ -1,4 +1,4 @@
-package com.pgj.s2bplantsimulator.model;
+package com.pgj.s2bplantsimulator.notuse;
 
 import com.badlogic.gdx.graphics.Texture;
 

@@ -1,16 +1,14 @@
-package com.pgj.s2bplantsimulator.model;
+package com.pgj.s2bplantsimulator.notuse;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObjects;
-import com.pgj.s2bplantsimulator.controller.CharacterMovement;
-import com.pgj.s2bplantsimulator.model.constant.CharacterSatus;
-import com.pgj.s2bplantsimulator.model.constant.Direction;
+import com.pgj.s2bplantsimulator.notuse.constant.CharacterSatus;
+import com.pgj.s2bplantsimulator.notuse.constant.Direction;
 
-public class Character extends Entity {
+public class TestCharactor extends Entity {
     private static final int FRAME_COLS = 4;
     private static final int FRAME_ROWS = 4;
     private float STRAIGHT_SPEED = 4; // 4 pixels per frame
@@ -26,14 +24,14 @@ public class Character extends Entity {
     private Animation[] right;
     private Animation[] stand;
 
-    public Character() {
+    public TestCharactor() {
         direction = Direction.DOWN;
         status = CharacterSatus.IDLE;
         setPosition(0, 0);
         passable = false;
     }
 
-    public Character(Texture texture, float x, float y, float speed) {
+    public TestCharactor(Texture texture, float x, float y, float speed) {
         this();
         setTexture(texture);
         setPosition(x, y);

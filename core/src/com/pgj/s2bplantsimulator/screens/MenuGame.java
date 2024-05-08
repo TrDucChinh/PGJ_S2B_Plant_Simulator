@@ -24,6 +24,7 @@ public class MenuGame implements Screen {
             game.batch.draw(buttonPress, (float) (GameConstant.WINDOW_WIDTH - BUTTON_WIDTH) / 2, y, BUTTON_WIDTH, BUTTON_HEIGHT);
             if (Gdx.input.isTouched()) {
                 if (choice == 1) {
+//                    game.setScreen(new MainGame(game));
                     game.setScreen(new MainGame(game));
                 } else {
                     if (choice == 2) {

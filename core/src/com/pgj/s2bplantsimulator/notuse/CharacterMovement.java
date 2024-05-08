@@ -1,12 +1,11 @@
-package com.pgj.s2bplantsimulator.controller;
+package com.pgj.s2bplantsimulator.notuse;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.math.Vector2;
-import com.pgj.s2bplantsimulator.model.Character;
-import com.pgj.s2bplantsimulator.model.constant.CharacterSatus;
-import com.pgj.s2bplantsimulator.model.constant.Direction;
+import com.pgj.s2bplantsimulator.notuse.constant.CharacterSatus;
+import com.pgj.s2bplantsimulator.notuse.constant.Direction;
 
 public class CharacterMovement {
     private Direction direction;
@@ -58,47 +57,47 @@ public class CharacterMovement {
         }
     }
 
-    public void move(Character character, MapObjects mapObjects) {
+    public void move(TestCharactor testCharactor, MapObjects mapObjects) {
         moveDirection();
-        float locationX = character.getLocationX();
-        float locationY = character.getLocationY();
+        float locationX = testCharactor.getLocationX();
+        float locationY = testCharactor.getLocationY();
 
         Vector2 oldPosition = new Vector2(locationX, locationY);
         if (direction == Direction.UP) {
-            locationY += character.getSTRAIGHT_SPEED() * Gdx.graphics.getDeltaTime();
+            locationY += testCharactor.getSTRAIGHT_SPEED() * Gdx.graphics.getDeltaTime();
         }
         if (direction == Direction.DOWN) {
-            locationY -= character.getSTRAIGHT_SPEED() * Gdx.graphics.getDeltaTime();
+            locationY -= testCharactor.getSTRAIGHT_SPEED() * Gdx.graphics.getDeltaTime();
         }
         if (direction == Direction.LEFT) {
-            locationX -= character.getSTRAIGHT_SPEED() * Gdx.graphics.getDeltaTime();
+            locationX -= testCharactor.getSTRAIGHT_SPEED() * Gdx.graphics.getDeltaTime();
         }
         if (direction == Direction.RIGHT) {
-            locationX += character.getSTRAIGHT_SPEED() * Gdx.graphics.getDeltaTime();
+            locationX += testCharactor.getSTRAIGHT_SPEED() * Gdx.graphics.getDeltaTime();
         }
         if (direction == Direction.UPLEFT) {
-            locationX -= character.getDIAGONAL_SPEED() * Gdx.graphics.getDeltaTime();
-            locationY += character.getDIAGONAL_SPEED() * Gdx.graphics.getDeltaTime();
+            locationX -= testCharactor.getDIAGONAL_SPEED() * Gdx.graphics.getDeltaTime();
+            locationY += testCharactor.getDIAGONAL_SPEED() * Gdx.graphics.getDeltaTime();
         }
         if (direction == Direction.UPRIGHT) {
-            locationX += character.getDIAGONAL_SPEED() * Gdx.graphics.getDeltaTime();
-            locationY += character.getDIAGONAL_SPEED() * Gdx.graphics.getDeltaTime();
+            locationX += testCharactor.getDIAGONAL_SPEED() * Gdx.graphics.getDeltaTime();
+            locationY += testCharactor.getDIAGONAL_SPEED() * Gdx.graphics.getDeltaTime();
         }
         if (direction == Direction.DOWNLEFT) {
-            locationX -= character.getDIAGONAL_SPEED() * Gdx.graphics.getDeltaTime();
-            locationY -= character.getDIAGONAL_SPEED() * Gdx.graphics.getDeltaTime();
+            locationX -= testCharactor.getDIAGONAL_SPEED() * Gdx.graphics.getDeltaTime();
+            locationY -= testCharactor.getDIAGONAL_SPEED() * Gdx.graphics.getDeltaTime();
         }
         if (direction == Direction.DOWNRIGHT) {
-            locationX += character.getDIAGONAL_SPEED() * Gdx.graphics.getDeltaTime();
-            locationY -= character.getDIAGONAL_SPEED() * Gdx.graphics.getDeltaTime();
+            locationX += testCharactor.getDIAGONAL_SPEED() * Gdx.graphics.getDeltaTime();
+            locationY -= testCharactor.getDIAGONAL_SPEED() * Gdx.graphics.getDeltaTime();
         }
         Vector2 newPosition = new Vector2(locationX, locationY);
-        CheckCollision checkCollision = new CheckCollision();
-        character.setPosition(newPosition.x, newPosition.y);
+//        CheckCollision checkCollision = new CheckCollision();
+        testCharactor.setPosition(newPosition.x, newPosition.y);
 
-        character.setStatus(status);
+        testCharactor.setStatus(status);
         if (status != CharacterSatus.IDLE) {
-            character.setDirection(direction);
+            testCharactor.setDirection(direction);
         }
     }
 }
