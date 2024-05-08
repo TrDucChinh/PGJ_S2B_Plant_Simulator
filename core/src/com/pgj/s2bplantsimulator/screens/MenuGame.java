@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.pgj.s2bplantsimulator.S2BPlantSimulator;
-import com.pgj.s2bplantsimulator.controller.Movement;
+import com.pgj.s2bplantsimulator.common.constant.GameConstant;
 
 
 public class MenuGame implements Screen {
@@ -19,14 +19,12 @@ public class MenuGame implements Screen {
     }
 
     public void drawButton(Texture button, Texture buttonPress, int y, int choice) {
-        int x = (Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2;
-        if (Gdx.input.getX() >= x && Gdx.input.getX() <= x + BUTTON_WIDTH && Gdx.graphics.getHeight() - Gdx.input.getY() >= y && Gdx.graphics.getHeight() - Gdx.input.getY() <= y + BUTTON_HEIGHT) {
-            game.batch.draw(buttonPress, (float) (Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2, y, BUTTON_WIDTH, BUTTON_HEIGHT);
+        int x = (GameConstant.WINDOW_WIDTH - BUTTON_WIDTH) / 2;
+        if (Gdx.input.getX() >= x && Gdx.input.getX() <= x + BUTTON_WIDTH && GameConstant.WINDOW_HEIGHT - Gdx.input.getY() >= y && GameConstant.WINDOW_HEIGHT - Gdx.input.getY() <= y + BUTTON_HEIGHT) {
+            game.batch.draw(buttonPress, (float) (GameConstant.WINDOW_WIDTH - BUTTON_WIDTH) / 2, y, BUTTON_WIDTH, BUTTON_HEIGHT);
             if (Gdx.input.isTouched()) {
                 if (choice == 1) {
-                    game.setScreen(new Movement(game));
-//                    game.setScreen(new LoadMap(game));
-
+                    game.setScreen(new MainGame(game));
                 } else {
                     if (choice == 2) {
                         //options
@@ -37,7 +35,7 @@ public class MenuGame implements Screen {
                 }
             }
         } else {
-            game.batch.draw(button, (float) (Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2, y, BUTTON_WIDTH, BUTTON_HEIGHT);
+            game.batch.draw(button, (float) (GameConstant.WINDOW_WIDTH - BUTTON_WIDTH) / 2, y, BUTTON_WIDTH, BUTTON_HEIGHT);
         }
     }
 

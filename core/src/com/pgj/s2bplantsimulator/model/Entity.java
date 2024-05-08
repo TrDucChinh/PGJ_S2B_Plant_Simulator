@@ -2,11 +2,11 @@ package com.pgj.s2bplantsimulator.model;
 
 import com.badlogic.gdx.graphics.Texture;
 
-public class Entity {
-    private float locationX, locationY;
-    private float width, height;
-    private boolean passable;
-    private Texture texture;
+public abstract class Entity {
+    protected float locationX, locationY;
+    protected float width, height;
+    protected boolean passable;
+    protected Texture texture;
 
     public Entity() {
         this.width = 0;
