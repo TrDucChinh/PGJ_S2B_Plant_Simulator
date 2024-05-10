@@ -29,6 +29,7 @@ public class MainGame implements Screen {
     public OrthographicCamera staticCamera;
     public OrthographicCamera playerCamera;
 
+    public int[] Water = new int[] {0}, Grass = new int[]{1}, Dirt = new int[]{2}, Wood = new int[]{4}; // Lấy index của layer
     public MainGame(S2BPlantSimulator game){
         this.world = new World(new Vector2(0,0), false);
         this.game = game;
@@ -49,8 +50,8 @@ public class MainGame implements Screen {
         world.step(1/60f, 6, 2);
 
         Vector3 position = game.camera.position;
-        position.x = Math.round(player.body.getPosition().x * PPM * 10 / 10f);
-        position.y = Math.round(player.body.getPosition().y * PPM * 10 / 10f);
+        position.x = player.body.getPosition().x * PPM * 10 / 10f;
+        position.y = player.body.getPosition().y * PPM * 10 / 10f;
         game.camera.position.set(position);
 //        staticCamera.position.set(position);
         if (game.camera.position.x < game.camera.viewportWidth / 2) {
@@ -74,23 +75,24 @@ public class MainGame implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        this.update(delta);
         renderer.setView(game.camera);
-        renderer.render();
+        // render map theo layer index
+        renderer.render(Water);
+        renderer.render(Grass);
+        renderer.render(Dirt);
         box2DDebugRenderer.render(world, game.camera.combined.scl(PPM));
 //        box2DDebugRenderer.render(world, staticCamera.combined.scl(PPM));
 
         stateTime += delta;
 
 //        game.batch.setProjectionMatrix(staticCamera.combined);
-        game.batch.begin();
-        game.batch.end();
 
-        game.batch.setProjectionMatrix(game.camera.combined);
         game.batch.begin();
+        game.batch.setProjectionMatrix(game.camera.combined);
+        this.update(delta);
         player.draw(game.batch);
         game.batch.end();
+        renderer.render(Wood);
 
 
     }

@@ -68,7 +68,7 @@ public class Player extends Sprite {
 
     public void update(float dt) {
         checkUserInput();
-        setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
+        setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight()/2.5f);
         setRegion(getFrame(dt));
     }
 
@@ -95,30 +95,40 @@ public class Player extends Sprite {
                 region = (TextureRegion) stand[0].getKeyFrame(stateTimer, true);
                 break;
         }
-        stateTimer = currentState == previousState ? stateTimer + dt : 0;
-        previousState = currentState;
+        stateTimer += dt;
         return region;
     }
 
     public void checkUserInput() {
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             currentState = State.UP;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             currentState = State.DOWN;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             currentState = State.LEFT;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             currentState = State.RIGHT;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !Gdx.input.isKeyPressed(Input.Keys.D) && Gdx.input.isKeyPressed(Input.Keys.W) && !Gdx.input.isKeyPressed(Input.Keys.S)) {
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.A) && !Gdx.input.isKeyPressed(Input.Keys.D) && Gdx.input.isKeyPressed(Input.Keys.W) && !Gdx.input.isKeyPressed(Input.Keys.S)) {
             currentState = State.UPLEFT;
-        } else if (!Gdx.input.isKeyPressed(Input.Keys.A) && Gdx.input.isKeyPressed(Input.Keys.D) && Gdx.input.isKeyPressed(Input.Keys.W) && !Gdx.input.isKeyPressed(Input.Keys.S)) {
+        }
+        if (!Gdx.input.isKeyPressed(Input.Keys.A) && Gdx.input.isKeyPressed(Input.Keys.D) && Gdx.input.isKeyPressed(Input.Keys.W) && !Gdx.input.isKeyPressed(Input.Keys.S)) {
             currentState = State.UPRIGHT;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !Gdx.input.isKeyPressed(Input.Keys.D) && !Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.S)) {
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.A) && !Gdx.input.isKeyPressed(Input.Keys.D) && !Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.S)) {
             currentState = State.DOWNLEFT;
-        } else if (!Gdx.input.isKeyPressed(Input.Keys.A) && Gdx.input.isKeyPressed(Input.Keys.D) && !Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.S)) {
+        }
+        if (!Gdx.input.isKeyPressed(Input.Keys.A) && Gdx.input.isKeyPressed(Input.Keys.D) && !Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.S)) {
             currentState = State.DOWNRIGHT;
-        } else {
+        }
+        if (!Gdx.input.isKeyPressed(Input.Keys.A) && !Gdx.input.isKeyPressed(Input.Keys.D) && !Gdx.input.isKeyPressed(Input.Keys.W) && !Gdx.input.isKeyPressed(Input.Keys.S)) {
             currentState = State.IDLE;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            System.out.println("X: " + body.getPosition().x + " Y: " + body.getPosition().y);
         }
 
         velX = 0;
@@ -132,20 +142,19 @@ public class Player extends Sprite {
         } else if (currentState == State.RIGHT) {
             velX = 0.5f;
         } else if (currentState == State.UPLEFT) {
-            velX = -0.5f;
-            velY = 0.5f;
+            velX = -0.35f;
+            velY = 0.35f;
         } else if (currentState == State.UPRIGHT) {
-            velX = 0.5f;
-            velY = 0.5f;
+            velX = 0.35f;
+            velY = 0.35f;
         } else if (currentState == State.DOWNLEFT) {
-            velX = -0.5f;
-            velY = -0.5f;
+            velX = -0.35f;
+            velY = -0.35f;
         } else if (currentState == State.DOWNRIGHT) {
-            velX = 0.5f;
-            velY = -0.5f;
+            velX = 0.35f;
+            velY = -0.35f;
         }
         body.setLinearVelocity(velX * speed, velY * speed);
-
 
 
     }
