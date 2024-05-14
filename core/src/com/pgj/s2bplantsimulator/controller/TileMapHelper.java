@@ -45,14 +45,24 @@ public class TileMapHelper {
 
                 if(rectangleName.equals("player")) {
                     Body body = BodyHelperService.createBody(
-                            rectangle.getX() + rectangle.getWidth() / 2,
-                            rectangle.getY() + rectangle.getHeight() / 2,
+                            rectangle.getX() /*+ rectangle.getWidth() / 2*/,
+                            rectangle.getY()/* + rectangle.getHeight() / 2*/,
                             rectangle.getWidth(),
                             rectangle.getHeight(),
                             false,
                             gameScreen.world
                     );
                     gameScreen.player = new Player(gameScreen, body);
+                } else if (rectangleName.equals("dirt")) {
+//                    Body body = BodyHelperService.createBody(
+//                            rectangle.getX() + rectangle.getWidth() / 2,
+//                            rectangle.getY() + rectangle.getHeight() / 2,
+//                            rectangle.getWidth(),
+//                            rectangle.getHeight(),
+//                            false,
+//                            gameScreen.world
+//                    );
+                    System.out.println(rectangle.getX()/PPM + " " + rectangle.getY()/PPM + " " + rectangle.getWidth() + " " + rectangle.getHeight());
                 }
             }
         }
@@ -77,6 +87,12 @@ public class TileMapHelper {
         }
         PolygonShape shape = new PolygonShape();
         shape.set(worldVertices);
+        return shape;
+    }
+    private Shape createRectangleShape(RectangleMapObject mapObject) {
+        Rectangle rectangle = mapObject.getRectangle();
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(rectangle.getWidth() / 2 / PPM, rectangle.getHeight() / 2 / PPM);
         return shape;
     }
 
