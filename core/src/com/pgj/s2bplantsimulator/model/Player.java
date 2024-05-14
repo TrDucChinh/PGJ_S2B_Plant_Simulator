@@ -128,7 +128,7 @@ public class Player extends Sprite {
             currentState = State.IDLE;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            System.out.println("X: " + body.getPosition().x + " Y: " + body.getPosition().y);
+            System.out.println(body.getPosition().x + " " + body.getPosition().y);
         }
 
         velX = 0;
