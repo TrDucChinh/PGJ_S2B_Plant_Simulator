@@ -16,6 +16,7 @@ import com.pgj.s2bplantsimulator.S2BPlantSimulator;
 import com.pgj.s2bplantsimulator.controller.TileMapHelper;
 import com.pgj.s2bplantsimulator.model.Dirt;
 import com.pgj.s2bplantsimulator.model.Player;
+import com.pgj.s2bplantsimulator.view.InventoryUI;
 
 import static com.pgj.s2bplantsimulator.common.constant.GameConstant.PPM;
 
@@ -30,6 +31,7 @@ public class MainGame implements Screen {
     public Box2DDebugRenderer box2DDebugRenderer;
     public OrthographicCamera staticCamera;
     public OrthographicCamera playerCamera;
+    public InventoryUI inventoryUI;
 
     public int[] Water = new int[]{0}, Grass = new int[]{1}, Dirt = new int[]{2}, Wood = new int[]{4}; // Lấy index của layer
     public MainGame(S2BPlantSimulator game) {
@@ -40,12 +42,13 @@ public class MainGame implements Screen {
         box2DDebugRenderer.setDrawJoints(true);
         this.tileMapHelper = new TileMapHelper(this);
         this.renderer = tileMapHelper.setupMap();
-
+        inventoryUI = new InventoryUI();
     }
     @Override
     public void show() {
+        inventoryUI.show();
 //        staticCamera = new OrthographicCamera(512, 360);
-        game.camera = new OrthographicCamera(512, 360);
+        game.camera = new OrthographicCamera(512 / 2, 360 / 2);
 
     }
     public void update(float dt) {
@@ -98,8 +101,7 @@ public class MainGame implements Screen {
         player.draw(game.batch);
         game.batch.end();
         renderer.render(Wood);
-
-
+        inventoryUI.render(delta);
     }
 
     @Override
@@ -124,6 +126,7 @@ public class MainGame implements Screen {
 
     @Override
     public void dispose() {
+        inventoryUI.dispose();
         renderer.dispose();
         box2DDebugRenderer.dispose();
     }
