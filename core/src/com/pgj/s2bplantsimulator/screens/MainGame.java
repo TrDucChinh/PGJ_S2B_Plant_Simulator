@@ -9,10 +9,12 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Vector4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pgj.s2bplantsimulator.S2BPlantSimulator;
 import com.pgj.s2bplantsimulator.controller.TileMapHelper;
+import com.pgj.s2bplantsimulator.model.Dirt;
 import com.pgj.s2bplantsimulator.model.Player;
 import com.pgj.s2bplantsimulator.view.InventoryUI;
 
@@ -31,27 +33,26 @@ public class MainGame implements Screen {
     public OrthographicCamera playerCamera;
     public InventoryUI inventoryUI;
 
-    public int[] Water = new int[] {0}, Grass = new int[]{1}, Dirt = new int[]{2}, Wood = new int[]{4}; // Lấy index của layer
-    public MainGame(S2BPlantSimulator game){
-        this.world = new World(new Vector2(0,0), false);
+    public int[] Water = new int[]{0}, Grass = new int[]{1}, Dirt = new int[]{2}, Wood = new int[]{4}; // Lấy index của layer
+    public MainGame(S2BPlantSimulator game) {
+        this.world = new World(new Vector2(0, 0), false);
         this.game = game;
         this.box2DDebugRenderer = new Box2DDebugRenderer();
-        box2DDebugRenderer.setDrawBodies(false);
-        box2DDebugRenderer.setDrawJoints(false);
+        box2DDebugRenderer.setDrawBodies(true);
+        box2DDebugRenderer.setDrawJoints(true);
         this.tileMapHelper = new TileMapHelper(this);
         this.renderer = tileMapHelper.setupMap();
-        inventoryUI = new InventoryUI();
+        inventoryUI = new InventoryUI(this);
     }
     @Override
     public void show() {
-        inventoryUI.show();
 //        staticCamera = new OrthographicCamera(512, 360);
         game.camera = new OrthographicCamera(512 / 2, 360 / 2);
 
     }
-    public void update(float dt){
-        world.step(1/60f, 6, 2);
-
+    public void update(float dt) {
+        world.step(1 / 60f, 6, 2);
+//        inventoryUI.update();
         Vector3 position = game.camera.position;
         position.x = player.body.getPosition().x * PPM * 10 / 10f;
         position.y = player.body.getPosition().y * PPM * 10 / 10f;
@@ -93,6 +94,9 @@ public class MainGame implements Screen {
         game.batch.begin();
         game.batch.setProjectionMatrix(game.camera.combined);
         this.update(delta);
+        for (Dirt dirt : player.plantDirtList) {
+            dirt.draw(game.batch);
+        }
         player.draw(game.batch);
         game.batch.end();
         renderer.render(Wood);

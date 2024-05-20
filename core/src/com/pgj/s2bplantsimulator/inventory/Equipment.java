@@ -10,11 +10,13 @@ public class Equipment {
     private int NUM_SLOTS = 6;
     private Player player;
     private Item currentItem;
-    MainGame mainGame;
 
-    public Equipment(){
-        items = EquipmentsLoader.getInstance().loader();
+    public Equipment(MainGame gameScreen){
+        this.player = gameScreen.player;
+
+        items = EquipmentsLoader.getInstance().loader(gameScreen);
     }
+
 
 
     public Item[] getItems() {
