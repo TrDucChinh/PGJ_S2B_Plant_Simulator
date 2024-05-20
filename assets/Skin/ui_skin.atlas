@@ -1,0 +1,100 @@
+
+ui_skin.png
+size: 2048, 2048
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+button
+  rotate: false
+  xy: 1, 264
+  size: 26, 26
+  split: 5, 5, 5, 5
+  pad: 0, 0, 0, 0
+  orig: 26, 26
+  offset: 0, 0
+  index: -1
+button_hover
+  rotate: false
+  xy: 509, 333
+  size: 26, 26
+  split: 5, 5, 5, 5
+  pad: 0, 0, 0, 0
+  orig: 26, 26
+  offset: 0, 0
+  index: -1
+button_pressed6
+  rotate: false
+  xy: 1028, 1025
+  size: 20, 21
+  split: 5, 5, 5, 7
+  pad: 0, 0, 0, 0
+  orig: 20, 21
+  offset: 0, 0
+  index: -1
+PixeloidMono-d94EV
+  rotate: false
+  xy: 1, 292
+  size: 506, 67
+  orig: 506, 67
+  offset: 0, 0
+  index: -1
+window
+  rotate: false
+  xy: 1028, 1048
+  size: 30, 30
+  split: 8, 8, 8, 8
+  pad: 0, 0, 0, 0
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+Screenshot 2024-05-20 175757
+  rotate: false
+  xy: 1, 361
+  size: 1025, 717
+  orig: 1025, 717
+  offset: 0, 0
+  index: -1
+axe
+  rotate: false
+  xy: 537, 343
+  size: 13, 16
+  orig: 13, 16
+  offset: 0, 0
+  index: -1
+cropped_image_0
+  rotate: false
+  xy: 1028, 1011
+  size: 7, 12
+  orig: 7, 12
+  offset: 0, 0
+  index: -1
+cropped_image_8
+  rotate: false
+  xy: 1060, 1057
+  size: 20, 21
+  orig: 20, 21
+  offset: 0, 0
+  index: -1
+hoe
+  rotate: false
+  xy: 509, 316
+  size: 13, 15
+  orig: 13, 15
+  offset: 0, 0
+  index: -1
+round_button
+  rotate: false
+  xy: 1, 244
+  size: 17, 18
+  split: 7, 7, 8, 9
+  pad: 7, 7, 7, 9
+  orig: 17, 18
+  offset: 0, 0
+  index: -1
+water_pot
+  rotate: false
+  xy: 29, 280
+  size: 16, 10
+  orig: 16, 10
+  offset: 0, 0
+  index: -1
