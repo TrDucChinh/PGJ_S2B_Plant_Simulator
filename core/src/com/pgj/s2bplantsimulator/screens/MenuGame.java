@@ -15,7 +15,7 @@ public class MenuGame implements Screen {
 
     public MenuGame(S2BPlantSimulator game) {
         this.game = game;
-        crateTexture();
+        createTexture();
     }
 
     public void drawButton(Texture button, Texture buttonPress, int y, int choice) {
@@ -40,13 +40,13 @@ public class MenuGame implements Screen {
         }
     }
 
-    public void crateTexture() {
-        play = new Texture("button/play.png");
-        playPress = new Texture("button/playpress.png");
-        about = new Texture("button/about.png");
-        aboutPress = new Texture("button/aboutpress.png");
-        replay = new Texture("button/replay.png");
-        replayPress = new Texture("button/replaypress.png");
+    public void createTexture() {
+        play = new Texture(GameConstant.PLAY_BUTTON);
+        playPress = new Texture(GameConstant.PLAY_PRESS_BUTTON);
+        about = new Texture(GameConstant.ABOUT_BUTTON);
+        aboutPress = new Texture(GameConstant.ABOUT_PRESS_BUTTON);
+        replay = new Texture(GameConstant.REPLAY_BUTTON);
+        replayPress = new Texture(GameConstant.REPLAY_PRESS_BUTTON);
     }
 
     @Override
