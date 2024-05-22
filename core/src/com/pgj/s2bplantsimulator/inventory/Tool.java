@@ -16,7 +16,7 @@ public class Tool extends Item {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 mainGame.player.equipment.setCurrentItem(Tool.this);
-                System.out.println("Current Item: " + mainGame.player.equipment.getCurrentItem().getName());
+
             }
         });
     }

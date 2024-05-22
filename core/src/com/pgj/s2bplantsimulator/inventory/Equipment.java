@@ -13,7 +13,6 @@ public class Equipment {
 
     public Equipment(MainGame gameScreen){
         this.player = gameScreen.player;
-
         items = EquipmentsLoader.getInstance().loader(gameScreen);
     }
 

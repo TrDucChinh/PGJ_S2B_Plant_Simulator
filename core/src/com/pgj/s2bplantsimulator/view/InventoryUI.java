@@ -2,11 +2,13 @@ package com.pgj.s2bplantsimulator.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
@@ -37,6 +39,7 @@ public class InventoryUI implements Screen {
     }
 
     public void render(float dt) {
+
         update();
 
         stage.act();
@@ -80,24 +83,25 @@ public class InventoryUI implements Screen {
         equipmentSlot.align(Align.center);
         equipmentSlot.setBackground(skin.getDrawable("window"));
         equipmentSlot.setBounds(Gdx.graphics.getWidth() / 2 - 420 / 2, 30, 420, 70);
-//        equipmentSlot.setDebug(true);
+        equipmentSlot.setDebug(true);
+
 
 
         for(int i = 0; i < 6; i++){
             Container imageContainer = new Container();
-//            imageContainer.setDebug(true);
+            imageContainer.setDebug(true);
             imageContainer.setBackground(skin.getDrawable("round_button"));
             imageContainer.fill();
             equipmentSlot.add(imageContainer).pad(8.0f).size(50.0f);
             imageContainer.setWidth(50.0f);
             imageContainer.setHeight(50.0f);
         }
-        for(Cell cell : equipmentSlot.getCells()){
+        for(Cell cell : equipmentSlot.getCells()) {
             Container imageContainer = (Container) cell.getActor();
-            System.out.println(imageContainer.getWidth() + " " + imageContainer.getHeight());
+            System.out.println(imageContainer.getX() + " " + imageContainer.getY());
         }
-        stage.addActor(equipmentSlot);
 
+        stage.addActor(equipmentSlot);
     }
     public void loadEquipmentItemToUI(){
         for(Item item  : equipment.getItems()){
@@ -105,7 +109,9 @@ public class InventoryUI implements Screen {
                 for(Cell cell : equipmentSlot.getCells()){
                     Container imageContainer = (Container) cell.getActor();
                     if(imageContainer.getActor() == null){
+//                        System.out.println(item.getImage().getOriginX() + " " item.getImage().getOriginX());
                         imageContainer.setActor(item.getImage());
+                        item.getImage().setDebug(true);
                         break;
                     }
                 }
@@ -120,40 +126,63 @@ public class InventoryUI implements Screen {
                 image.addListener(new DragListener(){
                     private float preX;
                     private float preY;
+                    private Container baseImageContainer;
                     @Override
                     public void dragStart(InputEvent event, float x, float y, int pointer) {
-                        image.getParent().toFront();
-                        preX = image.getX();
-                        preY = image.getY();
+//                        image.setScaling(Scaling.fit);
+                        baseImageContainer = (Container) image.getParent();
+                        stage.addActor(image);
+                        image.setBounds(event.getStageX(), event.getStageY(), image.getWidth(), image.getHeight());
+//                        image.getParent().clear();
+                        preX = x;
+                        preY = y;
+
                     }
 
                     @Override
                     public void drag(InputEvent event, float x, float y, int pointer) {
-                        image.moveBy(x - image.getWidth() / 2, y - image.getHeight() / 2);
+
+                        image.moveBy(x, y);
+                        preX = x;
+                        preY = y;
                     }
 
                     @Override
                     public void dragStop(InputEvent event, float x, float y, int pointer) {
-                        boolean moving = false;
-                        Container oldImageContainer = (Container) image.getParent();
-                        for(Cell cell : equipmentSlot.getCells()){
+                        boolean isMoving = false;
+                        for(Cell  cell : equipmentSlot.getCells()){
                             Container imageContainer = (Container) cell.getActor();
                             if(imageContainer.getActor() == null){
-                                if(image.getX() > imageContainer.getX() && image.getX() < imageContainer.getX() + imageContainer.getWidth() && image.getY() > imageContainer.getY() && image.getY() < imageContainer.getY() + imageContainer.getHeight()){
-                                    image.remove();
+                                Vector2 pos = getStagePos(imageContainer);
+                                System.out.println(pos.x + " " + pos.y + " " + event.getStageX() + " " + event.getStageY());
+                                if((pos.x < event.getStageX())
+                                        && (event.getStageX() <= pos.x + 50)
+                                        && (pos.y <= event.getStageY())
+                                        && (event.getStageY() <= pos.y + 50)){
+                                    System.out.println("here");
                                     imageContainer.setActor(image);
-                                    moving = true;
-                                    break;
+                                    image.setPosition(0, 0);
+
+                                    isMoving = true;
                                 }
                             }
                         }
-                        if(moving == false){
-                            image.setPosition(preX, preY);
+                        if(isMoving == false){
+                            baseImageContainer.setActor(image);
                         }
                     }
                 });
             }
         }
+    }
+    public Vector2 getStagePos(Actor actor){
+        float x = actor.getX(), y = actor.getY();
+        while(actor.getParent() != null){
+            x += actor.getParent().getX();
+            y += actor.getParent().getY();
+            actor = actor.getParent();
+        }
+        return new Vector2(x, y);
     }
     public void update(){
 //        equipmentSlot.getCells().get(0).setActor(new Image((Tool) (equipment.getItems()[0]).getDrawable()));
