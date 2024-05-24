@@ -11,8 +11,15 @@ import com.pgj.s2bplantsimulator.screens.MainGame;
 public abstract class Item extends Sprite {
     private String name;
     private Image image;
+    private MainGame mainGame;
 
+    public MainGame getMainGame() {
+        return mainGame;
+    }
 
+    public void setMainGame(MainGame mainGame) {
+        this.mainGame = mainGame;
+    }
 
     public String getName() {
         return name;

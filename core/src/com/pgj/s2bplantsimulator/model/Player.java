@@ -10,6 +10,8 @@ import com.badlogic.gdx.math.Vector4;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pgj.s2bplantsimulator.controller.TileMapHelper;
+import com.pgj.s2bplantsimulator.inventory.Equipment;
+import com.pgj.s2bplantsimulator.inventory.Inventory;
 import com.pgj.s2bplantsimulator.screens.MainGame;
 
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ public class Player extends Sprite {
     public State previousState;
     public Dirt plantDirt = new Dirt();
     public List<Dirt> plantDirtList = new ArrayList<>();
+    public Equipment equipment;
 
     public Texture playerTexture;
     public Body body;
@@ -44,6 +47,7 @@ public class Player extends Sprite {
 
     public Player(MainGame gameScreen, Body body) {
         this.world = gameScreen.world;
+        equipment = new Equipment(gameScreen);
         currentState = State.IDLE;
         previousState = State.IDLE;
         stateTimer = 0;

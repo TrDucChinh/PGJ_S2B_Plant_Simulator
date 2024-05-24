@@ -42,18 +42,17 @@ public class MainGame implements Screen {
         box2DDebugRenderer.setDrawJoints(true);
         this.tileMapHelper = new TileMapHelper(this);
         this.renderer = tileMapHelper.setupMap();
-        inventoryUI = new InventoryUI();
+        inventoryUI = new InventoryUI(this);
     }
     @Override
     public void show() {
-        inventoryUI.show();
 //        staticCamera = new OrthographicCamera(512, 360);
         game.camera = new OrthographicCamera(512 / 2, 360 / 2);
 
     }
     public void update(float dt) {
         world.step(1 / 60f, 6, 2);
-
+//        inventoryUI.update();
         Vector3 position = game.camera.position;
         position.x = player.body.getPosition().x * PPM * 10 / 10f;
         position.y = player.body.getPosition().y * PPM * 10 / 10f;
