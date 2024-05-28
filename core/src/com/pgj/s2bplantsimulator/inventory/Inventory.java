@@ -31,4 +31,7 @@ public class Inventory {
             items.add(plant);
         }
     }
+    public void addItem(Item item){
+        items.add(item);
+    }
 }
