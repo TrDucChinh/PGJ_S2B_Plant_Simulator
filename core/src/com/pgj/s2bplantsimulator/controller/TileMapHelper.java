@@ -1,5 +1,6 @@
 package com.pgj.s2bplantsimulator.controller;
 
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
@@ -14,7 +15,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
-import com.pgj.s2bplantsimulator.model.Dirt;
 import com.pgj.s2bplantsimulator.model.Player;
 import com.pgj.s2bplantsimulator.screens.MainGame;
 
@@ -22,13 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.pgj.s2bplantsimulator.common.constant.GameConstant.PPM;
+import static com.pgj.s2bplantsimulator.screens.MainGame.dirtPositionList;
 
 
 public class TileMapHelper {
     public static TiledMap map;
     public MainGame gameScreen;
     public static float xDirt, yDirt;
-    public static List<Vector4> dirtPositionList = new ArrayList<>();
 
     public TileMapHelper(MainGame gameScreen) {
         this.gameScreen = gameScreen;
@@ -37,6 +37,9 @@ public class TileMapHelper {
     public OrthogonalTiledMapRenderer setupMap() {
         map = new TmxMapLoader().load("map.tmx");
         parseMapObjects(map.getLayers().get("block").getObjects());
+        parseMapObjects(map.getLayers().get("soil").getObjects());
+//        parseMapObjects(map.getLayers().get("player").getObjects());
+
         return new OrthogonalTiledMapRenderer(map);
     }
 
@@ -59,7 +62,7 @@ public class TileMapHelper {
                             gameScreen.world
                     );
                     gameScreen.player = new Player(gameScreen, body);
-                } else if (rectangleName.equals("dirt")) {
+                } else if (rectangleName.equals("dirt")){
 //                    Body body = BodyHelperService.createBody(
 //                            rectangle.getX() + rectangle.getWidth() / 2,
 //                            rectangle.getY() + rectangle.getHeight() / 2,
@@ -72,11 +75,28 @@ public class TileMapHelper {
                     yDirt = rectangle.getY() / 32;
                     Vector4 dirtVector = new Vector4(xDirt, yDirt, rectangle.getWidth(), rectangle.getHeight());
                     dirtPositionList.add(dirtVector);
+//                    soilList.add(new Soil(xDirt, yDirt, rectangle.getWidth(), rectangle.getHeight()));
 
                 }
             }
         }
     }
+
+    public void drawObjectsFromLayer(String layerName) {
+        MapLayer layer = map.getLayers().get(layerName);
+        if (layer != null) {
+            for (MapObject object : layer.getObjects()) {
+                if (object instanceof RectangleMapObject) {
+                    Rectangle rect = ((RectangleMapObject) object).getRectangle();
+//                    System.out.println("Object: " + rect.getX() + " " + rect.getY() + " " + rect.getWidth() + " " + rect.getHeight());
+                    System.out.println("Object: " + rect.getX()/32 + " " + rect.getY()/32 + " " + rect.getWidth() + " " + rect.getHeight());
+//                    Vector4 soil
+                }
+            }
+        }
+    }
+
+
 
     public void createStaticBody(PolygonMapObject mapObject) {
         BodyDef bodyDef = new BodyDef();

@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -16,7 +15,12 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.pgj.s2bplantsimulator.S2BPlantSimulator;
 import com.pgj.s2bplantsimulator.controller.TileMapHelper;
 import com.pgj.s2bplantsimulator.model.Dirt;
+import com.pgj.s2bplantsimulator.model.DirtState;
 import com.pgj.s2bplantsimulator.model.Player;
+import com.pgj.s2bplantsimulator.view.InventoryUI;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.pgj.s2bplantsimulator.common.constant.GameConstant.PPM;
 
@@ -31,27 +35,35 @@ public class MainGame implements Screen {
     public Box2DDebugRenderer box2DDebugRenderer;
     public OrthographicCamera staticCamera;
     public OrthographicCamera playerCamera;
+    public InventoryUI inventoryUI;
+    public static List<Vector4> dirtPositionList = new ArrayList<>();
+    public static List<Dirt> plantDirtList = new ArrayList<>();
+    public static List<com.pgj.s2bplantsimulator.model.Dirt> soilList = new ArrayList<com.pgj.s2bplantsimulator.model.Dirt>();
+
 
     public int[] Water = new int[]{0}, Grass = new int[]{1}, Dirt = new int[]{2}, Wood = new int[]{4}; // Lấy index của layer
+
     public MainGame(S2BPlantSimulator game) {
         this.world = new World(new Vector2(0, 0), false);
         this.game = game;
         this.box2DDebugRenderer = new Box2DDebugRenderer();
-        box2DDebugRenderer.setDrawBodies(true);
+        box2DDebugRenderer.setDrawBodies(false);
         box2DDebugRenderer.setDrawJoints(true);
         this.tileMapHelper = new TileMapHelper(this);
         this.renderer = tileMapHelper.setupMap();
-
+        inventoryUI = new InventoryUI(this);
     }
+
     @Override
     public void show() {
 //        staticCamera = new OrthographicCamera(512, 360);
-        game.camera = new OrthographicCamera(512, 360);
+        game.camera = new OrthographicCamera(512 / 2, 360 / 2);
 
     }
+
     public void update(float dt) {
         world.step(1 / 60f, 6, 2);
-
+//        inventoryUI.update();
         Vector3 position = game.camera.position;
         position.x = player.body.getPosition().x * PPM * 10 / 10f;
         position.y = player.body.getPosition().y * PPM * 10 / 10f;
@@ -93,40 +105,45 @@ public class MainGame implements Screen {
         game.batch.begin();
         game.batch.setProjectionMatrix(game.camera.combined);
         this.update(delta);
-        for (Dirt dirt : player.plantDirtList) {
+        for (Dirt dirt : plantDirtList) {
             game.batch.draw(dirt, dirt.getX() + 0.5f, dirt.getY() + 0.5f, 0.5f, 0.5f);
-//            dirt.draw(game.batch);
         }
+        for (Dirt soil : soilList) {
+            if (soil.currentState == DirtState.DIRT) {
+                game.batch.draw(soil, soil.getX() + 0.5f, soil.getY() + 0.5f, 0.5f, 0.5f);
+        }
+
+    }
         player.draw(game.batch);
         game.batch.end();
         renderer.render(Wood);
+        inventoryUI.render(delta);
+}
 
+@Override
+public void resize(int i, int i1) {
 
-    }
+}
 
-    @Override
-    public void resize(int i, int i1) {
+@Override
+public void pause() {
 
-    }
+}
 
-    @Override
-    public void pause() {
+@Override
+public void resume() {
 
-    }
+}
 
-    @Override
-    public void resume() {
+@Override
+public void hide() {
+    dispose();
+}
 
-    }
-
-    @Override
-    public void hide() {
-        dispose();
-    }
-
-    @Override
-    public void dispose() {
-        renderer.dispose();
-        box2DDebugRenderer.dispose();
-    }
+@Override
+public void dispose() {
+    inventoryUI.dispose();
+    renderer.dispose();
+    box2DDebugRenderer.dispose();
+}
 }
