@@ -10,13 +10,21 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
+import com.pgj.s2bplantsimulator.inventory.Item;
 import com.pgj.s2bplantsimulator.ultis.StageUltis;
 
 public class MovingImage extends Image {
-    public MovingImage(Image image){
+    private Item item;
+    public MovingImage(Image image, Item item){
         super(image.getDrawable());
+        this.item = item;
         createAction();
     }
+
+    public Item getItem() {
+        return item;
+    }
+
     public void createAction(){
             MovingImage image = this;
             image.addListener(new DragListener(){
@@ -30,11 +38,11 @@ public class MovingImage extends Image {
                         stage = image.getStage();
                         stage.addActor(image);
                         image.toFront();
-                        image.setBounds(event.getStageX(), event.getStageY(), image.getWidth(), image.getHeight());
+                        image.setPosition(event.getStageX(), event.getStageY());
                     }
                 }
                 public void drag(InputEvent event, float x, float y, int pointer) {
-                    image.setBounds(event.getStageX(), event.getStageY(), image.getWidth(), image.getHeight());
+                    image.setPosition(event.getStageX(), event.getStageY());
 
                 }
 
@@ -49,31 +57,24 @@ public class MovingImage extends Image {
             });
     }
     public void updateOnScreenPos(){
-        Table equipmentSlot = new Table();
         Stage stage = this.getStage();
         for(Actor actor : stage.getActors()){
             if(actor instanceof Table){
-                equipmentSlot = (Table) actor;
-            }
-
-        }
-        for(Actor actor : stage.getActors()){
-            if(actor instanceof MovingImage){
-                MovingImage image = (MovingImage) actor;
-                for(Cell  cell : equipmentSlot.getCells()){
+                Table slots = (Table) actor;
+                for(Cell  cell : slots.getCells()){
                     Container imageContainer = (Container) cell.getActor();
                     if(imageContainer.getActor() == null){
                         Vector2 pos = StageUltis.getInstance().getStagePos(imageContainer);
-                        System.out.println(pos.x + " " + pos.y + " " + actor.getX() + " " + actor.getY());
-                        if((pos.x < image.getX())
-                                && (image.getX() <= pos.x + 50)
-                                && (pos.y <= image.getY())
-                                && (image.getY() <= pos.y + 50)){
-                            imageContainer.setActor(image);
+                        if((pos.x < this.getX())
+                                && (this.getX() <= pos.x + 50)
+                                && (pos.y <= this.getY())
+                                && (this.getY() <= pos.y + 50)){
+                            imageContainer.setActor(this);
                         }
                     }
                 }
             }
+
         }
     }
 }

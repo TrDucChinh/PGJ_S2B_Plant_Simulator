@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector4;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pgj.s2bplantsimulator.controller.TileMapHelper;
+import com.pgj.s2bplantsimulator.inventory.Chest;
 import com.pgj.s2bplantsimulator.inventory.Equipment;
 import com.pgj.s2bplantsimulator.inventory.Inventory;
 import com.pgj.s2bplantsimulator.screens.MainGame;
@@ -22,6 +23,8 @@ import java.util.stream.Collectors;
 import static com.pgj.s2bplantsimulator.common.constant.GameConstant.PPM;
 
 public class Player extends Sprite {
+
+
     public enum State {IDLE, UP, DOWN, LEFT, RIGHT, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT, HOE}
 
     public enum Direction {UP, DOWN, LEFT, RIGHT, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT}
@@ -32,6 +35,7 @@ public class Player extends Sprite {
     public Dirt plantDirt = new Dirt();
     public List<Dirt> plantDirtList = new ArrayList<>();
     public Equipment equipment;
+    private Chest chest;
 
     public Texture playerTexture;
     public Body body;
@@ -48,6 +52,7 @@ public class Player extends Sprite {
     public Player(MainGame gameScreen, Body body) {
         this.world = gameScreen.world;
         equipment = new Equipment(gameScreen);
+        chest = new Chest(gameScreen);
         currentState = State.IDLE;
         previousState = State.IDLE;
         stateTimer = 0;
@@ -169,6 +174,7 @@ public class Player extends Sprite {
             currentState = State.IDLE;
             direction = Direction.DOWN;
         }
+
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
 //            System.out.println("Player position: " + body.getPosition().x + " " + body.getPosition().y);
 //            System.out.println(plantDirtList.size());
@@ -220,7 +226,13 @@ public class Player extends Sprite {
             velY = -0.35f;
         }
         body.setLinearVelocity(velX * speed, velY * speed);
-
-
     }
+
+    public Chest getChest() {
+        return chest;
+    }
+    public Equipment getEquipment() {
+        return equipment;
+    }
+
 }
