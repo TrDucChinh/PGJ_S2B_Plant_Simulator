@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.math.Vector4;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
@@ -14,12 +15,12 @@ import com.pgj.s2bplantsimulator.screens.MainGame;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.pgj.s2bplantsimulator.common.constant.GameConstant.PPM;
 
 public class Player extends Sprite {
+    public MainGame game;
     public enum State {IDLE, UP, DOWN, LEFT, RIGHT, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT, HOE}
 
     public enum Direction {UP, DOWN, LEFT, RIGHT, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT}
@@ -44,6 +45,7 @@ public class Player extends Sprite {
 
     public Player(MainGame gameScreen, Body body) {
         this.world = gameScreen.world;
+        this.game = gameScreen;
         currentState = State.IDLE;
         previousState = State.IDLE;
         stateTimer = 0;
@@ -166,6 +168,9 @@ public class Player extends Sprite {
             direction = Direction.DOWN;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            MapLayer mapLayer = game.map.getLayers().get("block");
+
+
 //            System.out.println("Player position: " + body.getPosition().x + " " + body.getPosition().y);
 //            System.out.println(plantDirtList.size());
             if (!plantDirtList.isEmpty()) {

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -93,7 +94,8 @@ public class MainGame implements Screen {
         game.batch.setProjectionMatrix(game.camera.combined);
         this.update(delta);
         for (Dirt dirt : player.plantDirtList) {
-            dirt.draw(game.batch);
+            game.batch.draw(dirt, dirt.getX() + 0.5f, dirt.getY() + 0.5f, 0.5f, 0.5f);
+//            dirt.draw(game.batch);
         }
         player.draw(game.batch);
         game.batch.end();

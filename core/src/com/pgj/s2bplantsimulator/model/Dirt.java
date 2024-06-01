@@ -17,11 +17,11 @@ public class Dirt extends Sprite {
     }
 
     public Dirt(float x, float y, float width, float height) {
-        super(new Texture("Basic Charakter Spritesheet.png"));
-        TextureRegion[][] dirt = TextureRegion.split(getTexture(), 48, 48);
+//        super(new Texture("Basic Charakter Spritesheet.png"));
+//        TextureRegion[][] dirt = TextureRegion.split(getTexture(), 48, 48);
         this.xDirt = x;
         this.yDirt = y;
-        setRegion(dirt[0][0]);
+        setRegion(new Texture("1.png"));
         setBounds(x - width / PPM, y - height / PPM, 48 / 32f, 48 / 32f);
 //        setPosition(x, y);
     }

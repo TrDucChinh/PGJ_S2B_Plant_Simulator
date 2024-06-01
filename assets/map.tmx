@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-up" width="64" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="24" nextobjectid="857">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-up" width="64" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="24" nextobjectid="859">
  <editorsettings>
   <export target="map.tmj" format="json"/>
  </editorsettings>
@@ -873,6 +873,8 @@
   <object id="854" name="dirt" x="32" y="304" width="16" height="16"/>
   <object id="855" name="dirt" x="16" y="304" width="16" height="16"/>
   <object id="856" name="dirt" x="0" y="304" width="16" height="16"/>
+  <object id="857" name="dirt" x="544" y="272" width="16" height="16"/>
+  <object id="858" name="dirt" x="544" y="240" width="16" height="16"/>
  </objectgroup>
  <layer id="21" name="Wood" width="64" height="45">
   <data encoding="csv">
