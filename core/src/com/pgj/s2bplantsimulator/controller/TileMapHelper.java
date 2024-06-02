@@ -63,40 +63,15 @@ public class TileMapHelper {
                     );
                     gameScreen.player = new Player(gameScreen, body);
                 } else if (rectangleName.equals("dirt")){
-//                    Body body = BodyHelperService.createBody(
-//                            rectangle.getX() + rectangle.getWidth() / 2,
-//                            rectangle.getY() + rectangle.getHeight() / 2,
-//                            rectangle.getWidth(),
-//                            rectangle.getHeight(),
-//                            false,
-//                            gameScreen.world
-//                    );
                     xDirt = rectangle.getX() / 32;
                     yDirt = rectangle.getY() / 32;
                     Vector4 dirtVector = new Vector4(xDirt, yDirt, rectangle.getWidth(), rectangle.getHeight());
                     dirtPositionList.add(dirtVector);
-//                    soilList.add(new Soil(xDirt, yDirt, rectangle.getWidth(), rectangle.getHeight()));
 
                 }
             }
         }
     }
-
-    public void drawObjectsFromLayer(String layerName) {
-        MapLayer layer = map.getLayers().get(layerName);
-        if (layer != null) {
-            for (MapObject object : layer.getObjects()) {
-                if (object instanceof RectangleMapObject) {
-                    Rectangle rect = ((RectangleMapObject) object).getRectangle();
-//                    System.out.println("Object: " + rect.getX() + " " + rect.getY() + " " + rect.getWidth() + " " + rect.getHeight());
-                    System.out.println("Object: " + rect.getX()/32 + " " + rect.getY()/32 + " " + rect.getWidth() + " " + rect.getHeight());
-//                    Vector4 soil
-                }
-            }
-        }
-    }
-
-
 
     public void createStaticBody(PolygonMapObject mapObject) {
         BodyDef bodyDef = new BodyDef();

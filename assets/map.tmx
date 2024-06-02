@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-up" width="64" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="27" nextobjectid="861">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-up" width="64" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="28" nextobjectid="1056">
  <editorsettings>
   <export target="map.tmj" format="json"/>
  </editorsettings>
@@ -500,9 +500,215 @@
  </objectgroup>
  <objectgroup id="25" name="soil">
   <object id="859" name="dirt" x="544" y="288" width="16" height="16"/>
+  <object id="861" name="dirt" x="560" y="288" width="16" height="16"/>
+  <object id="862" name="dirt" x="576" y="288" width="16" height="16"/>
+  <object id="863" name="dirt" x="592" y="288" width="16" height="16"/>
+  <object id="864" name="dirt" x="608" y="288" width="16" height="16"/>
+  <object id="865" name="dirt" x="624" y="288" width="16" height="16"/>
+  <object id="866" name="dirt" x="592" y="288" width="16" height="16"/>
+  <object id="867" name="dirt" x="640" y="288" width="16" height="16"/>
+  <object id="868" name="dirt" x="656" y="288" width="16" height="16"/>
+  <object id="869" name="dirt" x="672" y="288" width="16" height="16"/>
+  <object id="870" name="dirt" x="688" y="288" width="16" height="16"/>
+  <object id="871" name="dirt" x="704" y="288" width="16" height="16"/>
+  <object id="872" name="dirt" x="720" y="288" width="16" height="16"/>
+  <object id="873" name="dirt" x="688" y="288" width="16" height="16"/>
+  <object id="874" name="dirt" x="640" y="288" width="16" height="16"/>
+  <object id="875" name="dirt" x="736" y="288" width="16" height="16"/>
+  <object id="876" name="dirt" x="752" y="288" width="16" height="16"/>
+  <object id="877" name="dirt" x="768" y="288" width="16" height="16"/>
+  <object id="878" name="dirt" x="784" y="288" width="16" height="16"/>
+  <object id="879" name="dirt" x="800" y="288" width="16" height="16"/>
+  <object id="880" name="dirt" x="816" y="288" width="16" height="16"/>
+  <object id="881" name="dirt" x="784" y="288" width="16" height="16"/>
+  <object id="882" name="dirt" x="736" y="288" width="16" height="16"/>
+  <object id="883" x="348" y="329.333">
+   <polygon points="0,0 7.375,0 7.375,4.5 -0.25,4.625"/>
+  </object>
+  <object id="884" name="dirt" x="256" y="288" width="16" height="16"/>
+  <object id="885" name="dirt" x="272" y="288" width="16" height="16"/>
+  <object id="886" name="dirt" x="288" y="288" width="16" height="16"/>
+  <object id="887" name="dirt" x="304" y="288" width="16" height="16"/>
+  <object id="888" name="dirt" x="320" y="288" width="16" height="16"/>
+  <object id="889" name="dirt" x="336" y="288" width="16" height="16"/>
+  <object id="890" name="dirt" x="304" y="288" width="16" height="16"/>
+  <object id="891" name="dirt" x="352" y="288" width="16" height="16"/>
+  <object id="892" name="dirt" x="368" y="288" width="16" height="16"/>
+  <object id="893" name="dirt" x="384" y="288" width="16" height="16"/>
+  <object id="894" name="dirt" x="400" y="288" width="16" height="16"/>
+  <object id="895" name="dirt" x="416" y="288" width="16" height="16"/>
+  <object id="896" name="dirt" x="432" y="288" width="16" height="16"/>
+  <object id="897" name="dirt" x="400" y="288" width="16" height="16"/>
+  <object id="898" name="dirt" x="352" y="288" width="16" height="16"/>
+  <object id="899" name="dirt" x="448" y="288" width="16" height="16"/>
+  <object id="900" name="dirt" x="464" y="288" width="16" height="16"/>
+  <object id="901" name="dirt" x="480" y="288" width="16" height="16"/>
+  <object id="902" name="dirt" x="496" y="288" width="16" height="16"/>
+  <object id="903" name="dirt" x="512" y="288" width="16" height="16"/>
+  <object id="904" name="dirt" x="528" y="288" width="16" height="16"/>
+  <object id="905" name="dirt" x="496" y="288" width="16" height="16"/>
+  <object id="906" name="dirt" x="448" y="288" width="16" height="16"/>
+  <object id="907" name="dirt" x="256" y="288" width="16" height="16"/>
+  <object id="908" x="348" y="313.333">
+   <polygon points="0,0 7.375,0 7.375,4.5 -0.25,4.625"/>
+  </object>
+  <object id="909" name="dirt" x="256" y="272" width="16" height="16"/>
+  <object id="910" name="dirt" x="272" y="272" width="16" height="16"/>
+  <object id="911" name="dirt" x="288" y="272" width="16" height="16"/>
+  <object id="912" name="dirt" x="304" y="272" width="16" height="16"/>
+  <object id="913" name="dirt" x="320" y="272" width="16" height="16"/>
+  <object id="914" name="dirt" x="336" y="272" width="16" height="16"/>
+  <object id="915" name="dirt" x="304" y="272" width="16" height="16"/>
+  <object id="916" name="dirt" x="352" y="272" width="16" height="16"/>
+  <object id="917" name="dirt" x="368" y="272" width="16" height="16"/>
+  <object id="918" name="dirt" x="384" y="272" width="16" height="16"/>
+  <object id="919" name="dirt" x="400" y="272" width="16" height="16"/>
+  <object id="920" name="dirt" x="416" y="272" width="16" height="16"/>
+  <object id="921" name="dirt" x="432" y="272" width="16" height="16"/>
+  <object id="922" name="dirt" x="400" y="272" width="16" height="16"/>
+  <object id="923" name="dirt" x="352" y="272" width="16" height="16"/>
+  <object id="924" name="dirt" x="448" y="272" width="16" height="16"/>
+  <object id="925" name="dirt" x="464" y="272" width="16" height="16"/>
+  <object id="926" name="dirt" x="480" y="272" width="16" height="16"/>
+  <object id="927" name="dirt" x="496" y="272" width="16" height="16"/>
+  <object id="928" name="dirt" x="512" y="272" width="16" height="16"/>
+  <object id="929" name="dirt" x="528" y="272" width="16" height="16"/>
+  <object id="930" name="dirt" x="496" y="272" width="16" height="16"/>
+  <object id="931" name="dirt" x="448" y="272" width="16" height="16"/>
+  <object id="932" name="dirt" x="256" y="272" width="16" height="16"/>
+  <object id="933" x="636" y="313.333">
+   <polygon points="0,0 7.375,0 7.375,4.5 -0.25,4.625"/>
+  </object>
+  <object id="934" name="dirt" x="544" y="272" width="16" height="16"/>
+  <object id="935" name="dirt" x="560" y="272" width="16" height="16"/>
+  <object id="936" name="dirt" x="576" y="272" width="16" height="16"/>
+  <object id="937" name="dirt" x="592" y="272" width="16" height="16"/>
+  <object id="938" name="dirt" x="608" y="272" width="16" height="16"/>
+  <object id="939" name="dirt" x="624" y="272" width="16" height="16"/>
+  <object id="940" name="dirt" x="592" y="272" width="16" height="16"/>
+  <object id="941" name="dirt" x="640" y="272" width="16" height="16"/>
+  <object id="942" name="dirt" x="656" y="272" width="16" height="16"/>
+  <object id="943" name="dirt" x="672" y="272" width="16" height="16"/>
+  <object id="944" name="dirt" x="688" y="272" width="16" height="16"/>
+  <object id="945" name="dirt" x="704" y="272" width="16" height="16"/>
+  <object id="946" name="dirt" x="720" y="272" width="16" height="16"/>
+  <object id="947" name="dirt" x="688" y="272" width="16" height="16"/>
+  <object id="948" name="dirt" x="640" y="272" width="16" height="16"/>
+  <object id="949" name="dirt" x="736" y="272" width="16" height="16"/>
+  <object id="950" name="dirt" x="752" y="272" width="16" height="16"/>
+  <object id="951" name="dirt" x="768" y="272" width="16" height="16"/>
+  <object id="952" name="dirt" x="784" y="272" width="16" height="16"/>
+  <object id="953" name="dirt" x="800" y="272" width="16" height="16"/>
+  <object id="954" name="dirt" x="816" y="272" width="16" height="16"/>
+  <object id="955" name="dirt" x="784" y="272" width="16" height="16"/>
+  <object id="956" name="dirt" x="736" y="272" width="16" height="16"/>
+  <object id="957" name="dirt" x="544" y="272" width="16" height="16"/>
  </objectgroup>
- <objectgroup id="26" name="soilwater">
-  <object id="860" name="dirt" x="544" y="288" width="16" height="16"/>
+ <objectgroup id="27" name="soilwater">
+  <object id="958" name="dirt" x="544" y="288" width="16" height="16"/>
+  <object id="959" name="dirt" x="560" y="288" width="16" height="16"/>
+  <object id="960" name="dirt" x="576" y="288" width="16" height="16"/>
+  <object id="961" name="dirt" x="592" y="288" width="16" height="16"/>
+  <object id="962" name="dirt" x="608" y="288" width="16" height="16"/>
+  <object id="963" name="dirt" x="624" y="288" width="16" height="16"/>
+  <object id="964" name="dirt" x="592" y="288" width="16" height="16"/>
+  <object id="965" name="dirt" x="640" y="288" width="16" height="16"/>
+  <object id="966" name="dirt" x="656" y="288" width="16" height="16"/>
+  <object id="967" name="dirt" x="672" y="288" width="16" height="16"/>
+  <object id="968" name="dirt" x="688" y="288" width="16" height="16"/>
+  <object id="969" name="dirt" x="704" y="288" width="16" height="16"/>
+  <object id="970" name="dirt" x="720" y="288" width="16" height="16"/>
+  <object id="971" name="dirt" x="688" y="288" width="16" height="16"/>
+  <object id="972" name="dirt" x="640" y="288" width="16" height="16"/>
+  <object id="973" name="dirt" x="736" y="288" width="16" height="16"/>
+  <object id="974" name="dirt" x="752" y="288" width="16" height="16"/>
+  <object id="975" name="dirt" x="768" y="288" width="16" height="16"/>
+  <object id="976" name="dirt" x="784" y="288" width="16" height="16"/>
+  <object id="977" name="dirt" x="800" y="288" width="16" height="16"/>
+  <object id="978" name="dirt" x="816" y="288" width="16" height="16"/>
+  <object id="979" name="dirt" x="784" y="288" width="16" height="16"/>
+  <object id="980" name="dirt" x="736" y="288" width="16" height="16"/>
+  <object id="981" x="348" y="329.333">
+   <polygon points="0,0 7.375,0 7.375,4.5 -0.25,4.625"/>
+  </object>
+  <object id="982" name="dirt" x="256" y="288" width="16" height="16"/>
+  <object id="983" name="dirt" x="272" y="288" width="16" height="16"/>
+  <object id="984" name="dirt" x="288" y="288" width="16" height="16"/>
+  <object id="985" name="dirt" x="304" y="288" width="16" height="16"/>
+  <object id="986" name="dirt" x="320" y="288" width="16" height="16"/>
+  <object id="987" name="dirt" x="336" y="288" width="16" height="16"/>
+  <object id="988" name="dirt" x="304" y="288" width="16" height="16"/>
+  <object id="989" name="dirt" x="352" y="288" width="16" height="16"/>
+  <object id="990" name="dirt" x="368" y="288" width="16" height="16"/>
+  <object id="991" name="dirt" x="384" y="288" width="16" height="16"/>
+  <object id="992" name="dirt" x="400" y="288" width="16" height="16"/>
+  <object id="993" name="dirt" x="416" y="288" width="16" height="16"/>
+  <object id="994" name="dirt" x="432" y="288" width="16" height="16"/>
+  <object id="995" name="dirt" x="400" y="288" width="16" height="16"/>
+  <object id="996" name="dirt" x="352" y="288" width="16" height="16"/>
+  <object id="997" name="dirt" x="448" y="288" width="16" height="16"/>
+  <object id="998" name="dirt" x="464" y="288" width="16" height="16"/>
+  <object id="999" name="dirt" x="480" y="288" width="16" height="16"/>
+  <object id="1000" name="dirt" x="496" y="288" width="16" height="16"/>
+  <object id="1001" name="dirt" x="512" y="288" width="16" height="16"/>
+  <object id="1002" name="dirt" x="528" y="288" width="16" height="16"/>
+  <object id="1003" name="dirt" x="496" y="288" width="16" height="16"/>
+  <object id="1004" name="dirt" x="448" y="288" width="16" height="16"/>
+  <object id="1005" name="dirt" x="256" y="288" width="16" height="16"/>
+  <object id="1006" x="348" y="313.333">
+   <polygon points="0,0 7.375,0 7.375,4.5 -0.25,4.625"/>
+  </object>
+  <object id="1007" name="dirt" x="256" y="272" width="16" height="16"/>
+  <object id="1008" name="dirt" x="272" y="272" width="16" height="16"/>
+  <object id="1009" name="dirt" x="288" y="272" width="16" height="16"/>
+  <object id="1010" name="dirt" x="304" y="272" width="16" height="16"/>
+  <object id="1011" name="dirt" x="320" y="272" width="16" height="16"/>
+  <object id="1012" name="dirt" x="336" y="272" width="16" height="16"/>
+  <object id="1013" name="dirt" x="304" y="272" width="16" height="16"/>
+  <object id="1014" name="dirt" x="352" y="272" width="16" height="16"/>
+  <object id="1015" name="dirt" x="368" y="272" width="16" height="16"/>
+  <object id="1016" name="dirt" x="384" y="272" width="16" height="16"/>
+  <object id="1017" name="dirt" x="400" y="272" width="16" height="16"/>
+  <object id="1018" name="dirt" x="416" y="272" width="16" height="16"/>
+  <object id="1019" name="dirt" x="432" y="272" width="16" height="16"/>
+  <object id="1020" name="dirt" x="400" y="272" width="16" height="16"/>
+  <object id="1021" name="dirt" x="352" y="272" width="16" height="16"/>
+  <object id="1022" name="dirt" x="448" y="272" width="16" height="16"/>
+  <object id="1023" name="dirt" x="464" y="272" width="16" height="16"/>
+  <object id="1024" name="dirt" x="480" y="272" width="16" height="16"/>
+  <object id="1025" name="dirt" x="496" y="272" width="16" height="16"/>
+  <object id="1026" name="dirt" x="512" y="272" width="16" height="16"/>
+  <object id="1027" name="dirt" x="528" y="272" width="16" height="16"/>
+  <object id="1028" name="dirt" x="496" y="272" width="16" height="16"/>
+  <object id="1029" name="dirt" x="448" y="272" width="16" height="16"/>
+  <object id="1030" name="dirt" x="256" y="272" width="16" height="16"/>
+  <object id="1031" x="636" y="313.333">
+   <polygon points="0,0 7.375,0 7.375,4.5 -0.25,4.625"/>
+  </object>
+  <object id="1032" name="dirt" x="544" y="272" width="16" height="16"/>
+  <object id="1033" name="dirt" x="560" y="272" width="16" height="16"/>
+  <object id="1034" name="dirt" x="576" y="272" width="16" height="16"/>
+  <object id="1035" name="dirt" x="592" y="272" width="16" height="16"/>
+  <object id="1036" name="dirt" x="608" y="272" width="16" height="16"/>
+  <object id="1037" name="dirt" x="624" y="272" width="16" height="16"/>
+  <object id="1038" name="dirt" x="592" y="272" width="16" height="16"/>
+  <object id="1039" name="dirt" x="640" y="272" width="16" height="16"/>
+  <object id="1040" name="dirt" x="656" y="272" width="16" height="16"/>
+  <object id="1041" name="dirt" x="672" y="272" width="16" height="16"/>
+  <object id="1042" name="dirt" x="688" y="272" width="16" height="16"/>
+  <object id="1043" name="dirt" x="704" y="272" width="16" height="16"/>
+  <object id="1044" name="dirt" x="720" y="272" width="16" height="16"/>
+  <object id="1045" name="dirt" x="688" y="272" width="16" height="16"/>
+  <object id="1046" name="dirt" x="640" y="272" width="16" height="16"/>
+  <object id="1047" name="dirt" x="736" y="272" width="16" height="16"/>
+  <object id="1048" name="dirt" x="752" y="272" width="16" height="16"/>
+  <object id="1049" name="dirt" x="768" y="272" width="16" height="16"/>
+  <object id="1050" name="dirt" x="784" y="272" width="16" height="16"/>
+  <object id="1051" name="dirt" x="800" y="272" width="16" height="16"/>
+  <object id="1052" name="dirt" x="816" y="272" width="16" height="16"/>
+  <object id="1053" name="dirt" x="784" y="272" width="16" height="16"/>
+  <object id="1054" name="dirt" x="736" y="272" width="16" height="16"/>
+  <object id="1055" name="dirt" x="544" y="272" width="16" height="16"/>
  </objectgroup>
  <layer id="21" name="Wood" width="64" height="45">
   <data encoding="csv">
