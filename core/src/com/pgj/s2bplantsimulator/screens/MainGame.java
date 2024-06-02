@@ -43,7 +43,7 @@ public class MainGame implements Screen {
     public OrthographicCamera playerCamera;
     private HUD hud;
 
-    public int[] Water = new int[]{0}, Grass = new int[]{1}, Dirt = new int[]{2}, Wood = new int[]{4}; // Lấy index của layer
+    public int[] Water = new int[]{0}, Grass = new int[]{1}, Dirt = new int[]{2}, Wood = new int[]{6}; // Lấy index của layer
 
     public MainGame(S2BPlantSimulator game) {
         this.world = new World(new Vector2(0, 0), false);
