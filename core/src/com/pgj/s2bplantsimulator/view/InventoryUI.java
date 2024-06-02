@@ -41,7 +41,6 @@ public class InventoryUI implements Screen {
     public void render(float dt) {
 
         update();
-
         stage.act();
         stage.draw();
     }
@@ -83,13 +82,13 @@ public class InventoryUI implements Screen {
         equipmentSlot.align(Align.center);
         equipmentSlot.setBackground(skin.getDrawable("window"));
         equipmentSlot.setBounds(Gdx.graphics.getWidth() / 2 - 420 / 2, 30, 420, 70);
-        equipmentSlot.setDebug(true);
+        equipmentSlot.setDebug(false);
 
 
 
         for(int i = 0; i < 6; i++){
             Container imageContainer = new Container();
-            imageContainer.setDebug(true);
+            imageContainer.setDebug(false);
             imageContainer.setBackground(skin.getDrawable("round_button"));
             imageContainer.fill();
             equipmentSlot.add(imageContainer).pad(8.0f).size(50.0f);
@@ -98,7 +97,7 @@ public class InventoryUI implements Screen {
         }
         for(Cell cell : equipmentSlot.getCells()) {
             Container imageContainer = (Container) cell.getActor();
-            System.out.println(imageContainer.getX() + " " + imageContainer.getY());
+//            System.out.println(imageContainer.getX() + " " + imageContainer.getY());
         }
 
         stage.addActor(equipmentSlot);
@@ -111,7 +110,7 @@ public class InventoryUI implements Screen {
                     if(imageContainer.getActor() == null){
 //                        System.out.println(item.getImage().getOriginX() + " " item.getImage().getOriginX());
                         imageContainer.setActor(item.getImage());
-                        item.getImage().setDebug(true);
+                        item.getImage().setDebug(false);
                         break;
                     }
                 }
