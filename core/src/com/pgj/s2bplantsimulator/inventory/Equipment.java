@@ -1,52 +1,29 @@
 package com.pgj.s2bplantsimulator.inventory;
 
-import com.pgj.s2bplantsimulator.S2BPlantSimulator;
 import com.pgj.s2bplantsimulator.loader.EquipmentsLoader;
 import com.pgj.s2bplantsimulator.model.Player;
 import com.pgj.s2bplantsimulator.screens.MainGame;
 
+import java.util.ArrayList;
+
 public class Equipment {
     private Item[] items;
-    private int NUM_SLOTS = 6;
-    private Player player;
+    public final int NUM_SLOTS = 6;
     private Item currentItem;
 
     public Equipment(MainGame gameScreen){
-        this.player = gameScreen.player;
-        items = EquipmentsLoader.getInstance().loader(gameScreen);
+        items = EquipmentsLoader.getInstance().load(gameScreen);
     }
-
-
 
     public Item[] getItems() {
         return items;
     }
 
-    public void setItems(Item[] items) {
-        this.items = items;
-    }
-
-    public int getNUM_SLOTS() {
-        return NUM_SLOTS;
-    }
-
-    public void setNUM_SLOTS(int NUM_SLOTS) {
-        this.NUM_SLOTS = NUM_SLOTS;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
+    public void setCurrentItem(Tool tool) {
+        currentItem = tool;
     }
 
     public Item getCurrentItem() {
         return currentItem;
-    }
-
-    public void setCurrentItem(Item currentItem) {
-        this.currentItem = currentItem;
     }
 }

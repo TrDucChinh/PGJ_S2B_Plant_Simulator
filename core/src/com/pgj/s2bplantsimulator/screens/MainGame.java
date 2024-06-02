@@ -15,10 +15,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.pgj.s2bplantsimulator.S2BPlantSimulator;
 import com.pgj.s2bplantsimulator.controller.TileMapHelper;
 import com.pgj.s2bplantsimulator.model.Dirt;
-
 import com.pgj.s2bplantsimulator.model.Player;
 import com.pgj.s2bplantsimulator.model.Seed;
-import com.pgj.s2bplantsimulator.view.InventoryUI;
+import com.pgj.s2bplantsimulator.view.HUD;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +33,15 @@ public class MainGame implements Screen {
     public TiledMap map = new TmxMapLoader().load("map.tmx");
     public OrthogonalTiledMapRenderer renderer;
     public Box2DDebugRenderer box2DDebugRenderer;
-    public InventoryUI inventoryUI;
     public static List<Vector4> dirtPositionList = new ArrayList<>();
     public static List<Dirt> plantDirtList = new ArrayList<>();
     public static List<Dirt> soilList = new ArrayList<>();
     public static List<Dirt> plantList = new ArrayList<>();
     public static List<Seed> seedList = new ArrayList<>();
 
+    public OrthographicCamera staticCamera;
+    public OrthographicCamera playerCamera;
+    private HUD hud;
 
     public int[] Water = new int[]{0}, Grass = new int[]{1}, Dirt = new int[]{2}, Wood = new int[]{4}; // Lấy index của layer
 
@@ -52,13 +53,14 @@ public class MainGame implements Screen {
         box2DDebugRenderer.setDrawJoints(true);
         this.tileMapHelper = new TileMapHelper(this);
         this.renderer = tileMapHelper.setupMap();
-        inventoryUI = new InventoryUI(this);
+        hud = new HUD(this);
     }
 
     @Override
     public void show() {
 //        staticCamera = new OrthographicCamera(512, 360);
         game.camera = new OrthographicCamera(512 / 2, 360 / 2);
+        hud.show();
 
     }
 
@@ -87,6 +89,7 @@ public class MainGame implements Screen {
         }
         player.update(dt);
         game.camera.update();
+        hud.update(dt);
 //        staticCamera.update();
     }
 
@@ -100,6 +103,7 @@ public class MainGame implements Screen {
         renderer.render(Grass);
         renderer.render(Dirt);
         box2DDebugRenderer.render(world, game.camera.combined.scl(PPM));
+//        box2DDebugRenderer.render(world, staticCamera.combined.scl(PPM));
 
         stateTime += delta;
 
@@ -125,12 +129,12 @@ public class MainGame implements Screen {
         player.draw(game.batch);
         game.batch.end();
         renderer.render(Wood);
-        inventoryUI.render(delta);
+        hud.render(delta);
     }
 
     @Override
     public void resize(int i, int i1) {
-
+        hud.resize(i, i1);
     }
 
     @Override
@@ -150,8 +154,16 @@ public class MainGame implements Screen {
 
     @Override
     public void dispose() {
-        inventoryUI.dispose();
+        hud.dispose();
         renderer.dispose();
         box2DDebugRenderer.dispose();
+    }
+
+    public HUD getHud() {
+        return hud;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }

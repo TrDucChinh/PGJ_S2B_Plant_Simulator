@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector4;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pgj.s2bplantsimulator.controller.TileMapHelper;
+import com.pgj.s2bplantsimulator.inventory.Chest;
 import com.pgj.s2bplantsimulator.inventory.Equipment;
 
 import com.pgj.s2bplantsimulator.screens.MainGame;
@@ -27,6 +28,7 @@ public class Player extends Sprite {
     public State previousState;
     public Dirt plantDirt = new Dirt();
     public Equipment equipment;
+    private Chest chest;
     public TileMapHelper tileMapHelper;
 
     public Texture playerTexture;
@@ -47,6 +49,7 @@ public class Player extends Sprite {
         this.world = gameScreen.world;
         this.tileMapHelper = new TileMapHelper(gameScreen);
         equipment = new Equipment(gameScreen);
+        chest = new Chest(gameScreen);
         currentState = State.IDLE;
         previousState = State.IDLE;
         stateTimer = 0;
@@ -248,7 +251,14 @@ public class Player extends Sprite {
             velY = -0.35f;
         }
         body.setLinearVelocity(velX * speed, velY * speed);
-
-
     }
+
+    public Chest getChest() {
+        return chest;
+    }
+
+    public Equipment getEquipment() {
+        return equipment;
+    }
+
 }
