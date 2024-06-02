@@ -10,28 +10,26 @@ import com.badlogic.gdx.math.Vector4;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pgj.s2bplantsimulator.controller.TileMapHelper;
+import com.pgj.s2bplantsimulator.inventory.Chest;
 import com.pgj.s2bplantsimulator.inventory.Equipment;
-import com.pgj.s2bplantsimulator.inventory.Inventory;
-import com.pgj.s2bplantsimulator.screens.MainGame;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import com.pgj.s2bplantsimulator.screens.MainGame;
 
 import static com.pgj.s2bplantsimulator.common.constant.GameConstant.PPM;
 
 public class Player extends Sprite {
-    public enum State {IDLE, UP, DOWN, LEFT, RIGHT, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT, HOE}
+    public enum State {IDLE, UP, DOWN, LEFT, RIGHT, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT, HOE, WATER}
 
     public enum Direction {UP, DOWN, LEFT, RIGHT, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT}
 
+    public String currentItem;
     public Direction direction;
     public State currentState;
     public State previousState;
     public Dirt plantDirt = new Dirt();
-    public List<Dirt> plantDirtList = new ArrayList<>();
     public Equipment equipment;
+    private Chest chest;
+    public TileMapHelper tileMapHelper;
 
     public Texture playerTexture;
     public Body body;
@@ -42,12 +40,16 @@ public class Player extends Sprite {
     public Animation[] right;
     public Animation[] stand;
     public Animation[] hoe;
+    public Animation[] water;
     public float speed, velX, velY, stateTimer;
 
 
     public Player(MainGame gameScreen, Body body) {
+        this.currentItem = "hoe";
         this.world = gameScreen.world;
+        this.tileMapHelper = new TileMapHelper(gameScreen);
         equipment = new Equipment(gameScreen);
+        chest = new Chest(gameScreen);
         currentState = State.IDLE;
         previousState = State.IDLE;
         stateTimer = 0;
@@ -62,6 +64,7 @@ public class Player extends Sprite {
         right = new Animation[1];
         stand = new Animation[1];
         hoe = new Animation[1];
+        water = new Animation[1];
 
         playerTexture = new Texture("Basic Charakter Spritesheet.png");
         TextureRegion[][] playerTextureRegion = TextureRegion.split(playerTexture, 48, 48);
@@ -85,14 +88,16 @@ public class Player extends Sprite {
 
         playerTexture = new Texture("sprites_basic_pack/Characters/Basic Charakter Actions/Basic Charakter Actions.png");
         playerTextureRegion = TextureRegion.split(playerTexture, 48, 48);
-        rollFrames = new TextureRegion[2 * 2];
+        rollFrames = new TextureRegion[12 * 2];
         index = 0;
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 11; i++) {
             for (int j = 0; j < 2; j++) {
                 rollFrames[index++] = playerTextureRegion[i][j];
             }
         }
-        hoe[0] = new Animation(0.08f, rollFrames[0], rollFrames[1]);
+        hoe[0] = new Animation(0.1f, rollFrames[0], rollFrames[1]);
+        water[0] = new Animation(0.08f, rollFrames[16], rollFrames[17]);
+        water[0].setPlayMode(Animation.PlayMode.LOOP);
         hoe[0].setPlayMode(Animation.PlayMode.LOOP);
     }
 
@@ -123,6 +128,9 @@ public class Player extends Sprite {
                 break;
             case HOE:
                 region = (TextureRegion) hoe[0].getKeyFrame(stateTimer, true);
+                break;
+            case WATER:
+                region = (TextureRegion) water[0].getKeyFrame(stateTimer, true);
                 break;
             default:
                 region = (TextureRegion) stand[0].getKeyFrame(stateTimer, true);
@@ -169,30 +177,53 @@ public class Player extends Sprite {
             currentState = State.IDLE;
             direction = Direction.DOWN;
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
+            currentItem = "hoe";
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
+            currentItem = "water";
+            System.out.println("water");
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)) {
+            currentItem = "seed";
+        }
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-//            System.out.println("Player position: " + body.getPosition().x + " " + body.getPosition().y);
-//            System.out.println(plantDirtList.size());
-            if (!plantDirtList.isEmpty()) {
-                for (Dirt dirt : plantDirtList) {
-                    if (body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5) {
-                        if (dirt.currentState == Dirt.State.DIRT) {
-                            dirt.currentState = Dirt.State.PLANT;
+            if (currentItem.equals("hoe")) {
+                for (Vector4 dirtPos : MainGame.dirtPositionList) {
+                    if (body.getPosition().x >= dirtPos.x && body.getPosition().x <= dirtPos.x + 0.5 && body.getPosition().y >= dirtPos.y && body.getPosition().y <= dirtPos.y + 0.5) {
+                        currentState = State.HOE;
+                        plantDirt = new Dirt(dirtPos.x, dirtPos.y, dirtPos.z, dirtPos.w, "dirt.png", true, false, false);
+                        plantDirt.isDirt = true;
+                        MainGame.plantDirtList.add(plantDirt);
+                    }
+                }
+            } else if (currentItem.equals("water")) {
+                if (!MainGame.plantDirtList.isEmpty()) {
+                    for (Dirt dirt : MainGame.plantDirtList) {
+                        if (body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5) {
+                            if (dirt.isWatered == false) {
+                                dirt.isWatered = true;
+                                currentState = State.WATER;
+                                plantDirt = new Dirt(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "water.png", dirt.isDirt, true, dirt.isPlanted);
+                                MainGame.soilList.add(plantDirt);
+                            }
+                        }
+                    }
+                }
+            } else if (currentItem.equals("seed")) { // Tạm thời mới trồng trước cây ngô
+                if (!MainGame.plantDirtList.isEmpty()) {
+                    for (Dirt dirt : MainGame.plantDirtList) {
+                        if (body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5) {
+                            if (dirt.isPlanted == false) {
+                                dirt.isPlanted = true;
+                                Seed seed = new Seed(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "seed.png", "corn");
+                                MainGame.seedList.add(seed);
+                            }
                         }
                     }
                 }
             }
-            for (Vector4 dirtPos : TileMapHelper.dirtPositionList) {
-                if (body.getPosition().x >= dirtPos.x && body.getPosition().x <= dirtPos.x + 0.5 && body.getPosition().y >= dirtPos.y && body.getPosition().y <= dirtPos.y + 0.5) {
-                    currentState = State.HOE;
-                    plantDirt = new Dirt(dirtPos.x, dirtPos.y, dirtPos.z, dirtPos.w);
-                    if (plantDirt.currentState == null) {
-                        plantDirt.currentState = Dirt.State.DIRT;
-                    }
-//                    plantDirt.currentState = Dirt.State.DIRT;
-                    plantDirtList.add(plantDirt);
-                }
-            }
-            plantDirtList = plantDirtList.stream().distinct().collect(Collectors.toList());
+
 
         }
 
@@ -220,7 +251,14 @@ public class Player extends Sprite {
             velY = -0.35f;
         }
         body.setLinearVelocity(velX * speed, velY * speed);
-
-
     }
+
+    public Chest getChest() {
+        return chest;
+    }
+
+    public Equipment getEquipment() {
+        return equipment;
+    }
+
 }
