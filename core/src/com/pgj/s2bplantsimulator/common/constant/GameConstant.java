@@ -1,5 +1,8 @@
 package com.pgj.s2bplantsimulator.common.constant;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class GameConstant {
     public static final int WINDOW_WIDTH = 1024;
     public static final int WINDOW_HEIGHT = 720;
@@ -14,4 +17,12 @@ public class GameConstant {
     public static final String PLAY_PRESS_BUTTON = "button/playpress.png";
     public static final String ABOUT_PRESS_BUTTON = "button/aboutpress.png";
     public static final String REPLAY_PRESS_BUTTON = "button/replaypress.png";
+    public static final Map<String, Float> GROW_SPEED = new HashMap<String, Float>() {{
+        put("corn", 1.0f);
+        put("tomato", 0.7f);
+    }};
+    public static final Map<String, Integer> MAX_AGE = new HashMap<String, Integer>() {{
+        put("corn", 100);
+        put("tomato", 70);
+    }};
 }
