@@ -33,7 +33,6 @@ public class MainGame implements Screen {
     public TiledMap map = new TmxMapLoader().load("map.tmx");
     public OrthogonalTiledMapRenderer renderer;
     public Box2DDebugRenderer box2DDebugRenderer;
-    public InventoryUI inventoryUI;
     public static List<Vector4> dirtPositionList = new ArrayList<>();
     public static List<Dirt> plantDirtList = new ArrayList<>();
     public static List<Dirt> soilList = new ArrayList<>();

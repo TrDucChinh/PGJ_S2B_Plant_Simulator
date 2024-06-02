@@ -256,6 +256,7 @@ public class Player extends Sprite {
     public Chest getChest() {
         return chest;
     }
+
     public Equipment getEquipment() {
         return equipment;
     }
