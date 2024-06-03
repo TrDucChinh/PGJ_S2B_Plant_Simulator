@@ -38,7 +38,7 @@ public class MainGame implements Screen {
     public static List<Dirt> soilList = new ArrayList<>();
     public static List<Dirt> plantList = new ArrayList<>();
     public static List<Seed> seedList = new ArrayList<>();
-
+    
     public OrthographicCamera staticCamera;
     public OrthographicCamera playerCamera;
     private HUD hud;
