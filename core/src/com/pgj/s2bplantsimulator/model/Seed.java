@@ -2,6 +2,7 @@ package com.pgj.s2bplantsimulator.model;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.pgj.s2bplantsimulator.ultis.ResourceLoader;
 
 import static com.pgj.s2bplantsimulator.common.constant.GameConstant.*;
 
@@ -38,13 +39,13 @@ public class Seed extends Sprite {
             System.out.println("Harvestable");
         }
         if (age >= 0 && age < 0.25*maxAge) {
-            setRegion(new Texture("fruit/" + name +"/0.png"));
+            setRegion(ResourceLoader.getInstance().getTexture("fruit/" + name + "/0.png"));
         } else if (age >= 0.25*maxAge && age < 0.5*maxAge) {
-            setRegion(new Texture("fruit/" + name +"/1.png"));
+            setRegion(ResourceLoader.getInstance().getTexture("fruit/" + name + "/1.png"));
         } else if (age >= 0.5*maxAge && age < 0.75*maxAge) {
-            setRegion(new Texture("fruit/" + name +"/2.png"));
+            setRegion(ResourceLoader.getInstance().getTexture("fruit/" + name + "/2.png"));
         } else if (age >= 0.75*maxAge && age <= maxAge) {
-            setRegion(new Texture("fruit/" + name +"/3.png"));
+            setRegion(ResourceLoader.getInstance().getTexture("fruit/" + name + "/3.png"));
         }
 
     }
