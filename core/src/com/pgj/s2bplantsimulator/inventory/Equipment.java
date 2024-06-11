@@ -19,8 +19,8 @@ public class Equipment {
         return items;
     }
 
-    public void setCurrentItem(Tool tool) {
-        currentItem = tool;
+    public void setCurrentItem(Item item) {
+        currentItem = item;
     }
 
     public Item getCurrentItem() {

@@ -8,6 +8,9 @@ public abstract class Item extends Sprite {
     private String name;
     private MainGame mainGame;
     private MovingImage movingImage;
+    public boolean equals(String name){
+        return this.name == name;
+    }
 
     public MainGame getMainGame() {
         return mainGame;
