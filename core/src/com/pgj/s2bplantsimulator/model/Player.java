@@ -13,6 +13,7 @@ import com.pgj.s2bplantsimulator.controller.TileMapHelper;
 import com.pgj.s2bplantsimulator.inventory.Chest;
 import com.pgj.s2bplantsimulator.inventory.Equipment;
 
+import com.pgj.s2bplantsimulator.inventory.Item;
 import com.pgj.s2bplantsimulator.screens.MainGame;
 import com.pgj.s2bplantsimulator.ultis.ResourceLoader;
 
@@ -23,7 +24,7 @@ public class Player extends Sprite {
 
     public enum Direction {UP, DOWN, LEFT, RIGHT, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT}
 
-    public String currentItem;
+    public Item currentItem;
     public Direction direction;
     public State currentState;
     public State previousState;
@@ -46,7 +47,6 @@ public class Player extends Sprite {
 
 
     public Player(MainGame gameScreen, Body body) {
-        this.currentItem = "hoe";
         this.world = gameScreen.world;
         this.tileMapHelper = new TileMapHelper(gameScreen);
         equipment = new Equipment(gameScreen);
@@ -108,6 +108,7 @@ public class Player extends Sprite {
         checkUserInput();
         setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
         setRegion(getFrame(dt));
+        currentItem = equipment.getCurrentItem();
     }
 
     public TextureRegion getFrame(float dt) {
@@ -180,55 +181,49 @@ public class Player extends Sprite {
             currentState = State.IDLE;
             direction = Direction.DOWN;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
-            currentItem = "hoe";
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
-            currentItem = "water";
-            System.out.println("water");
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)) {
-            currentItem = "seed";
-        }
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            if (currentItem.equals("hoe")) {
-                for (Vector4 dirtPos : MainGame.dirtPositionList) {
-                    if (body.getPosition().x >= dirtPos.x && body.getPosition().x <= dirtPos.x + 0.5 && body.getPosition().y >= dirtPos.y && body.getPosition().y <= dirtPos.y + 0.5) {
-                        currentState = State.HOE;
-                        plantDirt = new Dirt(dirtPos.x, dirtPos.y, dirtPos.z, dirtPos.w, "dirt.png", true, false, false);
-                        plantDirt.isDirt = true;
-                        MainGame.plantDirtList.add(plantDirt);
+            if(currentItem != null){
+                System.out.println("Current Item: " +  currentItem.getName());
+                if (currentItem.equals("Hoe")) {
+                    for (Vector4 dirtPos : MainGame.dirtPositionList) {
+                        if (body.getPosition().x >= dirtPos.x && body.getPosition().x <= dirtPos.x + 0.5 && body.getPosition().y >= dirtPos.y && body.getPosition().y <= dirtPos.y + 0.5) {
+                            currentState = State.HOE;
+                            plantDirt = new Dirt(dirtPos.x, dirtPos.y, dirtPos.z, dirtPos.w, "dirt.png", true, false, false);
+                            plantDirt.isDirt = true;
+                            MainGame.plantDirtList.add(plantDirt);
+                        }
                     }
-                }
-            } else if (currentItem.equals("water")) {
-                if (!MainGame.plantDirtList.isEmpty()) {
-                    for (Dirt dirt : MainGame.plantDirtList) {
-                        if (body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5) {
-                            if (dirt.isWatered == false) {
-                                dirt.isWatered = true;
-                                currentState = State.WATER;
-                                plantDirt = new Dirt(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "water.png", dirt.isDirt, true, dirt.isPlanted);
-                                MainGame.soilList.add(plantDirt);
+                } else if (currentItem.equals("Watering Pot")) {
+                    if (!MainGame.plantDirtList.isEmpty()) {
+                        for (Dirt dirt : MainGame.plantDirtList) {
+                            if (body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5) {
+                                if (dirt.isWatered == false) {
+                                    dirt.isWatered = true;
+                                    currentState = State.WATER;
+                                    plantDirt = new Dirt(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "water.png", dirt.isDirt, true, dirt.isPlanted);
+                                    MainGame.soilList.add(plantDirt);
+                                }
+                            }
+                        }
+                    }
+                } else if (currentItem.equals("Corn Seed")) { // Tạm thời mới trồng trước cây ngô
+                    if (!MainGame.plantDirtList.isEmpty()) {
+                        for (Dirt dirt : MainGame.plantDirtList) {
+                            if (body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5) {
+                                if (dirt.isPlanted == false) {
+                                    dirt.isPlanted = true;
+                                    Seed seed = new Seed(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "seed.png", "corn");
+                                    MainGame.seedList.add(seed);
+                                }
                             }
                         }
                     }
                 }
-            } else if (currentItem.equals("seed")) { // Tạm thời mới trồng trước cây ngô
-                if (!MainGame.plantDirtList.isEmpty()) {
-                    for (Dirt dirt : MainGame.plantDirtList) {
-                        if (body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5) {
-                            if (dirt.isPlanted == false) {
-                                dirt.isPlanted = true;
-                                Seed seed = new Seed(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "seed.png", "corn");
-                                MainGame.seedList.add(seed);
-                            }
-                        }
-                    }
-                }
+
+
+            }
             }
 
-
-        }
 
         velX = 0;
         velY = 0;

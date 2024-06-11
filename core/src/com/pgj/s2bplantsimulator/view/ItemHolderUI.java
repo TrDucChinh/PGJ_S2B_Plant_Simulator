@@ -1,15 +1,18 @@
 package com.pgj.s2bplantsimulator.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.pgj.s2bplantsimulator.inventory.Item;
 import com.pgj.s2bplantsimulator.model.MovingImage;
+import com.pgj.s2bplantsimulator.model.Player;
 import com.pgj.s2bplantsimulator.screens.MainGame;
 
 public abstract class ItemHolderUI implements UI {
+    private String currentItem;
     private Item[] items;
     private Table itemPanel;
     private HUD hud;
@@ -22,6 +25,9 @@ public abstract class ItemHolderUI implements UI {
         this.stage = hud.getStage();
         stage.addActor(itemPanel);
     }
+    public String getCurrentItem(){
+        return currentItem;
+    }
     @Override
     public void update(float dt) {
         for(int i = 0; i < items.length; i++){
@@ -33,6 +39,7 @@ public abstract class ItemHolderUI implements UI {
                 items[i] = movingImage.getItem();
             }
         }
+
     }
 
 
