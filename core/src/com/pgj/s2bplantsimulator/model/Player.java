@@ -14,6 +14,7 @@ import com.pgj.s2bplantsimulator.inventory.Chest;
 import com.pgj.s2bplantsimulator.inventory.Equipment;
 
 import com.pgj.s2bplantsimulator.screens.MainGame;
+import com.pgj.s2bplantsimulator.ultis.ResourceLoader;
 
 import static com.pgj.s2bplantsimulator.common.constant.GameConstant.PPM;
 
@@ -66,7 +67,8 @@ public class Player extends Sprite {
         hoe = new Animation[1];
         water = new Animation[1];
 
-        playerTexture = new Texture("Basic Charakter Spritesheet.png");
+//        playerTexture = new Texture("Basic Charakter Spritesheet.png");
+        playerTexture = ResourceLoader.getInstance().getTexture("Basic Charakter Spritesheet.png");
         TextureRegion[][] playerTextureRegion = TextureRegion.split(playerTexture, 48, 48);
         TextureRegion[] rollFrames = new TextureRegion[4 * 4];
         int index = 0;
@@ -86,7 +88,8 @@ public class Player extends Sprite {
         right[0].setPlayMode(Animation.PlayMode.LOOP);
         stand[0].setPlayMode(Animation.PlayMode.LOOP);
 
-        playerTexture = new Texture("sprites_basic_pack/Characters/Basic Charakter Actions/Basic Charakter Actions.png");
+//        playerTexture = new Texture("sprites_basic_pack/Characters/Basic Charakter Actions/Basic Charakter Actions.png");
+        playerTexture = ResourceLoader.getInstance().getTexture("sprites_basic_pack/Characters/Basic Charakter Actions/Basic Charakter Actions.png");
         playerTextureRegion = TextureRegion.split(playerTexture, 48, 48);
         rollFrames = new TextureRegion[12 * 2];
         index = 0;

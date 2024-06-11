@@ -35,7 +35,7 @@ public class TileMapHelper {
     }
 
     public OrthogonalTiledMapRenderer setupMap() {
-        map = new TmxMapLoader().load("map.tmx");
+        map = new TmxMapLoader().load("newMap.tmx");
         parseMapObjects(map.getLayers().get("block").getObjects());
         parseMapObjects(map.getLayers().get("soil").getObjects());
 //        parseMapObjects(map.getLayers().get("player").getObjects());
@@ -52,7 +52,7 @@ public class TileMapHelper {
                 Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
                 String rectangleName = mapObject.getName();
 
-                if (rectangleName.equals("player")) {
+                if (rectangleName.equals("Player")) {
                     Body body = BodyHelperService.createBody(
                             rectangle.getX() + rectangle.getWidth() / 2,
                             rectangle.getY() + rectangle.getHeight() / 2,
@@ -62,7 +62,7 @@ public class TileMapHelper {
                             gameScreen.world
                     );
                     gameScreen.player = new Player(gameScreen, body);
-                } else if (rectangleName.equals("dirt")){
+                } else if (rectangleName.equals("Dirt")){
                     xDirt = rectangle.getX() / 32;
                     yDirt = rectangle.getY() / 32;
                     Vector4 dirtVector = new Vector4(xDirt, yDirt, rectangle.getWidth(), rectangle.getHeight());

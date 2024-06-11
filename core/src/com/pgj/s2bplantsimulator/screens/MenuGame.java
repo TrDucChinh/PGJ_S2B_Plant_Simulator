@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.pgj.s2bplantsimulator.S2BPlantSimulator;
 import com.pgj.s2bplantsimulator.common.constant.GameConstant;
+import com.pgj.s2bplantsimulator.ultis.ResourceLoader;
 
 
 public class MenuGame implements Screen {
@@ -41,12 +42,18 @@ public class MenuGame implements Screen {
     }
 
     public void createTexture() {
-        play = new Texture(GameConstant.PLAY_BUTTON);
-        playPress = new Texture(GameConstant.PLAY_PRESS_BUTTON);
-        about = new Texture(GameConstant.ABOUT_BUTTON);
-        aboutPress = new Texture(GameConstant.ABOUT_PRESS_BUTTON);
-        replay = new Texture(GameConstant.REPLAY_BUTTON);
-        replayPress = new Texture(GameConstant.REPLAY_PRESS_BUTTON);
+//        play = new Texture(GameConstant.PLAY_BUTTON);
+        play = ResourceLoader.getInstance().getTexture(GameConstant.PLAY_BUTTON);
+//        playPress = new Texture(GameConstant.PLAY_PRESS_BUTTON);
+        playPress = ResourceLoader.getInstance().getTexture(GameConstant.PLAY_PRESS_BUTTON);
+//        about = new Texture(GameConstant.ABOUT_BUTTON);
+        about = ResourceLoader.getInstance().getTexture(GameConstant.ABOUT_BUTTON);
+//        aboutPress = new Texture(GameConstant.ABOUT_PRESS_BUTTON);
+        aboutPress = ResourceLoader.getInstance().getTexture(GameConstant.ABOUT_PRESS_BUTTON);
+//        replay = new Texture(GameConstant.REPLAY_BUTTON);
+        replay = ResourceLoader.getInstance().getTexture(GameConstant.REPLAY_BUTTON);
+//        replayPress = new Texture(GameConstant.REPLAY_PRESS_BUTTON);
+        replayPress = ResourceLoader.getInstance().getTexture(GameConstant.REPLAY_PRESS_BUTTON);
     }
 
     @Override
