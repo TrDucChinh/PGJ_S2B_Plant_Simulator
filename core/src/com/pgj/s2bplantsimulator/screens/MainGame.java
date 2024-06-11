@@ -30,7 +30,7 @@ public class MainGame implements Screen {
     public World world;
     public Player player;
     public TileMapHelper tileMapHelper;
-    public TiledMap map = new TmxMapLoader().load("map.tmx");
+    public TiledMap map = new TmxMapLoader().load("newMap.tmx");
     public OrthogonalTiledMapRenderer renderer;
     public Box2DDebugRenderer box2DDebugRenderer;
     public static List<Vector4> dirtPositionList = new ArrayList<>();
@@ -38,18 +38,18 @@ public class MainGame implements Screen {
     public static List<Dirt> soilList = new ArrayList<>();
     public static List<Dirt> plantList = new ArrayList<>();
     public static List<Seed> seedList = new ArrayList<>();
-    
+
     public OrthographicCamera staticCamera;
     public OrthographicCamera playerCamera;
     private HUD hud;
 
-    public int[] Water = new int[]{0}, Grass = new int[]{1}, Dirt = new int[]{2}, Wood = new int[]{6}; // Lấy index của layer
+    public int[] Water = new int[]{0}, Grass = new int[]{1}, House = new int[]{2}, HouseFurniture = new int[]{3}, Fence = new int[]{4}, Wood = new int[]{7}; // Lấy index của layer
 
     public MainGame(S2BPlantSimulator game) {
         this.world = new World(new Vector2(0, 0), false);
         this.game = game;
         this.box2DDebugRenderer = new Box2DDebugRenderer();
-        box2DDebugRenderer.setDrawBodies(false);
+        box2DDebugRenderer.setDrawBodies(true);
         box2DDebugRenderer.setDrawJoints(true);
         this.tileMapHelper = new TileMapHelper(this);
         this.renderer = tileMapHelper.setupMap();
@@ -101,7 +101,9 @@ public class MainGame implements Screen {
         // render map theo layer index
         renderer.render(Water);
         renderer.render(Grass);
-        renderer.render(Dirt);
+        renderer.render(House);
+        renderer.render(HouseFurniture);
+        renderer.render(Fence);
         box2DDebugRenderer.render(world, game.camera.combined.scl(PPM));
 //        box2DDebugRenderer.render(world, staticCamera.combined.scl(PPM));
 
