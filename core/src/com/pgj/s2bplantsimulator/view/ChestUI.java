@@ -37,6 +37,7 @@ public class ChestUI extends ItemHolderUI {
             }
         }
         getStage().addActor(getItemPanel());
+        toggleVisible();
     }
 
     @Override

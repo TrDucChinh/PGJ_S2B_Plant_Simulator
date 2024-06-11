@@ -58,8 +58,8 @@ public class MovingImage extends Image {
     }
     public void updateOnScreenPos(){
         Stage stage = this.getStage();
-        for(Actor actor : stage.getActors()){
-            if(actor instanceof Table){
+        for(Actor actor : stage.getActors() ){
+            if(actor instanceof Table && actor.isVisible()){
                 Table slots = (Table) actor;
                 for(Cell  cell : slots.getCells()){
                     Container imageContainer = (Container) cell.getActor();
