@@ -16,6 +16,7 @@ import com.pgj.s2bplantsimulator.inventory.Inventory;
 import com.pgj.s2bplantsimulator.screens.MainGame;
 import com.pgj.s2bplantsimulator.transition.Transition;
 import com.pgj.s2bplantsimulator.ultis.ResourceLoader;
+import jdk.tools.jmod.Main;
 
 import static com.pgj.s2bplantsimulator.common.constant.GameConstant.PPM;
 
@@ -236,14 +237,18 @@ public class Player extends Sprite {
                 } else if (currentItem.equals("Axe")) {
                     try {
                         if (!MainGame.seedList.isEmpty()) {
-                            for (Seed seed : MainGame.seedList) {
-                                if (body.getPosition().x >= seed.xSeed && body.getPosition().x <= seed.xSeed + 0.5 && body.getPosition().y >= seed.ySeed && body.getPosition().y <= seed.ySeed + 0.5 && seed.harvestable) {
-                                    MainGame.seedList.remove(seed);
-                                    MainGame.soilList.removeIf(dirt -> dirt.xDirt == seed.xSeed && dirt.yDirt == seed.ySeed && dirt.isWatered && !dirt.isPlanted && dirt.isDirt);
-                                    MainGame.plantDirtList.removeIf(dirt -> dirt.xDirt == seed.xSeed && dirt.yDirt == seed.ySeed && dirt.isDirt && dirt.isPlanted && dirt.isWatered);
-                                }
-                            }
+//                            for (Seed seed : MainGame.seedList) {
+//                                System.out.println(seed.getName() + " " + seed.age + " " + seed.maxAge + " " + seed.harvestable);
+//                                if (body.getPosition().x >= seed.xSeed && body.getPosition().x <= seed.xSeed + 0.5 && body.getPosition().y >= seed.ySeed && body.getPosition().y <= seed.ySeed + 0.5 && seed.harvestable) {
+//                                    MainGame.seedList.remove(seed);
+//                                    MainGame.soilList.removeIf(dirt -> dirt.xDirt == seed.xSeed && dirt.yDirt == seed.ySeed && dirt.isWatered && !dirt.isPlanted && dirt.isDirt);
+//                                    MainGame.plantDirtList.removeIf(dirt -> dirt.xDirt == seed.xSeed && dirt.yDirt == seed.ySeed && dirt.isDirt && dirt.isPlanted && dirt.isWatered);
+//                                }
+//                            }
                         }
+                        MainGame.seedList.removeIf(seed -> body.getPosition().x >= seed.xSeed && body.getPosition().x <= seed.xSeed + 0.5 && body.getPosition().y >= seed.ySeed && body.getPosition().y <= seed.ySeed + 0.5 && seed.harvestable);
+                        MainGame.soilList.removeIf(dirt -> body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5 && dirt.isWatered && !dirt.isPlanted && dirt.isDirt);
+                        MainGame.plantDirtList.removeIf(dirt -> body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5 && dirt.isDirt && dirt.isPlanted && dirt.isWatered);
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -257,11 +262,11 @@ public class Player extends Sprite {
                 this.setSleep(true);
                 for (Seed seed : MainGame.seedList) {
                     if (seed.getName().equals("corn")) {
-                        seed.age = seed.maxAge * 0.75f;
+                        seed.age += seed.maxAge * 0.75f;
                     }
                     if (seed.getName().equals("tomato")) {
-                        seed.age = seed.maxAge;
-                        seed.harvestable = true;
+                        seed.age += seed.maxAge;
+//                        seed.harvestable = true;
                     }
                 }
             }
