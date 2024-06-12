@@ -1,45 +1,51 @@
 package com.pgj.s2bplantsimulator.view;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.pgj.s2bplantsimulator.inventory.Item;
+import com.pgj.s2bplantsimulator.model.Item;
 import com.pgj.s2bplantsimulator.model.MovingImage;
-import com.pgj.s2bplantsimulator.model.Player;
 import com.pgj.s2bplantsimulator.screens.MainGame;
 
-public abstract class ItemHolderUI implements UI {
+import java.util.List;
+
+public abstract class ItemHolderBoard implements UI {
     private String currentItem;
-    private Item[] items;
+    private List<Item> items;
     private Table itemPanel;
     private HUD hud;
     private Skin skin;
     private Stage stage;
-    public ItemHolderUI(MainGame mainGame){
+    private int NUM_SLOT;
+    public ItemHolderBoard(MainGame mainGame){
         this.hud = mainGame.getHud();
         this.skin = new Skin(Gdx.files.internal("Skin/ui_skin.json"));
         itemPanel = new Table();
         this.stage = hud.getStage();
         stage.addActor(itemPanel);
     }
-    public String getCurrentItem(){
-        return currentItem;
-    }
     @Override
     public void update(float dt) {
-        for(int i = 0; i < items.length; i++){
-            Container imageContainer = (Container) itemPanel.getCells().get(i).getActor();
-            if(imageContainer.getActor() == null){
-                items[i] = null;
-            }else{
-                MovingImage movingImage = (MovingImage) imageContainer.getActor();
-                items[i] = movingImage.getItem();
+
+    }
+    public void initEquipmentItem(){
+        for(Cell cell : itemPanel.getCells()){
+            MovingImageContainer movingImageContainer = (MovingImageContainer) cell.getActor();
+            if(movingImageContainer.getActor() == null){
+                for(Item item : items){
+                    for(MovingImage movingImage : item.getMovingImageList()){
+                        if(movingImage.getParent() == null){
+                            movingImageContainer.setActor(movingImage);
+                            break;
+                        }
+                        if(movingImageContainer.getActor() != null) break;
+                    }
+                    if(movingImageContainer.getActor() != null) break;
+                }
             }
         }
-
     }
 
 
@@ -50,11 +56,11 @@ public abstract class ItemHolderUI implements UI {
         return itemPanel;
     }
 
-    public Item[] getItems() {
+    public List<Item> getItems() {
         return items;
     }
 
-    public void setItems(Item[] items) {
+    public void setItems(List<Item> items) {
         this.items = items;
     }
 

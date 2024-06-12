@@ -10,7 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
-import com.pgj.s2bplantsimulator.inventory.Item;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.Scaling;
 import com.pgj.s2bplantsimulator.ultis.StageUltis;
 
 public class MovingImage extends Image {
@@ -18,6 +19,7 @@ public class MovingImage extends Image {
     public MovingImage(Image image, Item item){
         super(image.getDrawable());
         this.item = item;
+        this.setScaling(Scaling.fit);
         createAction();
     }
 
@@ -49,10 +51,10 @@ public class MovingImage extends Image {
                 @Override
                 public void dragStop(InputEvent event, float x, float y, int pointer) {
                     updateOnScreenPos();
-                        if(image.getParent() instanceof  Container == false){
-                            baseImageContainer.setActor(image);
-                        }
-                        baseImageContainer = null;
+                    if(image.getParent() instanceof  Container == false){
+                        baseImageContainer.setActor(image);
+                    }
+                    baseImageContainer = null;
                 }
             });
     }

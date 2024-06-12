@@ -1,11 +1,9 @@
 package com.pgj.s2bplantsimulator.view;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.pgj.s2bplantsimulator.screens.MainGame;
 
@@ -13,8 +11,8 @@ public class HUD implements Screen {
     private final Skin skin;
     private final Stage stage;
     private MainGame mainGame;
-    private ChestUI chestUI;
-    private PlayerEquipmentUI playerEquipmentUI;
+    private ChestBoard chestUI;
+    private PlayerEquipmentBoard playerEquipmentUI;
 
 
     public HUD(MainGame mainGame){
@@ -26,10 +24,11 @@ public class HUD implements Screen {
         skin = new Skin(Gdx.files.internal("Skin/ui_skin.json"));
     }
     public void show() {
-        chestUI = new ChestUI(mainGame);
-        playerEquipmentUI = new PlayerEquipmentUI(mainGame);
-        chestUI.show();
+        chestUI = new ChestBoard(mainGame);
+        playerEquipmentUI = new PlayerEquipmentBoard(mainGame);
+
         playerEquipmentUI.show();
+        chestUI.show();
     }
 
     public void render(float dt) {
@@ -43,8 +42,8 @@ public class HUD implements Screen {
         chestUI.resize(width, height);
     }
     public void setUpPlayerData(){
-        playerEquipmentUI.setItems(mainGame.getPlayer().getEquipment().getItems());
-        chestUI.setItems(mainGame.getPlayer().getChest().getItems());
+        playerEquipmentUI.setItems(mainGame.getPlayer().getInventory().getItems());
+        chestUI.setItems(mainGame.getPlayer().getInventory().getItems());
     }
 
     public void dispose() {
@@ -85,7 +84,7 @@ public class HUD implements Screen {
         return mainGame;
     }
 
-    public ChestUI getChestUI() {
+    public ChestBoard getChestUI() {
         return chestUI;
     }
 }
