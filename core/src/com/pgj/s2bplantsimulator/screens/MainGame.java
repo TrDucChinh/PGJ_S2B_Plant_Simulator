@@ -17,12 +17,10 @@ import com.pgj.s2bplantsimulator.controller.TileMapHelper;
 import com.pgj.s2bplantsimulator.model.Dirt;
 import com.pgj.s2bplantsimulator.model.Player;
 import com.pgj.s2bplantsimulator.model.Seed;
+import com.pgj.s2bplantsimulator.transition.Transition;
 import com.pgj.s2bplantsimulator.view.HUD;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static com.pgj.s2bplantsimulator.common.constant.GameConstant.PPM;
 
@@ -39,7 +37,9 @@ public class MainGame implements Screen {
     public static Set<Dirt> plantDirtList = new HashSet<>();
     public static Set<Dirt> soilList = new HashSet<>();
     public static Set<Seed> seedList = new HashSet<>();
-
+    //reset day
+    public Vector2 bedPosition;
+    public Transition transition;
     public OrthographicCamera staticCamera;
     public OrthographicCamera playerCamera;
     private HUD hud;
@@ -55,6 +55,7 @@ public class MainGame implements Screen {
         this.tileMapHelper = new TileMapHelper(this);
         this.renderer = tileMapHelper.setupMap();
         hud = new HUD(this);
+        transition = new Transition(player);
     }
 
     @Override
@@ -91,7 +92,9 @@ public class MainGame implements Screen {
         player.update(dt);
         game.camera.update();
         hud.update(dt);
-//        staticCamera.update();
+        if (player.isSleep()) {
+            transition.play();
+        }
     }
 
     @Override
@@ -121,7 +124,6 @@ public class MainGame implements Screen {
             }
             if (!soilList.isEmpty()) {
                 for (Dirt soil : soilList) {
-                    System.out.println(soil.isWatered + " " + soil.isPlanted + " " + soil.isDirt);
                     if (soil.isWatered) {
                         game.batch.draw(soil, soil.getX() + 0.5f, soil.getY() + 0.5f, 0.5f, 0.5f);
                     }
@@ -141,6 +143,9 @@ public class MainGame implements Screen {
         game.batch.end();
         renderer.render(Wood);
         hud.render(delta);
+        if (player.isSleep()) {
+            transition.play();
+        }
     }
 
     @Override
