@@ -14,7 +14,7 @@ public class Seed extends Sprite {
     public float timeToGrow = 0;
     public boolean harvestable = false;
     public float maxAge = 0;
-    public String name;
+    private String name;
     public Seed() {
     }
     public Seed(float x, float y, float width, float height, String texture, String name) {
@@ -71,7 +71,7 @@ public class Seed extends Sprite {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
-    public String getName(){
+    public String getName() {
         return name;
     }
 }
