@@ -71,4 +71,7 @@ public class Seed extends Sprite {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
+    public String getName(){
+        return name;
+    }
 }

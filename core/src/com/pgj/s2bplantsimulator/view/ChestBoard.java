@@ -2,7 +2,6 @@ package com.pgj.s2bplantsimulator.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.pgj.s2bplantsimulator.screens.MainGame;
 
 public class ChestBoard extends ItemHolderBoard {
@@ -47,7 +46,7 @@ public class ChestBoard extends ItemHolderBoard {
     @Override
     public void show() {
         initUI();
-        initEquipmentItem();
+        updateItemPanel();
     }
 
     @Override

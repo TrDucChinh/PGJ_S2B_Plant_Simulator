@@ -1,5 +1,6 @@
 package com.pgj.s2bplantsimulator.model;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.pgj.s2bplantsimulator.screens.MainGame;
@@ -10,9 +11,9 @@ import java.util.List;
 
 public abstract class Item {
     private String name;
-    private MainGame mainGame;
     private List<MovingImage> movingImageList;
     private MovingImageContainer selectedContainer;
+    private Image baseImage;
     private int quantity;
     public boolean equals(String name){
         return this.name.equals(name);
@@ -21,10 +22,6 @@ public abstract class Item {
         movingImageList = new ArrayList<>();
     }
 
-
-    public void setMainGame(MainGame mainGame) {
-        this.mainGame = mainGame;
-    }
 
     public String getName() {
         return name;
@@ -46,9 +43,44 @@ public abstract class Item {
     }
 
     public void setQuantity(int quantity) {
-        MovingImage movingImage = getSelectedImage();
-        if(movingImage != null) movingImage.setQuantityLabel(movingImage.getQuantityLabel() + quantity - this.quantity);
+        udpateMovingImageList(this.quantity, quantity);
+
         this.quantity = quantity;
+    }
+    public void udpateMovingImageList(int bef, int aft){
+        int deltaQuantity = aft - bef;
+        if(deltaQuantity > 0){
+            while(deltaQuantity > 0){
+                MovingImage movingImage;
+                int quantityLabel;
+                if(movingImageList.size() == 0){
+                    movingImage = new MovingImage(baseImage,this);
+                    quantityLabel = Math.min(64, deltaQuantity);
+                    movingImageList.add(movingImage);
+                }else{
+                    movingImage = movingImageList.getLast();
+                    if(movingImage.getQuantityLabel() < 64) {
+                        quantityLabel = Math.min(64 - movingImage.getQuantityLabel(), deltaQuantity);
+                    }else {
+                        movingImage = new MovingImage(baseImage,this);
+                        movingImageList.add(movingImage);
+                        quantityLabel = Math.min(64, deltaQuantity);
+                    }
+                }
+                movingImage.setQuantityLabel(movingImage.getQuantityLabel() + quantityLabel);
+                deltaQuantity -= quantityLabel;
+            }
+        }else{
+            while(deltaQuantity < 0){
+                MovingImage movingImage = movingImageList.getLast();
+                int quantityLabel = Math.min(-deltaQuantity, movingImage.getQuantityLabel());
+                movingImage.setQuantityLabel(movingImage.getQuantityLabel() - quantityLabel);
+                if(movingImage.getQuantityLabel() == 0){
+                    movingImageList.remove(movingImage);
+                }
+                deltaQuantity += quantityLabel;
+            }
+        }
     }
 
     public void setSelectedContainer(MovingImageContainer selectedContainer) {
@@ -64,5 +96,9 @@ public abstract class Item {
         if(selectedContainer != null){
             selectedContainer.update(dt);
         }
+    }
+
+    public void setBaseImage(Image baseImage) {
+        this.baseImage = baseImage;
     }
 }

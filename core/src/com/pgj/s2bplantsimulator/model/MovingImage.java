@@ -14,6 +14,7 @@ import com.pgj.s2bplantsimulator.view.MovingImageContainer;
 public class MovingImage extends Image {
     private Item item;
     private int quantityLabel;
+
     public MovingImage(Image image, Item item){
         super(image.getDrawable());
         this.item = item;
@@ -49,33 +50,34 @@ public class MovingImage extends Image {
 
                 @Override
                 public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                    if(updateOnScreenPos() == false){
+                    if(updateOnScreenPos(true) == false){
                         image.setPosition(initialPos.x, initialPos.y);
-                        updateOnScreenPos();
+                        updateOnScreenPos(false);
                     }
                 }
             });
     }
-    public boolean updateOnScreenPos(){
+    public boolean updateOnScreenPos(boolean isNewLocation){
         Stage stage = this.getStage();
         for(Actor actor : stage.getActors() ){
-            if(actor instanceof Table && actor.isVisible()){
-                Table slots = (Table) actor;
-                for(Cell  cell : slots.getCells()){
-                    MovingImageContainer imageContainer = (MovingImageContainer) cell.getActor();
-                    if(imageContainer.getActor() == null){
-                        Vector2 pos = StageUltis.getInstance().getStagePos(imageContainer);
-                        if((pos.x < this.getX())
-                                && (this.getX() <= pos.x + 50)
-                                && (pos.y <= this.getY())
-                                && (this.getY() <= pos.y + 50)){
-                            imageContainer.setActor(this);
-                            this.setPosition(0, 0);
-                            return true;
+            if(actor instanceof Table){
+                if(isNewLocation == false || (isNewLocation == true && actor.isVisible() == true)){
+                    Table slots = (Table) actor;
+                    for(Cell  cell : slots.getCells()){
+                        MovingImageContainer imageContainer = (MovingImageContainer) cell.getActor();
+                        if(imageContainer.getActor() == null){
+                            Vector2 pos = StageUltis.getInstance().getStagePos(imageContainer);
+                            if((pos.x < this.getX())
+                                    && (this.getX() <= pos.x + 50)
+                                    && (pos.y <= this.getY())
+                                    && (this.getY() <= pos.y + 50)){
+                                imageContainer.setActor(this);
+                                this.setPosition(0, 0);
+                                return true;
+                            }
                         }
                     }
                 }
-
             }
         }
         return false;
