@@ -14,21 +14,28 @@ import com.pgj.s2bplantsimulator.controller.TileMapHelper;
 
 import com.pgj.s2bplantsimulator.inventory.Inventory;
 import com.pgj.s2bplantsimulator.screens.MainGame;
+import com.pgj.s2bplantsimulator.transition.Transition;
 import com.pgj.s2bplantsimulator.ultis.ResourceLoader;
-import com.pgj.s2bplantsimulator.view.ItemHolderBoard;
-import jdk.tools.jmod.Main;
 
 import static com.pgj.s2bplantsimulator.common.constant.GameConstant.PPM;
 
 public class Player extends Sprite {
+    public boolean isSleep() {
+        return isSleep;
+    }
+
+    public void setSleep(boolean sleep) {
+        isSleep = sleep;
+    }
+
     public Inventory getInventory() {
         return inventory;
     }
-
     public enum State {IDLE, UP, DOWN, LEFT, RIGHT, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT, HOE, WATER}
 
     public enum Direction {UP, DOWN, LEFT, RIGHT, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT}
 
+    private boolean isSleep;
     public Item currentItem;
     public Direction direction;
     public State currentState;
@@ -48,10 +55,13 @@ public class Player extends Sprite {
     public Animation[] hoe;
     public Animation[] water;
     public float speed, velX, velY, stateTimer;
+    public MainGame game;
 
 
     public Player(MainGame gameScreen, Body body) {
         this.world = gameScreen.world;
+        this.game = gameScreen;
+        this.setSleep(false);
         this.tileMapHelper = new TileMapHelper(gameScreen);
         inventory = new Inventory(gameScreen);
         currentState = State.IDLE;
@@ -244,7 +254,21 @@ public class Player extends Sprite {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
+                }
+            }
+        }
+        //Going to bed
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
+            if (body.getPosition().x >= game.bedPosition.x && body.getPosition().x <= game.bedPosition.x + 0.5 && body.getPosition().y >= game.bedPosition.y && body.getPosition().y <= game.bedPosition.y + 0.5) {
+                this.setSleep(true);
+                for (Seed seed : MainGame.seedList) {
+                    if (seed.getName().equals("corn")) {
+                        seed.age = seed.maxAge * 0.75f;
+                    }
+                    if (seed.getName().equals("tomato")) {
+                        seed.age = seed.maxAge;
+                        seed.harvestable = true;
+                    }
                 }
             }
         }

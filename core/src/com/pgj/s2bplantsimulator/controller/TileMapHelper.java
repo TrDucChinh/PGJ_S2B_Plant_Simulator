@@ -62,12 +62,13 @@ public class TileMapHelper {
                             gameScreen.world
                     );
                     gameScreen.player = new Player(gameScreen, body);
-                } else if (rectangleName.equals("Dirt")){
+                } else if (rectangleName.equals("Dirt")) {
                     xDirt = rectangle.getX() / 32;
                     yDirt = rectangle.getY() / 32;
                     Vector4 dirtVector = new Vector4(xDirt, yDirt, rectangle.getWidth(), rectangle.getHeight());
                     dirtPositionList.add(dirtVector);
-
+                } else if (rectangleName.equals("Bed")) {
+                    gameScreen.bedPosition = new Vector2(rectangle.getX() / 32, rectangle.getY() / 32);
                 }
             }
         }

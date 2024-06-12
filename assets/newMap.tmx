@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="64" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="17" nextobjectid="806">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="64" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="17" nextobjectid="807">
  <tileset firstgid="1" name="Water" tilewidth="16" tileheight="16" tilecount="4" columns="4">
   <image source="sprites_basic_pack/Tilesets/Water.png" width="64" height="16"/>
  </tileset>
@@ -303,11 +303,11 @@
   <object id="12" x="735.818" y="398.182">
    <polygon points="0,0 46.5455,0 46.7273,33.4546 0.363636,33.4546"/>
   </object>
-  <object id="13" x="832.909" y="367.636">
-   <polygon points="0,0 0.181818,64 3.81818,64 3.63636,0"/>
+  <object id="13" x="833.409" y="367.636">
+   <polygon points="0,0 0.158008,64 3.31818,64 3.16017,0"/>
   </object>
   <object id="14" x="782.545" y="413.763">
-   <polygon points="0,0 32.9091,-0.217963 33.0909,17.873 0,17.655"/>
+   <polygon points="0,0 32.1011,-0.217963 32.2784,17.873 0,17.655"/>
   </object>
   <object id="15" name="Player" x="784" y="388" width="16" height="9"/>
   <object id="16" x="868.75" y="352.5">
@@ -415,7 +415,6 @@
   <object id="51" x="283.667" y="122.333">
    <polygon points="0,0 0,4 8.75,4 8.30128,-0.25"/>
   </object>
-  <object id="52" name="Bed" x="737.091" y="369.273" width="14.1818" height="14.1818"/>
   <object id="53" x="880" y="320">
    <polygon points="0,0 -0.333333,175.667 15.6667,175.667 15.6667,-0.333333"/>
   </object>
@@ -647,6 +646,7 @@
   <object id="218" x="288.333" y="442.667">
    <polygon points="0,0 -80,0 -80,21.3333 0,21.3333"/>
   </object>
+  <object id="806" name="Bed" x="736" y="368" width="16" height="16"/>
  </objectgroup>
  <objectgroup id="16" name="soil">
   <object id="225" name="Dirt" x="176" y="112" width="16" height="16"/>
