@@ -16,6 +16,7 @@ import com.pgj.s2bplantsimulator.inventory.Inventory;
 import com.pgj.s2bplantsimulator.screens.MainGame;
 import com.pgj.s2bplantsimulator.ultis.ResourceLoader;
 import com.pgj.s2bplantsimulator.view.ItemHolderBoard;
+import jdk.tools.jmod.Main;
 
 import static com.pgj.s2bplantsimulator.common.constant.GameConstant.PPM;
 
@@ -33,7 +34,7 @@ public class Player extends Sprite {
     public State currentState;
     public State previousState;
     public Dirt plantDirt = new Dirt();
-    private Inventory inventory;
+    private final Inventory inventory;
     public TileMapHelper tileMapHelper;
 
     public Texture playerTexture;
@@ -107,7 +108,7 @@ public class Player extends Sprite {
     }
 
     public void update(float dt) {
-        if(dt > 0.01) checkUserInput();
+        if (dt > 0.01) checkUserInput();
         setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
         setRegion(getFrame(dt));
         currentItem = inventory.getCurrentItem();
@@ -184,8 +185,8 @@ public class Player extends Sprite {
             direction = Direction.DOWN;
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            if(currentItem != null){
-                System.out.println("Current Item: " +  currentItem.getName());
+            if (currentItem != null) {
+                System.out.println("Current Item: " + currentItem.getName());
                 if (currentItem.equals("Hoe")) {
                     for (Vector4 dirtPos : MainGame.dirtPositionList) {
                         if (body.getPosition().x >= dirtPos.x && body.getPosition().x <= dirtPos.x + 0.5 && body.getPosition().y >= dirtPos.y && body.getPosition().y <= dirtPos.y + 0.5) {
@@ -199,7 +200,7 @@ public class Player extends Sprite {
                     if (!MainGame.plantDirtList.isEmpty()) {
                         for (Dirt dirt : MainGame.plantDirtList) {
                             if (body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5) {
-                                if (dirt.isWatered == false) {
+                                if (!dirt.isWatered) {
                                     dirt.isWatered = true;
                                     currentState = State.WATER;
                                     plantDirt = new Dirt(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "water.png", dirt.isDirt, true, dirt.isPlanted);
@@ -213,22 +214,34 @@ public class Player extends Sprite {
                     if (!MainGame.plantDirtList.isEmpty()) {
                         for (Dirt dirt : MainGame.plantDirtList) {
                             if (body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5) {
-                                if (dirt.isPlanted == false) {
+                                if (!dirt.isPlanted && dirt.isWatered) {
                                     dirt.isPlanted = true;
                                     Seed seed = new Seed(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "seed.png", "corn");
                                     MainGame.seedList.add(seed);
-                                    System.out.println(MainGame.seedList.size());
-                                    System.out.println(MainGame.seedList.size());
                                     currentItem.setQuantity(currentItem.getQuantity() - 1);
                                 }
                             }
                         }
                     }
+                } else if (currentItem.equals("Axe")) {
+                    try {
+                        if (!MainGame.seedList.isEmpty()) {
+                            for (Seed seed : MainGame.seedList) {
+                                if (body.getPosition().x >= seed.xSeed && body.getPosition().x <= seed.xSeed + 0.5 && body.getPosition().y >= seed.ySeed && body.getPosition().y <= seed.ySeed + 0.5 && seed.harvestable) {
+                                    MainGame.seedList.remove(seed);
+                                    MainGame.soilList.removeIf(dirt -> dirt.xDirt == seed.xSeed && dirt.yDirt == seed.ySeed && dirt.isWatered && !dirt.isPlanted && dirt.isDirt);
+                                    MainGame.plantDirtList.removeIf(dirt -> dirt.xDirt == seed.xSeed && dirt.yDirt == seed.ySeed && dirt.isDirt && dirt.isPlanted && dirt.isWatered);
+                                }
+                            }
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                 }
-
-
             }
-            }
+        }
 
 
         velX = 0;
@@ -256,7 +269,6 @@ public class Player extends Sprite {
         }
         body.setLinearVelocity(velX * speed, velY * speed);
     }
-
 
 
 }

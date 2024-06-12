@@ -20,7 +20,9 @@ import com.pgj.s2bplantsimulator.model.Seed;
 import com.pgj.s2bplantsimulator.view.HUD;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static com.pgj.s2bplantsimulator.common.constant.GameConstant.PPM;
 
@@ -34,10 +36,9 @@ public class MainGame implements Screen {
     public OrthogonalTiledMapRenderer renderer;
     public Box2DDebugRenderer box2DDebugRenderer;
     public static List<Vector4> dirtPositionList = new ArrayList<>();
-    public static List<Dirt> plantDirtList = new ArrayList<>();
-    public static List<Dirt> soilList = new ArrayList<>();
-    public static List<Dirt> plantList = new ArrayList<>();
-    public static List<Seed> seedList = new ArrayList<>();
+    public static Set<Dirt> plantDirtList = new HashSet<>();
+    public static Set<Dirt> soilList = new HashSet<>();
+    public static Set<Seed> seedList = new HashSet<>();
 
     public OrthographicCamera staticCamera;
     public OrthographicCamera playerCamera;
@@ -108,26 +109,34 @@ public class MainGame implements Screen {
 //        box2DDebugRenderer.render(world, staticCamera.combined.scl(PPM));
 
         stateTime += delta;
-
-
-
         game.batch.begin();
         game.batch.setProjectionMatrix(game.camera.combined);
         this.update(delta);
-        for (Dirt dirt : plantDirtList) {
-            game.batch.draw(dirt, dirt.getX() + 0.5f, dirt.getY() + 0.5f, 0.5f, 0.5f);
-        }
-        for (Dirt soil : soilList) {
-            if (soil.isWatered) {
-                game.batch.draw(soil, soil.getX() + 0.5f, soil.getY() + 0.5f, 0.5f, 0.5f);
+        try {
+            if (!plantDirtList.isEmpty()) {
+                for (Dirt dirt : plantDirtList) {
+//                    System.out.println(dirt.isWatered + " " + dirt.isPlanted + " " + dirt.isDirt);
+                    game.batch.draw(dirt, dirt.getX() + 0.5f, dirt.getY() + 0.5f, 0.5f, 0.5f);
+                }
             }
+            if (!soilList.isEmpty()) {
+                for (Dirt soil : soilList) {
+                    System.out.println(soil.isWatered + " " + soil.isPlanted + " " + soil.isDirt);
+                    if (soil.isWatered) {
+                        game.batch.draw(soil, soil.getX() + 0.5f, soil.getY() + 0.5f, 0.5f, 0.5f);
+                    }
+                }
+
+            }
+            if (!seedList.isEmpty()) {
+                for (Seed seed : seedList) {
+                    game.batch.draw(seed, seed.getX() + 0.5f, seed.getY() + 0.5f, 0.5f, 0.5f);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-//        for (Dirt plant : plantList) {
-//            game.batch.draw(plant, plant.getX() + 0.5f, plant.getY() + 0.5f, 0.5f, 0.5f);
-//        }
-        for (Seed seed : seedList) {
-            game.batch.draw(seed, seed.getX() + 0.5f, seed.getY() + 0.5f, 0.5f, 0.5f);
-        }
+
         player.draw(game.batch);
         game.batch.end();
         renderer.render(Wood);
