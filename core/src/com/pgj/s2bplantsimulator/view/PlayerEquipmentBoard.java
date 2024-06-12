@@ -2,29 +2,28 @@ package com.pgj.s2bplantsimulator.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
-import com.pgj.s2bplantsimulator.inventory.Equipment;
-import com.pgj.s2bplantsimulator.inventory.Item;
-import com.pgj.s2bplantsimulator.inventory.Tool;
+import com.pgj.s2bplantsimulator.inventory.Inventory;
+import com.pgj.s2bplantsimulator.model.Item;
 import com.pgj.s2bplantsimulator.model.MovingImage;
 import com.pgj.s2bplantsimulator.screens.MainGame;
 import com.pgj.s2bplantsimulator.ultis.StageUltis;
 
 
-public class PlayerEquipmentUI extends ItemHolderUI {
-    private Equipment equipment;
+public class PlayerEquipmentBoard extends ItemHolderBoard {
     private int currentItemIndex;
     private Image selectedOverlay;
-    public PlayerEquipmentUI(MainGame mainGame){
-        super(mainGame);
-        equipment = mainGame.getPlayer().getEquipment();
+    private Inventory inventory;
 
-        setItems(equipment.getItems());
+    public PlayerEquipmentBoard(MainGame mainGame){
+        super(mainGame);
+        inventory = mainGame.getPlayer().getInventory();
+        setItems(inventory.getItems());
+
     }
     private final float PANEL_WIDTH = 420;
     private final float PANEL_HEIGHT = 70;
@@ -38,8 +37,6 @@ public class PlayerEquipmentUI extends ItemHolderUI {
     @Override
 
     public void initUI(){
-
-
         getItemPanel().setName("Picker");
         getItemPanel().setTouchable(Touchable.enabled);
         getItemPanel().setFillParent(false);
@@ -48,7 +45,7 @@ public class PlayerEquipmentUI extends ItemHolderUI {
         getItemPanel().setBounds(Gdx.graphics.getWidth() / 2 - PANEL_WIDTH / 2, PANEL_BOTTOM_PAD, PANEL_WIDTH, PANEL_HEIGHT);
 
         for(int i = 0; i < 6; i++){
-            Container imageContainer = new Container();
+            MovingImageContainer imageContainer = new MovingImageContainer();
             imageContainer.setBackground(getSkin().getDrawable("round_button"));
             imageContainer.fill();
             getItemPanel().add(imageContainer).pad(8.0f).size(50.0f);
@@ -57,41 +54,41 @@ public class PlayerEquipmentUI extends ItemHolderUI {
             Container imageContainer = (Container) cell.getActor();
         }
         selectedOverlay = new Image(getSkin().getDrawable("selected_overlay"));
-        selectedOverlay.setBounds(0, 0, 50, 50);
+
+        selectedOverlay.setBounds(-200, -200, 60, 60);
+        selectedOverlay.setTouchable(Touchable.disabled);
         getStage().addActor(selectedOverlay);
-    }
-    public void initEquipmentItem(){
-        for(Item item  : getItems()){
-            if(item != null){
-                for(Cell cell : getItemPanel().getCells()){
-                    Container imageContainer = (Container) cell.getActor();
-                    if(imageContainer.getActor() == null){
-                        imageContainer.setActor(item.getMovingImage());
-                        break;
-                    }
-                }
-            }
-        }
+
+
     }
 
+
     public void resize(float width, float height){
-        super.getItemPanel().setPosition(width / 2 - PANEL_WIDTH / 2, PANEL_BOTTOM_PAD);
+        getItemPanel().setPosition(width / 2 - PANEL_WIDTH / 2, PANEL_BOTTOM_PAD);
     }
     public void update(float dt){
         super.update(dt);
-        if(getItems()[currentItemIndex] == null){
-            equipment.setCurrentItem(null);
-        }
+
         for(int i = 0; i < 6; i++){
             if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_1 + i)){
-                equipment.setCurrentItem(getItems()[i]);
-                MovingImage movingImage = (MovingImage) ((Container) getItemPanel().getCells().get(i).getActor()).getActor();
-                selectedOverlay.setPosition(StageUltis.getInstance().getStagePos(getItemPanel().getCells().get(i).getActor()).x + 1
-                        , StageUltis.getInstance().getStagePos(getItemPanel().getCells().get(i).getActor()).y);
                 currentItemIndex = i;
             }
         }
+        selectedOverlay.setPosition(StageUltis.getInstance().getStagePos(getItemPanel().getCells().get(currentItemIndex).getActor()).x - 4
+                , StageUltis.getInstance().getStagePos(getItemPanel().getCells().get(currentItemIndex).getActor()).y - 5);
+        Cell selectedCell = getItemPanel().getCells().get(currentItemIndex);
+        MovingImageContainer selectedContainer = (MovingImageContainer) selectedCell.getActor();
+        if(selectedContainer.getActor() == null) inventory.setCurrentItem(null);
+        else {
+            Item selectedItem = ((MovingImage)selectedContainer.getActor()).getItem();
+            selectedItem.setSelectedContainer(selectedContainer);
+            inventory.setCurrentItem( selectedItem);
+        }
+        if(inventory.getCurrentItem() != null) inventory.getCurrentItem().udpate(dt);
     }
 
-
+    @Override
+    public void initEquipmentItem() {
+        super.initEquipmentItem();
+    }
 }

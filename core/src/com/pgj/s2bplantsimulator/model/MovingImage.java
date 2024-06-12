@@ -5,19 +5,19 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
-import com.pgj.s2bplantsimulator.inventory.Item;
+import com.badlogic.gdx.utils.Scaling;
 import com.pgj.s2bplantsimulator.ultis.StageUltis;
+import com.pgj.s2bplantsimulator.view.MovingImageContainer;
 
 public class MovingImage extends Image {
     private Item item;
+    private int quantityLabel;
     public MovingImage(Image image, Item item){
         super(image.getDrawable());
         this.item = item;
+        this.setScaling(Scaling.fit);
         createAction();
     }
 
@@ -28,41 +28,41 @@ public class MovingImage extends Image {
     public void createAction(){
             MovingImage image = this;
             image.addListener(new DragListener(){
-                private Container baseImageContainer;
+                private Vector2 initialPos;
                 private Stage stage;
-
-                @Override
-                public void dragStart(InputEvent event, float x, float y, int pointer) {
-                    if(baseImageContainer == null){
-                        baseImageContainer = (Container) image.getParent();
-                        stage = image.getStage();
-                        stage.addActor(image);
-                        image.toFront();
-                        image.setPosition(event.getStageX(), event.getStageY());
-                    }
-                }
-                public void drag(InputEvent event, float x, float y, int pointer) {
+                public void touchDragged(InputEvent event, float x, float y, int pointer) {
                     image.setPosition(event.getStageX(), event.getStageY());
-
                 }
 
                 @Override
-                public void dragStop(InputEvent event, float x, float y, int pointer) {
-                    updateOnScreenPos();
-                        if(image.getParent() instanceof  Container == false){
-                            baseImageContainer.setActor(image);
-                        }
-                        baseImageContainer = null;
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    stage = image.getStage();
+                    initialPos = StageUltis.getStagePos(image);
+                    Stack stack = (Stack) image.getParent();
+                    stack.clearChildren();
+                    stage.addActor(image);
+                    image.toFront();
+                    image.setPosition(event.getStageX(), event.getStageY());
+                    return true;
+                }
+
+
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    if(updateOnScreenPos() == false){
+                        image.setPosition(initialPos.x, initialPos.y);
+                        updateOnScreenPos();
+                    }
                 }
             });
     }
-    public void updateOnScreenPos(){
+    public boolean updateOnScreenPos(){
         Stage stage = this.getStage();
         for(Actor actor : stage.getActors() ){
             if(actor instanceof Table && actor.isVisible()){
                 Table slots = (Table) actor;
                 for(Cell  cell : slots.getCells()){
-                    Container imageContainer = (Container) cell.getActor();
+                    MovingImageContainer imageContainer = (MovingImageContainer) cell.getActor();
                     if(imageContainer.getActor() == null){
                         Vector2 pos = StageUltis.getInstance().getStagePos(imageContainer);
                         if((pos.x < this.getX())
@@ -70,11 +70,22 @@ public class MovingImage extends Image {
                                 && (pos.y <= this.getY())
                                 && (this.getY() <= pos.y + 50)){
                             imageContainer.setActor(this);
+                            this.setPosition(0, 0);
+                            return true;
                         }
                     }
                 }
-            }
 
+            }
         }
+        return false;
+    }
+
+    public int getQuantityLabel() {
+        return quantityLabel;
+    }
+
+    public void setQuantityLabel(int quantityLabel) {
+        this.quantityLabel = quantityLabel;
     }
 }

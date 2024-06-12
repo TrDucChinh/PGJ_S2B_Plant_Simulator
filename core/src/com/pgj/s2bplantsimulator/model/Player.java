@@ -10,16 +10,20 @@ import com.badlogic.gdx.math.Vector4;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pgj.s2bplantsimulator.controller.TileMapHelper;
-import com.pgj.s2bplantsimulator.inventory.Chest;
-import com.pgj.s2bplantsimulator.inventory.Equipment;
 
-import com.pgj.s2bplantsimulator.inventory.Item;
+
+import com.pgj.s2bplantsimulator.inventory.Inventory;
 import com.pgj.s2bplantsimulator.screens.MainGame;
 import com.pgj.s2bplantsimulator.ultis.ResourceLoader;
+import com.pgj.s2bplantsimulator.view.ItemHolderBoard;
 
 import static com.pgj.s2bplantsimulator.common.constant.GameConstant.PPM;
 
 public class Player extends Sprite {
+    public Inventory getInventory() {
+        return inventory;
+    }
+
     public enum State {IDLE, UP, DOWN, LEFT, RIGHT, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT, HOE, WATER}
 
     public enum Direction {UP, DOWN, LEFT, RIGHT, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT}
@@ -29,8 +33,7 @@ public class Player extends Sprite {
     public State currentState;
     public State previousState;
     public Dirt plantDirt = new Dirt();
-    public Equipment equipment;
-    private Chest chest;
+    private Inventory inventory;
     public TileMapHelper tileMapHelper;
 
     public Texture playerTexture;
@@ -49,8 +52,7 @@ public class Player extends Sprite {
     public Player(MainGame gameScreen, Body body) {
         this.world = gameScreen.world;
         this.tileMapHelper = new TileMapHelper(gameScreen);
-        equipment = new Equipment(gameScreen);
-        chest = new Chest(gameScreen);
+        inventory = new Inventory(gameScreen);
         currentState = State.IDLE;
         previousState = State.IDLE;
         stateTimer = 0;
@@ -105,10 +107,10 @@ public class Player extends Sprite {
     }
 
     public void update(float dt) {
-        checkUserInput();
+        if(dt > 0.01) checkUserInput();
         setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
         setRegion(getFrame(dt));
-        currentItem = equipment.getCurrentItem();
+        currentItem = inventory.getCurrentItem();
     }
 
     public TextureRegion getFrame(float dt) {
@@ -181,7 +183,7 @@ public class Player extends Sprite {
             currentState = State.IDLE;
             direction = Direction.DOWN;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             if(currentItem != null){
                 System.out.println("Current Item: " +  currentItem.getName());
                 if (currentItem.equals("Hoe")) {
@@ -206,7 +208,8 @@ public class Player extends Sprite {
                             }
                         }
                     }
-                } else if (currentItem.equals("Corn Seed")) { // Tạm thời mới trồng trước cây ngô
+                } else if (currentItem.equals("Corn Seed")) {
+                    // Tạm thời mới trồng trước cây ngô
                     if (!MainGame.plantDirtList.isEmpty()) {
                         for (Dirt dirt : MainGame.plantDirtList) {
                             if (body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5) {
@@ -214,6 +217,9 @@ public class Player extends Sprite {
                                     dirt.isPlanted = true;
                                     Seed seed = new Seed(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "seed.png", "corn");
                                     MainGame.seedList.add(seed);
+                                    System.out.println(MainGame.seedList.size());
+                                    System.out.println(MainGame.seedList.size());
+                                    currentItem.setQuantity(currentItem.getQuantity() - 1);
                                 }
                             }
                         }
@@ -251,12 +257,6 @@ public class Player extends Sprite {
         body.setLinearVelocity(velX * speed, velY * speed);
     }
 
-    public Chest getChest() {
-        return chest;
-    }
 
-    public Equipment getEquipment() {
-        return equipment;
-    }
 
 }
