@@ -31,7 +31,7 @@ public class PlayerEquipmentBoard extends ItemHolderBoard {
     @Override
     public void show() {
         initUI();
-        initEquipmentItem();
+        updateItemPanel();
     }
 
     @Override
@@ -88,7 +88,7 @@ public class PlayerEquipmentBoard extends ItemHolderBoard {
     }
 
     @Override
-    public void initEquipmentItem() {
-        super.initEquipmentItem();
+    public void updateItemPanel() {
+        super.updateItemPanel();
     }
 }

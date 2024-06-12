@@ -124,6 +124,7 @@ public class MainGame implements Screen {
             }
             if (!soilList.isEmpty()) {
                 for (Dirt soil : soilList) {
+//                    System.out.println(soil.isWatered + " " + soil.isPlanted + " " + soil.isDirt);
                     if (soil.isWatered) {
                         game.batch.draw(soil, soil.getX() + 0.5f, soil.getY() + 0.5f, 0.5f, 0.5f);
                     }

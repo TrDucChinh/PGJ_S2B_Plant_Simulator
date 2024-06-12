@@ -6,13 +6,10 @@ import com.pgj.s2bplantsimulator.screens.MainGame;
 import com.pgj.s2bplantsimulator.model.Item;
 
 public class Tool extends Item {
-    public Tool(String name, int quantity, Image image, MainGame mainGame){
+    public Tool(String name, int quantity, Image image){
         super();
         setName(name);
-        setMainGame(mainGame);
+        setBaseImage(image);
         setQuantity(quantity);
-        MovingImage movingImage = new MovingImage(image, this);
-        movingImage.setQuantityLabel(1);
-        addMovingImage(movingImage);
     }
 }

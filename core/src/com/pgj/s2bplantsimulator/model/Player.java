@@ -119,7 +119,7 @@ public class Player extends Sprite {
     }
 
     public void update(float dt) {
-        if (dt > 0.01) checkUserInput();
+         checkUserInput();
         setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
         setRegion(getFrame(dt));
         currentItem = inventory.getCurrentItem();
@@ -205,6 +205,7 @@ public class Player extends Sprite {
                             plantDirt = new Dirt(dirtPos.x, dirtPos.y, dirtPos.z, dirtPos.w, "dirt.png", true, false, false);
                             plantDirt.isDirt = true;
                             MainGame.plantDirtList.add(plantDirt);
+                            break;
                         }
                     }
                 } else if (currentItem.equals("Watering Pot")) {
@@ -230,6 +231,8 @@ public class Player extends Sprite {
                                     Seed seed = new Seed(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "seed.png", "corn");
                                     MainGame.seedList.add(seed);
                                     currentItem.setQuantity(currentItem.getQuantity() - 1);
+//                                    System.out.println(currentItem.getQuantity());
+                                    break;
                                 }
                             }
                         }
@@ -246,9 +249,16 @@ public class Player extends Sprite {
 //                                }
 //                            }
                         }
-                        MainGame.seedList.removeIf(seed -> body.getPosition().x >= seed.xSeed && body.getPosition().x <= seed.xSeed + 0.5 && body.getPosition().y >= seed.ySeed && body.getPosition().y <= seed.ySeed + 0.5 && seed.harvestable);
-                        MainGame.soilList.removeIf(dirt -> body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5 && dirt.isWatered && !dirt.isPlanted && dirt.isDirt);
-                        MainGame.plantDirtList.removeIf(dirt -> body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5 && dirt.isDirt && dirt.isPlanted && dirt.isWatered);
+                            for(Seed seed : MainGame.seedList) {
+                                if (body.getPosition().x >= seed.xSeed && body.getPosition().x <= seed.xSeed + 0.5 && body.getPosition().y >= seed.ySeed && body.getPosition().y <= seed.ySeed + 0.5 && seed.harvestable) {
+                                    inventory.addPlant(seed.getName(), 5);
+                                }
+                            }
+                            MainGame.seedList.removeIf(seed -> body.getPosition().x >= seed.xSeed && body.getPosition().x <= seed.xSeed + 0.5 && body.getPosition().y >= seed.ySeed && body.getPosition().y <= seed.ySeed + 0.5 && seed.harvestable);
+                            MainGame.soilList.removeIf(dirt -> body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5 && dirt.isWatered && !dirt.isPlanted && dirt.isDirt);
+                            MainGame.plantDirtList.removeIf(dirt -> body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5 && dirt.isDirt && dirt.isPlanted && dirt.isWatered);
+                            for(Seed seed : MainGame.seedList) {
+                        }
 
                     } catch (Exception e) {
                         e.printStackTrace();

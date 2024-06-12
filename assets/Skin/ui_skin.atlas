@@ -6,7 +6,7 @@ filter: Linear, Linear
 repeat: none
 button
   rotate: false
-  xy: 1028, 1488
+  xy: 1536, 1552
   size: 26, 26
   split: 5, 5, 5, 5
   pad: 0, 0, 0, 0
@@ -15,7 +15,7 @@ button
   index: -1
 button_hover
   rotate: false
-  xy: 1536, 1543
+  xy: 1, 695
   size: 26, 26
   split: 5, 5, 5, 5
   pad: 0, 0, 0, 0
@@ -24,30 +24,45 @@ button_hover
   index: -1
 button_pressed6
   rotate: false
-  xy: 1, 726
+  xy: 509, 804
   size: 20, 21
   split: 5, 5, 5, 7
   pad: 0, 0, 0, 0
   orig: 20, 21
   offset: 0, 0
   index: -1
+corn_product
+  rotate: false
+  xy: 1564, 1562
+  size: 16, 16
+  split: 2, 2, 2, 2
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
 PixeloidMono-d94EV
   rotate: false
-  xy: 1, 783
+  xy: 1, 792
   size: 506, 67
   orig: 506, 67
   offset: 0, 0
   index: -1
 PixeloidMono-d94EV(2)
   rotate: false
-  xy: 1028, 1516
+  xy: 1028, 1525
   size: 506, 53
   orig: 506, 53
   offset: 0, 0
   index: -1
+PixeloidSansBold-PKnYd
+  rotate: false
+  xy: 1, 723
+  size: 505, 67
+  orig: 505, 67
+  offset: 0, 0
+  index: -1
 selected_overlay
   rotate: false
-  xy: 1, 749
+  xy: 509, 827
   size: 32, 32
   split: 12, 14, 13, 14
   pad: 7, 9, 8, 9
@@ -56,7 +71,7 @@ selected_overlay
   index: -1
 window
   rotate: false
-  xy: 509, 820
+  xy: 1028, 1493
   size: 30, 30
   split: 8, 8, 8, 8
   pad: 0, 0, 0, 0
@@ -65,21 +80,21 @@ window
   index: -1
 Screenshot 2024-05-20 175757
   rotate: false
-  xy: 1, 852
+  xy: 1, 861
   size: 1025, 717
   orig: 1025, 717
   offset: 0, 0
   index: -1
 axe
   rotate: false
-  xy: 1536, 1525
+  xy: 29, 705
   size: 13, 16
   orig: 13, 16
   offset: 0, 0
   index: -1
 corn_seed_equipment
   rotate: false
-  xy: 1028, 1470
+  xy: 1536, 1534
   size: 16, 16
   split: 2, 2, 2, 1
   pad: 0, 0, 0, 0
@@ -88,28 +103,28 @@ corn_seed_equipment
   index: -1
 cropped_image_0
   rotate: false
-  xy: 1564, 1557
+  xy: 531, 813
   size: 7, 12
   orig: 7, 12
   offset: 0, 0
   index: -1
 cropped_image_8
   rotate: false
-  xy: 35, 760
+  xy: 543, 838
   size: 20, 21
   orig: 20, 21
   offset: 0, 0
   index: -1
 hoe
   rotate: false
-  xy: 1056, 1499
+  xy: 1, 678
   size: 13, 15
   orig: 13, 15
   offset: 0, 0
   index: -1
 round_button
   rotate: false
-  xy: 509, 800
+  xy: 1028, 1473
   size: 17, 18
   split: 7, 7, 8, 9
   pad: 7, 7, 7, 9
@@ -118,7 +133,7 @@ round_button
   index: -1
 water_pot
   rotate: false
-  xy: 541, 840
+  xy: 1060, 1513
   size: 16, 10
   orig: 16, 10
   offset: 0, 0

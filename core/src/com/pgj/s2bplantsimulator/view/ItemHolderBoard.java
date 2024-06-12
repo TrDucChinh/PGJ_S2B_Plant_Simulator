@@ -10,9 +10,10 @@ import com.pgj.s2bplantsimulator.model.MovingImage;
 import com.pgj.s2bplantsimulator.screens.MainGame;
 
 import java.util.List;
+import java.util.Map;
 
 public abstract class ItemHolderBoard implements UI {
-    private List<Item> items;
+    private Map<String, Item> items;
     private Table itemPanel;
     private HUD hud;
     private Skin skin;
@@ -23,6 +24,7 @@ public abstract class ItemHolderBoard implements UI {
         itemPanel = new Table();
         this.stage = hud.getStage();
         stage.addActor(itemPanel);
+        updateItemPanel();
     }
     @Override
     public void update(float dt) {
@@ -31,20 +33,20 @@ public abstract class ItemHolderBoard implements UI {
             if(movingImageContainer.getActor() != null){
                 movingImageContainer.update(dt);
             }
-
         }
+        updateItemPanel();
     }
-    public void initEquipmentItem(){
+    public void updateItemPanel(){
         for(Cell cell : itemPanel.getCells()){
             MovingImageContainer movingImageContainer = (MovingImageContainer) cell.getActor();
             if(movingImageContainer.getActor() == null){
-                for(Item item : items){
+                for(Item item : items.values()){
                     for(MovingImage movingImage : item.getMovingImageList()){
+
                         if(movingImage.getParent() == null){
                             movingImageContainer.setActor(movingImage);
                             break;
                         }
-                        if(movingImageContainer.getActor() != null) break;
                     }
                     if(movingImageContainer.getActor() != null) break;
                 }
@@ -57,15 +59,7 @@ public abstract class ItemHolderBoard implements UI {
     public abstract void initUI();
     public abstract void show();
 
-    public Table getItemPanel() {
-        return itemPanel;
-    }
-
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(List<Item> items) {
+    public void setItems(Map<String, Item> items) {
         this.items = items;
     }
 
@@ -78,5 +72,9 @@ public abstract class ItemHolderBoard implements UI {
     }
     public void toggleVisible() {
         itemPanel.setVisible(!itemPanel.isVisible());
+    }
+
+    public Table getItemPanel() {
+        return itemPanel;
     }
 }
