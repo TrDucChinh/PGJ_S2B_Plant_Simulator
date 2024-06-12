@@ -12,13 +12,11 @@ import com.pgj.s2bplantsimulator.screens.MainGame;
 import java.util.List;
 
 public abstract class ItemHolderBoard implements UI {
-    private String currentItem;
     private List<Item> items;
     private Table itemPanel;
     private HUD hud;
     private Skin skin;
     private Stage stage;
-    private int NUM_SLOT;
     public ItemHolderBoard(MainGame mainGame){
         this.hud = mainGame.getHud();
         this.skin = new Skin(Gdx.files.internal("Skin/ui_skin.json"));
@@ -28,7 +26,13 @@ public abstract class ItemHolderBoard implements UI {
     }
     @Override
     public void update(float dt) {
+        for(Cell cell : itemPanel.getCells()){
+            MovingImageContainer movingImageContainer = (MovingImageContainer) cell.getActor();
+            if(movingImageContainer.getActor() != null){
+                movingImageContainer.update(dt);
+            }
 
+        }
     }
     public void initEquipmentItem(){
         for(Cell cell : itemPanel.getCells()){
@@ -46,6 +50,7 @@ public abstract class ItemHolderBoard implements UI {
                 }
             }
         }
+
     }
 
 

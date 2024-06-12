@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.pgj.s2bplantsimulator.inventory.Inventory;
 import com.pgj.s2bplantsimulator.model.Item;
@@ -55,8 +54,12 @@ public class PlayerEquipmentBoard extends ItemHolderBoard {
             Container imageContainer = (Container) cell.getActor();
         }
         selectedOverlay = new Image(getSkin().getDrawable("selected_overlay"));
+
         selectedOverlay.setBounds(-200, -200, 60, 60);
+        selectedOverlay.setTouchable(Touchable.disabled);
         getStage().addActor(selectedOverlay);
+
+
     }
 
 
@@ -65,18 +68,27 @@ public class PlayerEquipmentBoard extends ItemHolderBoard {
     }
     public void update(float dt){
         super.update(dt);
+
         for(int i = 0; i < 6; i++){
             if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_1 + i)){
-                selectedOverlay.setPosition(StageUltis.getInstance().getStagePos(getItemPanel().getCells().get(i).getActor()).x -4
-                        , StageUltis.getInstance().getStagePos(getItemPanel().getCells().get(i).getActor()).y - 5);
                 currentItemIndex = i;
             }
         }
+        selectedOverlay.setPosition(StageUltis.getInstance().getStagePos(getItemPanel().getCells().get(currentItemIndex).getActor()).x - 4
+                , StageUltis.getInstance().getStagePos(getItemPanel().getCells().get(currentItemIndex).getActor()).y - 5);
         Cell selectedCell = getItemPanel().getCells().get(currentItemIndex);
         MovingImageContainer selectedContainer = (MovingImageContainer) selectedCell.getActor();
         if(selectedContainer.getActor() == null) inventory.setCurrentItem(null);
-        else inventory.setCurrentItem(((MovingImage) selectedContainer.getActor()).getItem());
+        else {
+            Item selectedItem = ((MovingImage)selectedContainer.getActor()).getItem();
+            selectedItem.setSelectedContainer(selectedContainer);
+            inventory.setCurrentItem( selectedItem);
+        }
+        if(inventory.getCurrentItem() != null) inventory.getCurrentItem().udpate(dt);
     }
 
-
+    @Override
+    public void initEquipmentItem() {
+        super.initEquipmentItem();
+    }
 }

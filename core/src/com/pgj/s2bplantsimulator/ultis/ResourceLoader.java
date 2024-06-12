@@ -1,6 +1,8 @@
 package com.pgj.s2bplantsimulator.ultis;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,5 +25,9 @@ public class ResourceLoader {
             textures.put(path, texture);
             return texture;
         }
+    }
+
+    public Skin getSkin() {
+        return new Skin(Gdx.files.internal("Skin/ui_skin.json"));
     }
 }

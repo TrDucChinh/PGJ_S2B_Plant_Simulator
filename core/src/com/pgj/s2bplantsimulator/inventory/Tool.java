@@ -11,11 +11,8 @@ public class Tool extends Item {
         setName(name);
         setMainGame(mainGame);
         setQuantity(quantity);
-        for(int i = 0; i <  Math.ceil(Float.valueOf(getQuantity()) / 64); i++){
-            addMovingImage(new MovingImage(image, this));
-            System.out.println(getMovingImageList().get(i).hashCode());
-        }
-        System.out.println(this.getQuantity() + " " + getMovingImageList().size());
-
+        MovingImage movingImage = new MovingImage(image, this);
+        movingImage.setQuantityLabel(1);
+        addMovingImage(movingImage);
     }
 }

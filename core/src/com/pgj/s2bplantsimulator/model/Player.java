@@ -107,7 +107,7 @@ public class Player extends Sprite {
     }
 
     public void update(float dt) {
-        checkUserInput();
+        if(dt > 0.01) checkUserInput();
         setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
         setRegion(getFrame(dt));
         currentItem = inventory.getCurrentItem();
@@ -183,7 +183,7 @@ public class Player extends Sprite {
             currentState = State.IDLE;
             direction = Direction.DOWN;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             if(currentItem != null){
                 System.out.println("Current Item: " +  currentItem.getName());
                 if (currentItem.equals("Hoe")) {
@@ -208,7 +208,8 @@ public class Player extends Sprite {
                             }
                         }
                     }
-                } else if (currentItem.equals("Corn Seed")) { // Tạm thời mới trồng trước cây ngô
+                } else if (currentItem.equals("Corn Seed")) {
+                    // Tạm thời mới trồng trước cây ngô
                     if (!MainGame.plantDirtList.isEmpty()) {
                         for (Dirt dirt : MainGame.plantDirtList) {
                             if (body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5) {
@@ -216,6 +217,9 @@ public class Player extends Sprite {
                                     dirt.isPlanted = true;
                                     Seed seed = new Seed(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "seed.png", "corn");
                                     MainGame.seedList.add(seed);
+                                    System.out.println(MainGame.seedList.size());
+                                    System.out.println(MainGame.seedList.size());
+                                    currentItem.setQuantity(currentItem.getQuantity() - 1);
                                 }
                             }
                         }

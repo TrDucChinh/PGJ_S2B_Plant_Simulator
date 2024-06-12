@@ -8,9 +8,18 @@ public class SeedItem extends Item {
         super();
         setName(name);
         setMainGame(mainGame);
-        setQuantity(300);
-        for(int i = 0; i < getQuantity() / 64; i++){
-            addMovingImage(new MovingImage(image, this));
+        setQuantity(quantity);
+        int quantityLabelSum = this.getQuantity();
+        while(quantityLabelSum >= 64){
+            MovingImage movingImage = new MovingImage(image, this);
+            movingImage.setQuantityLabel(64);
+            quantityLabelSum -= 64;
+            addMovingImage(movingImage);
+        }
+        if(quantityLabelSum > 0){
+            MovingImage movingImage = new MovingImage(image, this);
+            movingImage.setQuantityLabel(quantityLabelSum);
+            addMovingImage(movingImage);
         }
     }
 }
