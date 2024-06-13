@@ -17,6 +17,7 @@ import com.pgj.s2bplantsimulator.controller.TileMapHelper;
 import com.pgj.s2bplantsimulator.model.Dirt;
 import com.pgj.s2bplantsimulator.model.Player;
 import com.pgj.s2bplantsimulator.model.Seed;
+import com.pgj.s2bplantsimulator.sound.SoundManager;
 import com.pgj.s2bplantsimulator.transition.Transition;
 import com.pgj.s2bplantsimulator.view.HUD;
 
@@ -56,11 +57,13 @@ public class MainGame implements Screen {
         this.renderer = tileMapHelper.setupMap();
         hud = new HUD(this);
         transition = new Transition(player);
+        soundManager = new SoundManager(this);
     }
 
     @Override
     public void show() {
 //        staticCamera = new OrthographicCamera(512, 360);
+        soundManager.create();
         game.camera = new OrthographicCamera(512 / 2, 360 / 2);
         hud.show();
 
@@ -95,6 +98,7 @@ public class MainGame implements Screen {
         if (player.isSleep()) {
             transition.play();
         }
+        soundManager.update();
     }
 
     @Override
