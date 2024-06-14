@@ -11,7 +11,7 @@ import com.pgj.s2bplantsimulator.ultis.ResourceLoader;
 public class MenuGame implements Screen {
     private static final int BUTTON_WIDTH = 200;
     private static final int BUTTON_HEIGHT = 80;
-    Texture play, playPress, about, aboutPress, replay, replayPress;
+    private Texture play, playPress, about, aboutPress, replay, replayPress;
     private S2BPlantSimulator game;
 
     public MenuGame(S2BPlantSimulator game) {
@@ -42,18 +42,12 @@ public class MenuGame implements Screen {
     }
 
     public void createTexture() {
-//        play = new Texture(GameConstant.PLAY_BUTTON);
-        play = ResourceLoader.getInstance().getTexture(GameConstant.PLAY_BUTTON);
-//        playPress = new Texture(GameConstant.PLAY_PRESS_BUTTON);
-        playPress = ResourceLoader.getInstance().getTexture(GameConstant.PLAY_PRESS_BUTTON);
-//        about = new Texture(GameConstant.ABOUT_BUTTON);
-        about = ResourceLoader.getInstance().getTexture(GameConstant.ABOUT_BUTTON);
-//        aboutPress = new Texture(GameConstant.ABOUT_PRESS_BUTTON);
-        aboutPress = ResourceLoader.getInstance().getTexture(GameConstant.ABOUT_PRESS_BUTTON);
-//        replay = new Texture(GameConstant.REPLAY_BUTTON);
-        replay = ResourceLoader.getInstance().getTexture(GameConstant.REPLAY_BUTTON);
-//        replayPress = new Texture(GameConstant.REPLAY_PRESS_BUTTON);
-        replayPress = ResourceLoader.getInstance().getTexture(GameConstant.REPLAY_PRESS_BUTTON);
+        this.play = ResourceLoader.getInstance().getTexture(GameConstant.PLAY_BUTTON);
+        this.playPress = ResourceLoader.getInstance().getTexture(GameConstant.PLAY_PRESS_BUTTON);
+        this.about = ResourceLoader.getInstance().getTexture(GameConstant.ABOUT_BUTTON);
+        this.aboutPress = ResourceLoader.getInstance().getTexture(GameConstant.ABOUT_PRESS_BUTTON);
+        this.replay = ResourceLoader.getInstance().getTexture(GameConstant.REPLAY_BUTTON);
+        this.replayPress = ResourceLoader.getInstance().getTexture(GameConstant.REPLAY_PRESS_BUTTON);
     }
 
     @Override

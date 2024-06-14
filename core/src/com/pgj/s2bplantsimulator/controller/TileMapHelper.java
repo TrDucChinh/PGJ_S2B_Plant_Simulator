@@ -15,14 +15,13 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
+import com.pgj.s2bplantsimulator.model.Dirt;
 import com.pgj.s2bplantsimulator.model.Player;
 import com.pgj.s2bplantsimulator.screens.MainGame;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.pgj.s2bplantsimulator.common.constant.GameConstant.PPM;
-import static com.pgj.s2bplantsimulator.screens.MainGame.dirtPositionList;
+import static com.pgj.s2bplantsimulator.screens.MainGame.plantDirtList;
 
 
 public class TileMapHelper {
@@ -38,7 +37,6 @@ public class TileMapHelper {
         map = new TmxMapLoader().load("newMap.tmx");
         parseMapObjects(map.getLayers().get("block").getObjects());
         parseMapObjects(map.getLayers().get("soil").getObjects());
-//        parseMapObjects(map.getLayers().get("player").getObjects());
 
         return new OrthogonalTiledMapRenderer(map);
     }
@@ -65,10 +63,11 @@ public class TileMapHelper {
                 } else if (rectangleName.equals("Dirt")) {
                     xDirt = rectangle.getX() / 32;
                     yDirt = rectangle.getY() / 32;
-                    Vector4 dirtVector = new Vector4(xDirt, yDirt, rectangle.getWidth(), rectangle.getHeight());
-                    dirtPositionList.add(dirtVector);
+                    plantDirtList.add(new Dirt(xDirt, yDirt, rectangle.getWidth(), rectangle.getHeight(), "dirt.png", false, false, false));
                 } else if (rectangleName.equals("Bed")) {
                     gameScreen.bedPosition = new Vector2(rectangle.getX() / 32, rectangle.getY() / 32);
+                } else if (rectangleName.equals("Trader")) {
+                    gameScreen.traderPosition = new Vector2(rectangle.getX() / 32, rectangle.getY() / 32);
                 }
             }
         }

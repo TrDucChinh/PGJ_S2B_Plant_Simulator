@@ -9,7 +9,6 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.math.Vector4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pgj.s2bplantsimulator.S2BPlantSimulator;
@@ -34,19 +33,19 @@ public class MainGame implements Screen {
     public TiledMap map = new TmxMapLoader().load("newMap.tmx");
     public OrthogonalTiledMapRenderer renderer;
     public Box2DDebugRenderer box2DDebugRenderer;
-    public static List<Vector4> dirtPositionList = new ArrayList<>();
     public static Set<Dirt> plantDirtList = new HashSet<>();
     public static Set<Dirt> soilList = new HashSet<>();
     public static Set<Seed> seedList = new HashSet<>();
     //reset day
     public Vector2 bedPosition;
-    public Transition transition;
-    public OrthographicCamera staticCamera;
-    public OrthographicCamera playerCamera;
+    public Vector2 traderPosition;
+
+    private Transition transition;
+
     private SoundManager soundManager;
     private HUD hud;
 
-    public int[] Water = new int[]{0}, Grass = new int[]{1}, House = new int[]{2}, HouseFurniture = new int[]{3}, Fence = new int[]{4}, Wood = new int[]{7}; // Lấy index của layer
+    public int[] Water = new int[]{0}, Grass = new int[]{1}, House = new int[]{2}, HouseFurniture = new int[]{3}, Fence = new int[]{4}, Wood = new int[]{10}, Carpet = new int[]{5}, Trader = new int[]{6}, Desk = new int[]{7}; // Lấy index của layer
 
     public MainGame(S2BPlantSimulator game) {
         this.world = new World(new Vector2(0, 0), false);
@@ -57,13 +56,14 @@ public class MainGame implements Screen {
         this.tileMapHelper = new TileMapHelper(this);
         this.renderer = tileMapHelper.setupMap();
         hud = new HUD(this);
-        transition = new Transition(player);
+
+        this.transition = new Transition(player);
+
         soundManager = new SoundManager(this);
     }
 
     @Override
     public void show() {
-//        staticCamera = new OrthographicCamera(512, 360);
         soundManager.create();
         game.camera = new OrthographicCamera(512 / 2, 360 / 2);
         hud.show();
@@ -72,12 +72,10 @@ public class MainGame implements Screen {
 
     public void update(float dt) {
         world.step(1 / 60f, 6, 2);
-//        inventoryUI.update();
         Vector3 position = game.camera.position;
         position.x = player.body.getPosition().x * PPM * 10 / 10f;
         position.y = player.body.getPosition().y * PPM * 10 / 10f;
         game.camera.position.set(position);
-//        staticCamera.position.set(position);
         if (game.camera.position.x < game.camera.viewportWidth / 2) {
             game.camera.position.x = game.camera.viewportWidth / 2;
         }
@@ -97,8 +95,12 @@ public class MainGame implements Screen {
         game.camera.update();
         hud.update(dt);
         if (player.isSleep()) {
-            transition.play();
+            this.transition.play();
         }
+        if (player.isTrading()) {
+            // Này để mở giao diện trade
+        }
+
         soundManager.update();
     }
 
@@ -113,8 +115,10 @@ public class MainGame implements Screen {
         renderer.render(House);
         renderer.render(HouseFurniture);
         renderer.render(Fence);
+        renderer.render(Carpet);
+        renderer.render(Trader);
+        renderer.render(Desk);
         box2DDebugRenderer.render(world, game.camera.combined.scl(PPM));
-//        box2DDebugRenderer.render(world, staticCamera.combined.scl(PPM));
 
         stateTime += delta;
         game.batch.begin();
@@ -123,13 +127,13 @@ public class MainGame implements Screen {
         try {
             if (!plantDirtList.isEmpty()) {
                 for (Dirt dirt : plantDirtList) {
-//                    System.out.println(dirt.isWatered + " " + dirt.isPlanted + " " + dirt.isDirt);
-                    game.batch.draw(dirt, dirt.getX() + 0.5f, dirt.getY() + 0.5f, 0.5f, 0.5f);
+                    if (dirt.isDirt) {
+                        game.batch.draw(dirt, dirt.getX() + 0.5f, dirt.getY() + 0.5f, 0.5f, 0.5f);
+                    }
                 }
             }
             if (!soilList.isEmpty()) {
                 for (Dirt soil : soilList) {
-//                    System.out.println(soil.isWatered + " " + soil.isPlanted + " " + soil.isDirt);
                     if (soil.isWatered) {
                         game.batch.draw(soil, soil.getX() + 0.5f, soil.getY() + 0.5f, 0.5f, 0.5f);
                     }
@@ -144,13 +148,17 @@ public class MainGame implements Screen {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        player.draw(game.batch);
+//        if (player.isMove()) {
+            player.draw(game.batch);
+//        }
         game.batch.end();
         renderer.render(Wood);
         hud.render(delta);
         if (player.isSleep()) {
-            transition.play();
+            this.transition.play();
+        }
+        if (player.isTrading()) {
+            // Này để mở giao diện trade
         }
     }
 
