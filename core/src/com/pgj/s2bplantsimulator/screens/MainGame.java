@@ -38,6 +38,7 @@ public class MainGame implements Screen {
     public static Set<Dirt> plantDirtList = new HashSet<>();
     public static Set<Dirt> soilList = new HashSet<>();
     public static Set<Seed> seedList = new HashSet<>();
+    public SoundManager soundManager;
     //reset day
     public Vector2 bedPosition;
     public Transition transition;

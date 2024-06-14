@@ -32,6 +32,7 @@ public class Player extends Sprite {
     public Inventory getInventory() {
         return inventory;
     }
+
     public enum State {IDLE, UP, DOWN, LEFT, RIGHT, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT, HOE, WATER}
 
     public enum Direction {UP, DOWN, LEFT, RIGHT, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT}
@@ -119,7 +120,7 @@ public class Player extends Sprite {
     }
 
     public void update(float dt) {
-         checkUserInput();
+        checkUserInput();
         setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
         setRegion(getFrame(dt));
         currentItem = inventory.getCurrentItem();
@@ -227,6 +228,7 @@ public class Player extends Sprite {
                         for (Dirt dirt : MainGame.plantDirtList) {
                             if (body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5) {
                                 if (!dirt.isPlanted && dirt.isWatered) {
+                                    MainGame.soilList.stream().filter(dirt1 -> dirt1.xDirt == dirt.xDirt && dirt1.yDirt == dirt.yDirt).forEach(dirt1 -> dirt1.isPlanted = true);
                                     dirt.isPlanted = true;
                                     Seed seed = new Seed(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "seed.png", "corn");
                                     MainGame.seedList.add(seed);
@@ -255,7 +257,7 @@ public class Player extends Sprite {
                                 }
                             }
                             MainGame.seedList.removeIf(seed -> body.getPosition().x >= seed.xSeed && body.getPosition().x <= seed.xSeed + 0.5 && body.getPosition().y >= seed.ySeed && body.getPosition().y <= seed.ySeed + 0.5 && seed.harvestable);
-                            MainGame.soilList.removeIf(dirt -> body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5 && dirt.isWatered && !dirt.isPlanted && dirt.isDirt);
+                            MainGame.soilList.removeIf(dirt -> body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5 && dirt.isWatered && dirt.isPlanted && dirt.isDirt);
                             MainGame.plantDirtList.removeIf(dirt -> body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5 && dirt.isDirt && dirt.isPlanted && dirt.isWatered);
                             for(Seed seed : MainGame.seedList) {
                         }
@@ -308,12 +310,14 @@ public class Player extends Sprite {
         }
         body.setLinearVelocity(velX * speed, velY * speed);
     }
-    public boolean isMoving(){
+
+    public boolean isMoving() {
         return (velX != 0 || velY != 0) && (Gdx.input.isKeyPressed(Input.Keys.W)
                 || Gdx.input.isKeyPressed(Input.Keys.A)
                 || Gdx.input.isKeyPressed(Input.Keys.S)
                 || Gdx.input.isKeyPressed(Input.Keys.D));
     }
+
     public boolean isAction() {
         if (currentItem != null) {
             return Gdx.input.isKeyJustPressed(Input.Keys.SPACE);
