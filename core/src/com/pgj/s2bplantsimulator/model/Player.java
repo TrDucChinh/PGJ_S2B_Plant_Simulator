@@ -308,6 +308,16 @@ public class Player extends Sprite {
         }
         body.setLinearVelocity(velX * speed, velY * speed);
     }
-
-
+    public boolean isMoving(){
+        return (velX != 0 || velY != 0) && (Gdx.input.isKeyPressed(Input.Keys.W)
+                || Gdx.input.isKeyPressed(Input.Keys.A)
+                || Gdx.input.isKeyPressed(Input.Keys.S)
+                || Gdx.input.isKeyPressed(Input.Keys.D));
+    }
+    public boolean isAction() {
+        if (currentItem != null) {
+            return Gdx.input.isKeyJustPressed(Input.Keys.SPACE);
+        }
+        return false;
+    }
 }
