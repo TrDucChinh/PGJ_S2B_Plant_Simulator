@@ -43,6 +43,7 @@ public class MainGame implements Screen {
     public Transition transition;
     public OrthographicCamera staticCamera;
     public OrthographicCamera playerCamera;
+    private SoundManager soundManager;
     private HUD hud;
 
     public int[] Water = new int[]{0}, Grass = new int[]{1}, House = new int[]{2}, HouseFurniture = new int[]{3}, Fence = new int[]{4}, Wood = new int[]{7}; // Lấy index của layer
