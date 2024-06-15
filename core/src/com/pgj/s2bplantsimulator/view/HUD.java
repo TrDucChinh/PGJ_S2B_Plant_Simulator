@@ -13,22 +13,30 @@ public class HUD implements Screen {
     private MainGame mainGame;
     private ChestBoard chestUI;
     private PlayerEquipmentBoard playerEquipmentUI;
-
+    private SellWindow sellWindow;
+    private BuyWindow buyWindow;
+    private MoneyUI moneyUI;
 
     public HUD(MainGame mainGame){
         this.mainGame = mainGame;
         stage = new Stage(new ScreenViewport());
 //        stage.setDebugAll(true);
-
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("Skin/ui_skin.json"));
     }
     public void show() {
         chestUI = new ChestBoard(mainGame);
         playerEquipmentUI = new PlayerEquipmentBoard(mainGame);
+        sellWindow = new SellWindow(mainGame);
+        buyWindow = new BuyWindow(mainGame);
+        MoneyUI moneyUI = new MoneyUI(mainGame);
 
+        sellWindow.show();
+        buyWindow.show();
         playerEquipmentUI.show();
         chestUI.show();
+        moneyUI.show();
+
     }
 
     public void render(float dt) {
@@ -70,6 +78,8 @@ public class HUD implements Screen {
 
         playerEquipmentUI.update(dt);
         chestUI.update(dt);
+        sellWindow.update(dt);
+        buyWindow.udpate(dt);
     }
 
     public Skin getSkin() {
