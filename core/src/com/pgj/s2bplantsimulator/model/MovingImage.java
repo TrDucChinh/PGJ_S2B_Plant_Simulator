@@ -64,16 +64,19 @@ public class MovingImage extends Image {
                 if(isNewLocation == false || (isNewLocation == true && actor.isVisible() == true)){
                     Table slots = (Table) actor;
                     for(Cell  cell : slots.getCells()){
-                        MovingImageContainer imageContainer = (MovingImageContainer) cell.getActor();
-                        if(imageContainer.getActor() == null){
-                            Vector2 pos = StageUltis.getInstance().getStagePos(imageContainer);
-                            if((pos.x < this.getX())
-                                    && (this.getX() <= pos.x + 50)
-                                    && (pos.y <= this.getY())
-                                    && (this.getY() <= pos.y + 50)){
-                                imageContainer.setActor(this);
-                                this.setPosition(0, 0);
-                                return true;
+
+                        if(cell.getActor() instanceof MovingImageContainer){
+                            MovingImageContainer imageContainer = (MovingImageContainer) cell.getActor();
+                            if(imageContainer.getActor() == null){
+                                Vector2 pos = StageUltis.getInstance().getStagePos(imageContainer);
+                                if((pos.x < this.getX())
+                                        && (this.getX() <= pos.x + 50)
+                                        && (pos.y <= this.getY())
+                                        && (this.getY() <= pos.y + 50)){
+                                    imageContainer.setActor(this);
+                                    this.setPosition(0, 0);
+                                    return true;
+                                }
                             }
                         }
                     }

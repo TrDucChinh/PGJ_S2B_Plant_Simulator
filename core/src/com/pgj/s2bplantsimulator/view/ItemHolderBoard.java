@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.pgj.s2bplantsimulator.model.Item;
 import com.pgj.s2bplantsimulator.model.MovingImage;
 import com.pgj.s2bplantsimulator.screens.MainGame;
+import com.pgj.s2bplantsimulator.ultis.ResourceLoader;
 
 import java.util.List;
 import java.util.Map;
@@ -20,7 +21,7 @@ public abstract class ItemHolderBoard implements UI {
     private Stage stage;
     public ItemHolderBoard(MainGame mainGame){
         this.hud = mainGame.getHud();
-        this.skin = new Skin(Gdx.files.internal("Skin/ui_skin.json"));
+        this.skin = ResourceLoader.getInstance().getSkin();
         itemPanel = new Table();
         this.stage = hud.getStage();
         stage.addActor(itemPanel);
@@ -29,10 +30,13 @@ public abstract class ItemHolderBoard implements UI {
     @Override
     public void update(float dt) {
         for(Cell cell : itemPanel.getCells()){
-            MovingImageContainer movingImageContainer = (MovingImageContainer) cell.getActor();
-            if(movingImageContainer.getActor() != null){
-                movingImageContainer.update(dt);
+            if(cell.getActor() instanceof MovingImageContainer){
+                MovingImageContainer movingImageContainer = (MovingImageContainer) cell.getActor();
+                if(movingImageContainer.getActor() != null){
+                    movingImageContainer.update(dt);
+                }
             }
+
         }
         updateItemPanel();
     }

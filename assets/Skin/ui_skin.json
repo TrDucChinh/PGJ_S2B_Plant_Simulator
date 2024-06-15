@@ -1,5 +1,11 @@
 {
 BitmapFont: {
+	moneyLabel: {
+		file: PixeloidSansBold-PKnYd(2).fnt
+		scaledSize: -1
+		markupEnabled: false
+		flip: false
+	}
 	PixeloidMono-d94EV: {
 		file: PixeloidMono-d94EV.fnt
 		scaledSize: -1
@@ -12,14 +18,29 @@ BitmapFont: {
 		markupEnabled: false
 		flip: false
 	}
+	PixeloidSansBold-PKnYd: {
+		file: PixeloidSansBold-PKnYd.fnt
+		scaledSize: -1
+		markupEnabled: false
+		flip: false
+	}
 	PixeloidSansBold-PKnYd-Bold-14: {
 		file: PixeloidSansBold-PKnYd.fnt
 		scaledSize: -1
 		markupEnabled: false
 		flip: false
 	}
+	PixeloidSansBold-PKnYd1: {
+		file: PixeloidSansBold-PKnYd(1).fnt
+		scaledSize: -1
+		markupEnabled: false
+		flip: false
+	}
 }
 Color: {
+	RGBA_0_0_0_255: {
+		hex: 000000ff
+	}
 	RGBA_255_255_255_255: {
 		hex: ffffffff
 	}
@@ -28,13 +49,20 @@ ButtonStyle: {
 	default: {
 		up: round_button
 	}
-	basic: {
-		up: button
-		down: button_hover
-		over: button_pressed6
-	}
 	modern: {
 		up: round_button
+	}
+	button_increase: {
+		up: cropped_image_0
+		down: cropped_image_0
+	}
+	button_decrease: {
+		up: button_decrease
+	}
+}
+ImageButtonStyle: {
+	default: {
+		imageUp: money
 	}
 }
 ImageTextButtonStyle: {
@@ -42,7 +70,8 @@ ImageTextButtonStyle: {
 		imageUp: button
 		imageDown: button_pressed6
 		imageOver: button_hover
-		font: PixeloidMono-d94EV
+		font: PixeloidSansBold-PKnYd1
+		fontColor: RGBA_0_0_0_255
 	}
 }
 LabelStyle: {
@@ -50,15 +79,31 @@ LabelStyle: {
 		font: PixeloidSansBold-PKnYd-Bold-14
 		fontColor: RGBA_255_255_255_255
 	}
-	Frame: {
-		font: PixeloidMono-d94EV
+	text: {
+		font: PixeloidSansBold-PKnYd1
 		fontColor: RGBA_255_255_255_255
-		background: window
+	}
+	moneyLabel: {
+		font: moneyLabel
+	}
+}
+ScrollPaneStyle: {
+	default: {
+		background: button_1_down
+		vScroll: button_1_up
+		vScrollKnob: button_1_over
 	}
 }
 TextButtonStyle: {
 	default: {
-		font: PixeloidMono-d94EV
+		font: PixeloidSansBold-PKnYd
+		fontColor: RGBA_0_0_0_255
+		up: button_1_over
+		down: button_1_down
+	}
+	white: {
+		font: PixeloidSansBold-PKnYd-Bold-14
+		fontColor: RGBA_255_255_255_255
 	}
 }
 TextTooltipStyle: {
