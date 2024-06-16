@@ -29,6 +29,7 @@ public class EquipmentsLoader {
         items.put("Watering Pot", new Tool("Watering Pot", 1, new Image(skin.getDrawable("water_pot"))));
         items.put("Axe", new Tool("Axe", 1, new Image(skin.getDrawable("axe"))));
         items.put("Corn Seed", new SeedItem("Corn Seed", 30, new Image(skin.getDrawable("corn_seed_equipment"))));
+        items.put("Tomato Seed", new SeedItem("Tomato Seed", 30, new Image(skin.getDrawable("tomato_seed_equipment"))));
         return items;
     }
 }
