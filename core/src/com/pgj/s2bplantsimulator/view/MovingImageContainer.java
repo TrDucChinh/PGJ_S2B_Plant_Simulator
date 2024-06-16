@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.utils.Align;
 import com.pgj.s2bplantsimulator.model.MovingImage;
-import com.pgj.s2bplantsimulator.ultis.ResourceLoader;
+import com.pgj.s2bplantsimulator.loader.ResourceLoader;
 
 public class MovingImageContainer extends Container {
    private Stack stack;

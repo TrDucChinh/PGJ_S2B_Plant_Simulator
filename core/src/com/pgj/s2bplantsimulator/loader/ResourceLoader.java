@@ -1,4 +1,4 @@
-package com.pgj.s2bplantsimulator.ultis;
+package com.pgj.s2bplantsimulator.loader;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

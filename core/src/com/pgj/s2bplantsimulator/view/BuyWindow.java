@@ -11,7 +11,7 @@ import com.pgj.s2bplantsimulator.inventory.Inventory;
 import com.pgj.s2bplantsimulator.loader.EquipmentsLoader;
 import com.pgj.s2bplantsimulator.model.Item;
 import com.pgj.s2bplantsimulator.screens.MainGame;
-import com.pgj.s2bplantsimulator.ultis.ResourceLoader;
+import com.pgj.s2bplantsimulator.loader.ResourceLoader;
 
 import java.util.*;
 

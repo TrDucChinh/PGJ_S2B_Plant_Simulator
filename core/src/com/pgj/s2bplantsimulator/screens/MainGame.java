@@ -186,4 +186,8 @@ public class MainGame implements Screen {
     public Player getPlayer() {
         return player;
     }
+
+    public S2BPlantSimulator getGame() {
+        return game;
+    }
 }

@@ -3,7 +3,7 @@ package com.pgj.s2bplantsimulator.model;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.pgj.s2bplantsimulator.common.constant.GameConstant;
 import com.pgj.s2bplantsimulator.controller.Random;
-import com.pgj.s2bplantsimulator.ultis.ResourceLoader;
+import com.pgj.s2bplantsimulator.loader.ResourceLoader;
 
 public class Plant extends Item{
     private final int startPrice = Random.randomPrice(GameConstant.MIN_PRICE, GameConstant.MAX_PRICE);

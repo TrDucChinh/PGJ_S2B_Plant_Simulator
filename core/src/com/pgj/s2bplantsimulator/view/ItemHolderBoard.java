@@ -1,6 +1,5 @@
 package com.pgj.s2bplantsimulator.view;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -8,9 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.pgj.s2bplantsimulator.model.Item;
 import com.pgj.s2bplantsimulator.model.MovingImage;
 import com.pgj.s2bplantsimulator.screens.MainGame;
-import com.pgj.s2bplantsimulator.ultis.ResourceLoader;
+import com.pgj.s2bplantsimulator.loader.ResourceLoader;
 
-import java.util.List;
 import java.util.Map;
 
 public abstract class ItemHolderBoard implements UI {

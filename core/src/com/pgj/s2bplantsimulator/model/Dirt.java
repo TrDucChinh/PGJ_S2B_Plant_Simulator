@@ -1,8 +1,7 @@
 package com.pgj.s2bplantsimulator.model;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.pgj.s2bplantsimulator.ultis.ResourceLoader;
+import com.pgj.s2bplantsimulator.loader.ResourceLoader;
 
 import static com.pgj.s2bplantsimulator.common.constant.GameConstant.PPM;
 
