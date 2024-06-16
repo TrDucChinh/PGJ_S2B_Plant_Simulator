@@ -15,7 +15,7 @@ public abstract class Item {
     private MovingImageContainer selectedContainer;
     private Image baseImage;
     private int quantity;
-    private int price;
+    private int price = 0;
     public boolean equals(String name){
         return this.name.equals(name);
     }
