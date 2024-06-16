@@ -10,11 +10,13 @@ public class S2BPlantSimulator extends Game {
 	public SpriteBatch batch;
 	public BitmapFont font;
 	public OrthographicCamera camera;
+	private MenuGame menuGame;
 	@Override
 	public void create() {
+		menuGame = new MenuGame(this);
 		batch = new SpriteBatch();
 		font = new BitmapFont();
-		this.setScreen(new MenuGame(this));
+		this.setScreen(menuGame);
 	}
 	@Override
 	public void render() {
@@ -37,4 +39,7 @@ public class S2BPlantSimulator extends Game {
 		super.resume();
 	}
 
+	public MenuGame getMenuGame() {
+		return menuGame;
+	}
 }

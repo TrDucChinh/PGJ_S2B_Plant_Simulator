@@ -59,6 +59,18 @@ ButtonStyle: {
 	button_decrease: {
 		up: button_decrease
 	}
+	checked_button: {
+		up: cropped_image_9
+		checked: checked
+		checkedFocused: checked
+	}
+}
+CheckBoxStyle: {
+	default: {
+		checkboxOn: checked
+		checkboxOff: unchecked
+		font: PixeloidMono-d94EV
+	}
 }
 ImageButtonStyle: {
 	default: {
@@ -85,12 +97,26 @@ LabelStyle: {
 	moneyLabel: {
 		font: moneyLabel
 	}
+	game-open-title: {
+		font: moneyLabel
+		fontColor: RGBA_0_0_0_255
+		background: button_pressed6
+	}
+	helpText: {
+		font: PixeloidSansBold-PKnYd-Bold-14
+		fontColor: RGBA_0_0_0_255
+	}
 }
 ScrollPaneStyle: {
 	default: {
 		background: button_1_down
 		vScroll: button_1_up
 		vScrollKnob: button_1_over
+	}
+}
+SliderStyle: {
+	default-horizontal: {
+		background: button
 	}
 }
 TextButtonStyle: {
@@ -107,7 +133,8 @@ TextButtonStyle: {
 }
 TextTooltipStyle: {
 	default: {
-		label: default
+		label: text
+		background: button
 	}
 }
 WindowStyle: {
