@@ -11,10 +11,20 @@ import java.util.List;
 
 public abstract class Item {
     private String name;
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
     private List<MovingImage> movingImageList;
     private MovingImageContainer selectedContainer;
     private Image baseImage;
     private int quantity;
+    private int price;
     public boolean equals(String name){
         return this.name.equals(name);
     }

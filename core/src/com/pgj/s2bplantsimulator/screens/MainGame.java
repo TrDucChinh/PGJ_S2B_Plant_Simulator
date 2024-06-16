@@ -51,8 +51,8 @@ public class MainGame implements Screen {
         this.world = new World(new Vector2(0, 0), false);
         this.game = game;
         this.box2DDebugRenderer = new Box2DDebugRenderer();
-        box2DDebugRenderer.setDrawBodies(true);
-        box2DDebugRenderer.setDrawJoints(true);
+        box2DDebugRenderer.setDrawBodies(false);
+        box2DDebugRenderer.setDrawJoints(false);
         this.tileMapHelper = new TileMapHelper(this);
         this.renderer = tileMapHelper.setupMap();
         hud = new HUD(this);
