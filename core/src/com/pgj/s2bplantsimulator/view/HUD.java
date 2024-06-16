@@ -84,7 +84,6 @@ public class HUD implements Screen {
             buyWindow.setVisible(true);
             chestUI.setVisibile(true);
         }else{
-            chestUI.setVisibile(false);
             sellWindow.setVisible(false);
             buyWindow.setVisible(false);
         }
