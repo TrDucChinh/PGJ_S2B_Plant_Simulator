@@ -154,8 +154,8 @@ public class SellWindow extends ItemHolderBoard{
                     quantityToSell = movingImage.getQuantityLabel();
                 }
                 nameLabel.setText("Name: " + itemToSell.getName());
-                amountPriceLabel.setText("Price: " + itemToSell.getPrice() * quantityToSell);
-                this.priceSell = itemToSell.getPrice() * quantityToSell;
+                amountPriceLabel.setText("Price: " + itemToSell.getSellPrice() * quantityToSell);
+                this.priceSell = itemToSell.getSellPrice() * quantityToSell;
                 quantityLabel.setText("Quantity: " + quantityToSell);
             }else{
                 resetLabel();

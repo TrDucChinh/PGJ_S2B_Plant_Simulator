@@ -2,8 +2,6 @@ package com.pgj.s2bplantsimulator.model;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.pgj.s2bplantsimulator.screens.MainGame;
 import com.pgj.s2bplantsimulator.view.MovingImageContainer;
 
 import java.util.ArrayList;
@@ -15,7 +13,8 @@ public abstract class Item {
     private MovingImageContainer selectedContainer;
     private Image baseImage;
     private int quantity;
-    private int price = 0;
+    private int sellPrice = 0;
+    private int buyPrice = 0;
     public boolean equals(String name){
         return this.name.equals(name);
     }
@@ -101,10 +100,16 @@ public abstract class Item {
     public void setBaseImage(Image baseImage) {
         this.baseImage = baseImage;
     }
-    public void setPrice(int price){
-        this.price = price;
+    public void setSellPrice(int sellPrice){
+        this.sellPrice = sellPrice;
     }
-    public int getPrice(){
-        return price;
+    public int getSellPrice(){
+        return sellPrice;
+    }
+    public void setBuyPrice(int buyPrice){
+        this.buyPrice = buyPrice;
+    }
+    public int getBuyPrice(){
+        return buyPrice;
     }
 }

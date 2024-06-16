@@ -305,9 +305,9 @@ public class Player extends Sprite {
                 }
                 int dailyPrice = Random.randomPrice(GameConstant.MIN_PRICE, GameConstant.MAX_PRICE);
                 if (inventory.getItems().containsKey("corn")) {
-                    inventory.getItems().get("corn").setPrice(dailyPrice);
+                    inventory.getItems().get("corn").setSellPrice(dailyPrice);
                 } else if (inventory.getItems().containsKey("tomato")) {
-                    inventory.getItems().get("tomato").setPrice(dailyPrice * 75 / 100);
+                    inventory.getItems().get("tomato").setSellPrice(dailyPrice * 75 / 100);
                 }
             } else if (body.getPosition().x >= game.traderPosition.x && body.getPosition().x <= game.traderPosition.x + 1 && body.getPosition().y >= game.traderPosition.y && body.getPosition().y <= game.traderPosition.y + 1) {
                 this.setTrading(!this.isTrading());

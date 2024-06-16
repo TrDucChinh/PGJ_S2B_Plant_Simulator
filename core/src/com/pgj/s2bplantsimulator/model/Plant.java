@@ -14,9 +14,9 @@ public class Plant extends Item{
         setQuantity(quantity);
         // set quantity of plant = 1
         if (name.equals("corn")){
-            setPrice(startPrice);
+            setSellPrice(startPrice);
         } else if (name.equals("tomato")) {
-            setPrice(startPrice * 75 / 100);
+            setSellPrice(startPrice * 75 / 100);
         }
     }
 }

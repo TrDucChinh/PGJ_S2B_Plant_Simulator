@@ -12,7 +12,6 @@ import com.pgj.s2bplantsimulator.loader.EquipmentsLoader;
 import com.pgj.s2bplantsimulator.model.Item;
 import com.pgj.s2bplantsimulator.screens.MainGame;
 import com.pgj.s2bplantsimulator.ultis.ResourceLoader;
-import jdk.tools.jmod.Main;
 
 import java.util.*;
 
@@ -96,7 +95,7 @@ public class BuyWindow extends ItemHolderBoard{
     public void setOnBuyButtonClick(){
         totalBuyPrice = 0;
         for(Item item : selectedItems){
-            totalBuyPrice += item.getPrice();
+            totalBuyPrice += item.getSellPrice();
         }
         if (totalBuyPrice <= mainGame.getPlayer().getMoney()){
             for (Item item : selectedItems){
@@ -112,7 +111,7 @@ public class BuyWindow extends ItemHolderBoard{
         buyTable.clear();
         displayedBuyItems = new HashSet<>(itemsToBuy);
         for(Item item : displayedBuyItems){
-            String textLabel = new String(" " + item.getName() + " x " + item.getQuantity() + " " + item.getPrice() + "$");
+            String textLabel = new String(" " + item.getName() + " x " + item.getQuantity() + " " + item.getBuyPrice() + "$");
             ImageTextButton imageTextButton = new ImageTextButton(null, skin);
             imageTextButton.add(new Label(textLabel, skin));
 //            imageTextButton.setDebug(true);

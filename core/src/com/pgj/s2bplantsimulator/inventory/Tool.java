@@ -1,8 +1,6 @@
 package com.pgj.s2bplantsimulator.inventory;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.pgj.s2bplantsimulator.model.MovingImage;
-import com.pgj.s2bplantsimulator.screens.MainGame;
 import com.pgj.s2bplantsimulator.model.Item;
 
 public class Tool extends Item {
@@ -11,6 +9,7 @@ public class Tool extends Item {
         setName(name);
         setBaseImage(image);
         setQuantity(quantity);
-        setPrice(250);
+        setBuyPrice(250);
+        setSellPrice(0);
     }
 }
