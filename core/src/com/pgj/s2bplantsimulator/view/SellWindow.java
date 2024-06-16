@@ -104,7 +104,7 @@ public class SellWindow extends ItemHolderBoard{
 
     }
     public void update(float dt){
-        updateOnScreenPos();
+        updateOnScreenLabel();
     }
     public void resetLabel(){
         itemToSell = null;
@@ -120,7 +120,7 @@ public class SellWindow extends ItemHolderBoard{
     public void setVisible(boolean visible){
         getItemPanel().setVisible(visible);
     }
-    public void updateOnScreenPos(){
+    public void updateOnScreenLabel(){
         if(getItemPanel().isVisible() == true){
             if(itemToSellContainer.getActor() != null){
                 MovingImage movingImage = (MovingImage) itemToSellContainer.getActor();
@@ -140,4 +140,5 @@ public class SellWindow extends ItemHolderBoard{
             resetLabel();
         }
     }
+
 }
