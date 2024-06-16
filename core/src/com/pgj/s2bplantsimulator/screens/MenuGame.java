@@ -25,7 +25,7 @@ public class MenuGame implements Screen {
     private MainGame mainGame;
     public MenuGame(S2BPlantSimulator game) {
         stage = new Stage();
-        stage.setDebugAll(true);
+//        stage.setDebugAll(true);
         Gdx.input.setInputProcessor(stage);
         this.game = game;
         mainGame = new MainGame(this.game);
