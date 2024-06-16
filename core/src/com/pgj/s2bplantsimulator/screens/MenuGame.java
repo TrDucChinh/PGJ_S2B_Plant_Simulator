@@ -19,13 +19,13 @@ public class MenuGame implements Screen {
     private S2BPlantSimulator game;
     private CreditScreen creditScreen;
     private HelpScreen helpScreen;
-
+    private MainGame mainGame;
     public MenuGame(S2BPlantSimulator game) {
         stage = new Stage();
         stage.setDebugAll(true);
         Gdx.input.setInputProcessor(stage);
         this.game = game;
-
+        mainGame = new MainGame(this.game);
         creditScreen = new CreditScreen(this);
         helpScreen = new HelpScreen(this);
     }
@@ -39,7 +39,7 @@ public class MenuGame implements Screen {
         playButton.addListener(new ClickListener(){
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
-                game.setScreen(new MainGame(game));
+                game.setScreen(mainGame);
             }
         });
         Label label = new Label("S2B PLANT SIMULATOR", skin, "game-open-title");
