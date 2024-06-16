@@ -1,13 +1,14 @@
 package com.pgj.s2bplantsimulator.view;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.pgj.s2bplantsimulator.inventory.Inventory;
 import com.pgj.s2bplantsimulator.model.Item;
 import com.pgj.s2bplantsimulator.model.MovingImage;
 import com.pgj.s2bplantsimulator.screens.MainGame;
-import com.pgj.s2bplantsimulator.ultis.ResourceLoader;
 
 public class SellWindow extends ItemHolderBoard{
     private final float PANEL_WIDTH = 200;
@@ -15,11 +16,12 @@ public class SellWindow extends ItemHolderBoard{
     private final float PANEL_POS_Y = Gdx.graphics.getHeight() / 2 - PANEL_HEIGHT / 2;
     private final float PANEL_POS_X = Gdx.graphics.getWidth() / 2 - 382 / 2 - 20 - PANEL_WIDTH;
     private Label.LabelStyle labelStyle;
+    private Inventory inventory;
 
     private Button decreaseQuantityButton;
     private Button increaseQuantityButton;
     private Button sellButton;
-    private Label priceLabel;
+    private Label amountPriceLabel;
     private Label quantityLabel;
     private Label nameLabel;
     private Item itemToSell;
@@ -27,6 +29,7 @@ public class SellWindow extends ItemHolderBoard{
     public SellWindow(MainGame mainGame) {
         super(mainGame);
         labelStyle = getSkin().get("text", Label.LabelStyle.class);
+        inventory = mainGame.getPlayer().getInventory();
     }
 
     @Override
@@ -60,10 +63,10 @@ public class SellWindow extends ItemHolderBoard{
         getItemPanel().add(quantityLabel).padTop(10);
         getItemPanel().getCell(quantityLabel).size(160, quantityLabel.getHeight());
 
-        priceLabel = new Label("Price: ", labelStyle);
+        amountPriceLabel = new Label("Price: ", labelStyle);
         getItemPanel().row();
-        getItemPanel().add(priceLabel).padTop(10);
-        getItemPanel().getCell(priceLabel).size(160, priceLabel.getPrefHeight());
+        getItemPanel().add(amountPriceLabel).padTop(10);
+        getItemPanel().getCell(amountPriceLabel).size(160, amountPriceLabel.getPrefHeight());
 
         Table sellButtonTable = new Table();
         sellButtonTable.align(Align.center);
@@ -75,6 +78,12 @@ public class SellWindow extends ItemHolderBoard{
 
 
         sellButton = new TextButton(" Sell ", getSkin());
+        sellButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                setOnSellButtonClick();
+            }
+        });
         sellButtonTable.add(sellButton);
         sellButtonTable.getCell(sellButton).size(60, sellButton.getHeight() - 5);
 
@@ -98,8 +107,9 @@ public class SellWindow extends ItemHolderBoard{
         updateOnScreenPos();
     }
     public void resetLabel(){
+        itemToSell = null;
         nameLabel.setText("Name: ");
-        priceLabel.setText("Price: ");
+        amountPriceLabel.setText("Price: ");
         quantityLabel.setText("Quantity: ");
     }
 
@@ -116,11 +126,18 @@ public class SellWindow extends ItemHolderBoard{
                 MovingImage movingImage = (MovingImage) itemToSellContainer.getActor();
                 itemToSell = movingImage.getItem();
                 nameLabel.setText("Name: " + itemToSell.getName());
-                priceLabel.setText("Price: " + itemToSell.getPrice());
+                amountPriceLabel.setText("Price: " + itemToSell.getPrice());
                 quantityLabel.setText("Quantity: " + movingImage.getQuantityLabel());
             }else{
                 resetLabel();
             }
+        }
+    }
+    public void setOnSellButtonClick(){
+        if(itemToSell != null){
+            inventory.getItems().get(itemToSell.getName()).setQuantity(itemToSell.getQuantity() - itemToSell.getQuantity());
+            itemToSellContainer.setActor(null);
+            resetLabel();
         }
     }
 }
