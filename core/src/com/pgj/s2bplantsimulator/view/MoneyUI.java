@@ -35,4 +35,7 @@ public class MoneyUI {
 
         table.add(moneyLabel).padLeft(10);
     }
+    public void update(){
+        moneyLabel.setText(mainGame.getPlayer().getMoney() + "");
+    }
 }

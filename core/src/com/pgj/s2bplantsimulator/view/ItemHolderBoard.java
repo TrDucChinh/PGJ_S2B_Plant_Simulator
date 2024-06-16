@@ -80,6 +80,9 @@ public abstract class ItemHolderBoard implements UI {
     public void setVisibile(boolean visible){
         itemPanel.setVisible(visible);
     }
+    public boolean isVisible(){
+        return itemPanel.isVisible();
+    }
 
     public Table getItemPanel() {
         return itemPanel;

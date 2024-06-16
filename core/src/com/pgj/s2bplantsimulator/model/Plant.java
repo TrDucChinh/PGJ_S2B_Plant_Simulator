@@ -7,7 +7,7 @@ import com.pgj.s2bplantsimulator.screens.MainGame;
 import com.pgj.s2bplantsimulator.ultis.ResourceLoader;
 
 public class Plant extends Item{
-    private final int startPrice = RandomPrice.randomPrice(GameConstant.minPrice, GameConstant.maxPrice);
+    private final int startPrice = RandomPrice.randomPrice(GameConstant.MIN_PRICE, GameConstant.MAX_PRICE);
     public Plant(String name, int quantity){
         super();
         setName(name);

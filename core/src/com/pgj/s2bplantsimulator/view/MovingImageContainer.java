@@ -18,6 +18,10 @@ public class MovingImageContainer extends Container {
        setActor(stack);
    }
    public void setActor(MovingImage movingImage){
+       if(movingImage == null){
+           stack.clearChildren();
+           return;
+       }
        stack.clearChildren();
        stack.add(movingImage);
        System.out.println("quantity label: " + movingImage.getQuantityLabel());

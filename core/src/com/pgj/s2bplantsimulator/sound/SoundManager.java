@@ -47,6 +47,9 @@ public class SoundManager {
         }
         if(mainGame.player.isAction()){
             Item currentItem = mainGame.player.getInventory().getCurrentItem();
+            if (currentItem == null){
+                return;
+            }
             String itemName = currentItem.getName();
             if(currentItem.equals("Hoe")){
                 getSound(DIGGING_SOUND).play(soundScale);

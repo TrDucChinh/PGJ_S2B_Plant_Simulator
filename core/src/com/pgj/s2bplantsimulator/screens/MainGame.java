@@ -12,8 +12,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pgj.s2bplantsimulator.S2BPlantSimulator;
-import com.pgj.s2bplantsimulator.common.constant.GameConstant;
-import com.pgj.s2bplantsimulator.controller.RandomPrice;
 import com.pgj.s2bplantsimulator.controller.TileMapHelper;
 import com.pgj.s2bplantsimulator.model.Dirt;
 import com.pgj.s2bplantsimulator.model.Player;

@@ -101,12 +101,10 @@ public abstract class Item {
     public void setBaseImage(Image baseImage) {
         this.baseImage = baseImage;
     }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
+    public void setPrice(int price){
         this.price = price;
+    }
+    public int getPrice(){
+        return price;
     }
 }
