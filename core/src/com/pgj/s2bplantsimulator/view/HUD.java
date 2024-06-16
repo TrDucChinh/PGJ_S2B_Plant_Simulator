@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.pgj.s2bplantsimulator.S2BPlantSimulator;
 import com.pgj.s2bplantsimulator.screens.MainGame;
 
 public class HUD implements Screen {
@@ -17,6 +18,9 @@ public class HUD implements Screen {
     private SellWindow sellWindow;
     private BuyWindow buyWindow;
     private MoneyUI moneyUI;
+    private SettingWindow settingWindow;
+
+
 
     public HUD(MainGame mainGame){
         this.mainGame = mainGame;
@@ -32,12 +36,15 @@ public class HUD implements Screen {
         sellWindow = new SellWindow(mainGame);
         buyWindow = new BuyWindow(mainGame);
         moneyUI = new MoneyUI(mainGame);
+        settingWindow = new SettingWindow(mainGame);
 
         sellWindow.show();
         buyWindow.show();
         playerEquipmentUI.show();
         chestUI.show();
         moneyUI.show();
+        settingWindow.show();
+        settingWindow.setMainGame(mainGame);
 
     }
 
@@ -50,6 +57,7 @@ public class HUD implements Screen {
         stage.getViewport().update(width, height, true);
         playerEquipmentUI.resize(width, height);
         chestUI.resize(width, height);
+
     }
     public void setUpPlayerData(){
         playerEquipmentUI.setItems(mainGame.getPlayer().getInventory().getItems());
@@ -91,6 +99,7 @@ public class HUD implements Screen {
         moneyUI.update();
         sellWindow.update(dt);
         buyWindow.update(dt);
+        settingWindow.update(dt);
     }
 
     public Skin getSkin() {
