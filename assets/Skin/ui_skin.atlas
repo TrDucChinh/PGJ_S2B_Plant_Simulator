@@ -4,6 +4,19 @@ size: 2048, 2048
 format: RGBA8888
 filter: Linear, Linear
 repeat: none
+logo
+  rotate: false
+  xy: 1, 1
+  size: 1316, 1316
+  orig: 1316, 1316
+  offset: 0, 0
+  index: -1
+
+ui_skin2.png
+size: 2048, 2048
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
 button_1_down
   rotate: false
   xy: 1, 134
