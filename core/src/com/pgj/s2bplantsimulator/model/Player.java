@@ -9,14 +9,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pgj.s2bplantsimulator.common.constant.GameConstant;
-import com.pgj.s2bplantsimulator.controller.RandomPrice;
+import com.pgj.s2bplantsimulator.controller.Random;
 import com.pgj.s2bplantsimulator.controller.TileMapHelper;
 
 
 import com.pgj.s2bplantsimulator.inventory.Inventory;
 import com.pgj.s2bplantsimulator.screens.MainGame;
 import com.pgj.s2bplantsimulator.ultis.ResourceLoader;
-import com.pgj.s2bplantsimulator.view.SellWindow;
 
 
 import static com.pgj.s2bplantsimulator.common.constant.GameConstant.PPM;
@@ -243,26 +242,28 @@ public class Player extends Sprite {
                             }
                         }
                     }
+                    System.out.println(MainGame.soilList.size());
                 } else if (currentItem.equals("Watering Pot")) {
-                    if (!MainGame.plantDirtList.isEmpty()) {
-                        for (Dirt dirt : MainGame.plantDirtList) {
+                    if (!MainGame.soilList.isEmpty()) {
+                        for (Dirt dirt : MainGame.soilList) {
                             if (body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5) {
                                 if (!dirt.isWatered && dirt.isDirt) {
                                     dirt.isWatered = true;
                                     currentState = State.WATER;
                                     plantDirt = new Dirt(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "water.png", dirt.isDirt, true, dirt.isPlanted);
-                                    MainGame.soilList.add(plantDirt);
+                                    MainGame.waterDirt.add(plantDirt);
                                 }
                             }
                         }
+                        System.out.println(MainGame.waterDirt.size());
                     }
                 } else if (currentItem.equals("Corn Seed")) {
                     // Tạm thời mới trồng trước cây ngô
-                    if (!MainGame.plantDirtList.isEmpty()) {
-                        for (Dirt dirt : MainGame.plantDirtList) {
+                    if (!MainGame.soilList.isEmpty()) {
+                        for (Dirt dirt : MainGame.soilList) {
                             if (body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5) {
                                 if (!dirt.isPlanted && dirt.isWatered) {
-                                    MainGame.soilList.stream().filter(dirt1 -> dirt1.xDirt == dirt.xDirt && dirt1.yDirt == dirt.yDirt).forEach(dirt1 -> dirt1.isPlanted = true);
+                                    MainGame.waterDirt.stream().filter(dirt1 -> dirt1.xDirt == dirt.xDirt && dirt1.yDirt == dirt.yDirt).forEach(dirt1 -> dirt1.isPlanted = true);
                                     dirt.isPlanted = true;
                                     Seed seed = new Seed(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "seed.png", "corn");
                                     MainGame.seedList.add(seed);
@@ -276,9 +277,10 @@ public class Player extends Sprite {
                     try {
                         for (Seed seed : MainGame.seedList) {
                             if (body.getPosition().x >= seed.xSeed && body.getPosition().x <= seed.xSeed + 0.5 && body.getPosition().y >= seed.ySeed && body.getPosition().y <= seed.ySeed + 0.5 && seed.harvestable) {
-                                inventory.addItem(seed.getName(), 5);
+                                inventory.addItem(seed.getName(), Random.randomQuantity(GameConstant.MIN_QUANTITY, GameConstant.MAX_QUANTITY));
+                                MainGame.plantDirtList.stream().filter(dirt -> dirt.xDirt == seed.xSeed && dirt.yDirt == seed.ySeed).forEach(dirt -> dirt.isDirt = false);
                                 MainGame.soilList.removeIf(dirt -> body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5 && dirt.isWatered && dirt.isPlanted && dirt.isDirt);
-                                MainGame.plantDirtList.removeIf(dirt -> body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5 && dirt.isDirt && dirt.isPlanted && dirt.isWatered);
+                                MainGame.waterDirt.removeIf(dirt -> body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5 && dirt.isDirt && dirt.isPlanted && dirt.isWatered);
                             }
                         }
                         MainGame.seedList.removeIf(seed -> body.getPosition().x >= seed.xSeed && body.getPosition().x <= seed.xSeed + 0.5 && body.getPosition().y >= seed.ySeed && body.getPosition().y <= seed.ySeed + 0.5 && seed.harvestable);
@@ -301,7 +303,7 @@ public class Player extends Sprite {
                     }
 
                 }
-                int dailyPrice = RandomPrice.randomPrice(GameConstant.MIN_PRICE, GameConstant.MAX_PRICE);
+                int dailyPrice = Random.randomPrice(GameConstant.MIN_PRICE, GameConstant.MAX_PRICE);
                 if (inventory.getItems().containsKey("corn")) {
                     inventory.getItems().get("corn").setPrice(dailyPrice);
                 } else if (inventory.getItems().containsKey("tomato")) {

@@ -19,6 +19,7 @@ public abstract class ItemHolderBoard implements UI {
     private HUD hud;
     private Skin skin;
     private Stage stage;
+    public MainGame mainGame;
     public ItemHolderBoard(MainGame mainGame){
         this.hud = mainGame.getHud();
         this.skin = ResourceLoader.getInstance().getSkin();
@@ -26,6 +27,7 @@ public abstract class ItemHolderBoard implements UI {
         this.stage = hud.getStage();
         stage.addActor(itemPanel);
         updateItemPanel();
+        this.mainGame = mainGame;
     }
     @Override
     public void update(float dt) {

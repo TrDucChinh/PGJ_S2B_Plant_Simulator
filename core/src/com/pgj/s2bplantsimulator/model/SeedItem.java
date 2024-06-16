@@ -9,5 +9,10 @@ public class SeedItem extends Item {
         setName(name);
         setBaseImage(image);
         setQuantity(quantity);
+        if (name.equals("Corn Seed")){
+            setPrice(5 * quantity);
+        } else if (name.equals("Tomato Seed")){
+            setPrice(3 * quantity);
+        }
     }
 }

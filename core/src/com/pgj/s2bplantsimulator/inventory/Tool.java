@@ -11,5 +11,6 @@ public class Tool extends Item {
         setName(name);
         setBaseImage(image);
         setQuantity(quantity);
+        setPrice(250);
     }
 }

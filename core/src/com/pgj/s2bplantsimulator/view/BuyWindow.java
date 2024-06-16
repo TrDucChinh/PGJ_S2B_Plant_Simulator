@@ -11,6 +11,7 @@ import com.pgj.s2bplantsimulator.loader.EquipmentsLoader;
 import com.pgj.s2bplantsimulator.model.Item;
 import com.pgj.s2bplantsimulator.screens.MainGame;
 import com.pgj.s2bplantsimulator.ultis.ResourceLoader;
+import jdk.tools.jmod.Main;
 
 import java.util.*;
 
@@ -24,6 +25,7 @@ public class BuyWindow extends ItemHolderBoard{
     private Set<Item> displayedSellItems = new HashSet<>();
     private Skin skin = ResourceLoader.getInstance().getSkin();
     private Inventory inventory;
+    private int totalBuyPrice = 0;
     Table buyTable;
 
     public BuyWindow(MainGame mainGame) {
@@ -90,11 +92,17 @@ public class BuyWindow extends ItemHolderBoard{
         setVisible(false);
     }
     public void setOnBuyButtonClick(){
-        displayedSellItems.removeIf(item -> (selectedItems.contains(item)));
+        totalBuyPrice = 0;
         for(Item item : selectedItems){
             inventory.addItem(item.getName(), item.getQuantity());
+            totalBuyPrice += item.getPrice();
         }
-        selectedItems.clear();
+        System.out.println("Total buy price: " + totalBuyPrice);
+        if (totalBuyPrice <= mainGame.getPlayer().getMoney()){
+            mainGame.getPlayer().setMoney(mainGame.getPlayer().getMoney() - totalBuyPrice);
+            selectedItems.clear();
+        }
+//        selectedItems.clear();
         updateOnScreenBuyTable();
     }
     public void updateOnScreenBuyTable(){

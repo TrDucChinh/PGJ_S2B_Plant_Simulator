@@ -34,6 +34,7 @@ public class MainGame implements Screen {
     public OrthogonalTiledMapRenderer renderer;
     public Box2DDebugRenderer box2DDebugRenderer;
     public static Set<Dirt> plantDirtList = new HashSet<>();
+    public static Set<Dirt> waterDirt = new HashSet<>();
     public static Set<Dirt> soilList = new HashSet<>();
     public static Set<Seed> seedList = new HashSet<>();
     //reset day
@@ -120,31 +121,28 @@ public class MainGame implements Screen {
         game.batch.setProjectionMatrix(game.camera.combined);
         this.update(delta);
         try {
-            if (!plantDirtList.isEmpty()) {
-                for (Dirt dirt : plantDirtList) {
-                    if (dirt.isDirt) {
-                        game.batch.draw(dirt, dirt.getX() + 0.5f, dirt.getY() + 0.5f, 0.5f, 0.5f);
-                    }
+            for (Dirt dirt : soilList) {
+                if (dirt.isDirt) {
+                    game.batch.draw(dirt, dirt.getX() + 0.5f, dirt.getY() + 0.5f, 0.5f, 0.5f);
                 }
             }
-            if (!soilList.isEmpty()) {
-                for (Dirt soil : soilList) {
+            if (!waterDirt.isEmpty()) {
+                for (Dirt soil : waterDirt) {
                     if (soil.isWatered) {
                         game.batch.draw(soil, soil.getX() + 0.5f, soil.getY() + 0.5f, 0.5f, 0.5f);
                     }
                 }
 
             }
-            if (!seedList.isEmpty()) {
-                for (Seed seed : seedList) {
-                    game.batch.draw(seed, seed.getX() + 0.5f, seed.getY() + 0.5f, 0.5f, 0.5f);
-                }
+            for (Seed seed : seedList) {
+                game.batch.draw(seed, seed.getX() + 0.5f, seed.getY() + 0.5f, 0.5f, 0.5f);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 //        if (player.isMove()) {
-            player.draw(game.batch);
+        player.draw(game.batch);
 //        }
         game.batch.end();
         renderer.render(Wood);

@@ -16,7 +16,6 @@ import java.util.Map;
 public class EquipmentsLoader {
     private static EquipmentsLoader equipmentsLoader;
     private Map<String, Item> items;
-    private MainGame mainGame;
     public static EquipmentsLoader getInstance(){
         if(equipmentsLoader == null){
             equipmentsLoader = new EquipmentsLoader();
@@ -24,7 +23,6 @@ public class EquipmentsLoader {
         return equipmentsLoader;
     }
     public Map<String, Item> load(MainGame mainGame){
-        this.mainGame = mainGame;
         Skin skin = new Skin(Gdx.files.internal("Skin/ui_skin.json"));
         items = new HashMap<>();
         items.put("Hoe", new Tool("Hoe", 1, new Image(skin.getDrawable("hoe"))));
