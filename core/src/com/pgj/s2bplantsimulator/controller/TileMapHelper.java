@@ -63,7 +63,7 @@ public class TileMapHelper {
                 } else if (rectangleName.equals("Dirt")) {
                     xDirt = rectangle.getX() / 32;
                     yDirt = rectangle.getY() / 32;
-                    plantDirtList.add(new Dirt(xDirt, yDirt, rectangle.getWidth(), rectangle.getHeight(), "dirt.png", false, false, false));
+                    plantDirtList.add(new Dirt(xDirt, yDirt, rectangle.getWidth(), rectangle.getHeight(), "sprites_basic_pack/dirt.png", false, false, false));
                 } else if (rectangleName.equals("Bed")) {
                     gameScreen.bedPosition = new Vector2(rectangle.getX() / 32, rectangle.getY() / 32);
                 } else if (rectangleName.equals("Trader")) {

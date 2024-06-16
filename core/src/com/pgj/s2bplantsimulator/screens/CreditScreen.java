@@ -17,8 +17,7 @@ public class CreditScreen extends MenuScreenComponent{
         super.show();
         Label label = new Label("This game is developed by Team 1 - PROPTIT\n\n" +
                 "Tran Duc Chinh\n\n" +
-                "Le Dinh Hiep\n\n" +
-                "Moc Thu Huyen\n\n", getSkin(), "helpText");
+                "Le Dinh Hiep\n\n" , getSkin(), "helpText");
         label.setWrap(true);
 //        label.setDebug(true);
         label.setPosition(0, 0);

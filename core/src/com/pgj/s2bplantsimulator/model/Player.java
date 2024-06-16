@@ -236,7 +236,7 @@ public class Player extends Sprite {
                         if (body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5) {
                             if (!dirt.isDirt) {
                                 currentState = State.HOE;
-                                plantDirt = new Dirt(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "dirt.png", true, dirt.isWatered, dirt.isPlanted);
+                                plantDirt = new Dirt(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "sprites_basic_pack/dirt.png", true, dirt.isWatered, dirt.isPlanted);
                                 MainGame.soilList.add(plantDirt);
                                 dirt.isDirt = true;
                             }
@@ -250,7 +250,7 @@ public class Player extends Sprite {
                                 if (!dirt.isWatered && dirt.isDirt) {
                                     dirt.isWatered = true;
                                     currentState = State.WATER;
-                                    plantDirt = new Dirt(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "water.png", dirt.isDirt, true, dirt.isPlanted);
+                                    plantDirt = new Dirt(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "sprites_basic_pack/water.png", dirt.isDirt, true, dirt.isPlanted);
                                     MainGame.waterDirt.add(plantDirt);
                                 }
                             }

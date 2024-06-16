@@ -9,6 +9,7 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setTitle("S2BPlantSimulator");
+		config.setWindowIcon("Skin/Logo_Pro.png");
 		config.setWindowedMode(1024, 720);
 		new Lwjgl3Application(new S2BPlantSimulator(), config);
 	}
