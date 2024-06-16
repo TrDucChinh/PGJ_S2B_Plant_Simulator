@@ -95,12 +95,13 @@ public class BuyWindow extends ItemHolderBoard{
     public void setOnBuyButtonClick(){
         totalBuyPrice = 0;
         for(Item item : selectedItems){
-            totalBuyPrice += item.getSellPrice();
+            totalBuyPrice += item.getBuyPrice();
         }
         if (totalBuyPrice <= mainGame.getPlayer().getMoney()){
             for (Item item : selectedItems){
                 inventory.addItem(item.getName(), item.getQuantity());
             }
+            System.out.println("Total buy price: " + totalBuyPrice);
             mainGame.getPlayer().setMoney(mainGame.getPlayer().getMoney() - totalBuyPrice);
             selectedItems.clear();
         }

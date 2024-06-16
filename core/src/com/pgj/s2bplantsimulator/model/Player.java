@@ -265,7 +265,7 @@ public class Player extends Sprite {
                                 if (!dirt.isPlanted && dirt.isWatered) {
                                     MainGame.waterDirt.stream().filter(dirt1 -> dirt1.xDirt == dirt.xDirt && dirt1.yDirt == dirt.yDirt).forEach(dirt1 -> dirt1.isPlanted = true);
                                     dirt.isPlanted = true;
-                                    Seed seed = new Seed(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "seed.png", "corn");
+                                    Seed seed = new Seed(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "fruit/corn/0.png", "corn");
                                     MainGame.seedList.add(seed);
                                     currentItem.setQuantity(currentItem.getQuantity() - 1);
                                     break;
@@ -273,7 +273,24 @@ public class Player extends Sprite {
                             }
                         }
                     }
-                } else if (currentItem.equals("Axe")) {
+                } else if (currentItem.equals("Tomato Seed")) {
+                    // Tạm thời mới trồng trước cây cà chua
+                    if (!MainGame.soilList.isEmpty()) {
+                        for (Dirt dirt : MainGame.soilList) {
+                            if (body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5) {
+                                if (!dirt.isPlanted && dirt.isWatered) {
+                                    MainGame.waterDirt.stream().filter(dirt1 -> dirt1.xDirt == dirt.xDirt && dirt1.yDirt == dirt.yDirt).forEach(dirt1 -> dirt1.isPlanted = true);
+                                    dirt.isPlanted = true;
+                                    Seed seed = new Seed(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "fruit/tomato/0.png", "tomato");
+                                    MainGame.seedList.add(seed);
+                                    currentItem.setQuantity(currentItem.getQuantity() - 1);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (currentItem.equals("Axe")) {
                     try {
                         for (Seed seed : MainGame.seedList) {
                             if (body.getPosition().x >= seed.xSeed && body.getPosition().x <= seed.xSeed + 0.5 && body.getPosition().y >= seed.ySeed && body.getPosition().y <= seed.ySeed + 0.5 && seed.harvestable) {
