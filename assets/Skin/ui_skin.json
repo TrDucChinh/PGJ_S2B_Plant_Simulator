@@ -68,8 +68,7 @@ ImageButtonStyle: {
 ImageTextButtonStyle: {
 	default: {
 		imageUp: button
-		imageDown: button_pressed6
-		imageOver: button_hover
+		imageChecked: button_pressed6
 		font: PixeloidSansBold-PKnYd1
 		fontColor: RGBA_0_0_0_255
 	}
