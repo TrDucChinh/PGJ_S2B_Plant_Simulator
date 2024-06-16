@@ -25,6 +25,7 @@ public class SellWindow extends ItemHolderBoard{
     private Label quantityLabel;
     private Label nameLabel;
     private Item itemToSell;
+    private Integer quantityToSell;
     private MovingImageContainer itemToSellContainer;
     private MainGame mainGame;
     private int priceSell = 0;
@@ -82,8 +83,8 @@ public class SellWindow extends ItemHolderBoard{
             public void clicked(InputEvent event, float x, float y) {
                 if(itemToSellContainer.getActor() != null){
                     MovingImage movingImage = (MovingImage) itemToSellContainer.getActor();
-                    if(movingImage.getQuantityLabel() > 1){
-                        movingImage.setQuantityLabel(movingImage.getQuantityLabel() - 1);
+                    if(quantityToSell > 1){
+                        quantityToSell--;
                     }
                 }
             }
@@ -108,8 +109,8 @@ public class SellWindow extends ItemHolderBoard{
             public void clicked(InputEvent event, float x, float y) {
                 if(itemToSellContainer.getActor() != null){
                     MovingImage movingImage = (MovingImage) itemToSellContainer.getActor();
-                    if(movingImage.getQuantityLabel() < movingImage.getItem().getQuantity()){
-                        movingImage.setQuantityLabel(movingImage.getQuantityLabel() + 1);
+                    if(quantityToSell < movingImage.getItem().getQuantity()){
+                        quantityToSell++;
                     }
                 }
             }
@@ -133,6 +134,7 @@ public class SellWindow extends ItemHolderBoard{
     }
     public void resetLabel(){
         itemToSell = null;
+        quantityToSell = null;
         nameLabel.setText("Name: ");
         amountPriceLabel.setText("Price: ");
         quantityLabel.setText("Quantity: ");
@@ -150,10 +152,13 @@ public class SellWindow extends ItemHolderBoard{
             if(itemToSellContainer.getActor() != null){
                 MovingImage movingImage = (MovingImage) itemToSellContainer.getActor();
                 itemToSell = movingImage.getItem();
+                if(quantityToSell == null){
+                    quantityToSell = new Integer(movingImage.getQuantityLabel());
+                }
                 nameLabel.setText("Name: " + itemToSell.getName());
-                amountPriceLabel.setText("Price: " + itemToSell.getPrice() * movingImage.getQuantityLabel());
-                this.priceSell = itemToSell.getPrice() * movingImage.getQuantityLabel();
-                quantityLabel.setText("Quantity: " + movingImage.getQuantityLabel());
+                amountPriceLabel.setText("Price: " + itemToSell.getPrice() * quantityToSell);
+                this.priceSell = itemToSell.getPrice() * quantityToSell;
+                quantityLabel.setText("Quantity: " + quantityToSell);
             }else{
                 resetLabel();
             }
@@ -161,7 +166,7 @@ public class SellWindow extends ItemHolderBoard{
     }
     public void setOnSellButtonClick(){
         if(itemToSell != null){
-            inventory.getItems().get(itemToSell.getName()).setQuantity(itemToSell.getQuantity() - itemToSell.getQuantity());
+            inventory.getItems().get(itemToSell.getName()).setQuantity(itemToSell.getQuantity() - quantityToSell);
             itemToSellContainer.setActor(null);
             mainGame.getPlayer().setMoney(mainGame.getPlayer().getMoney() + priceSell);
             resetLabel();
