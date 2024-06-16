@@ -1,6 +1,7 @@
 package com.pgj.s2bplantsimulator.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -82,13 +83,12 @@ public class HUD implements Screen {
             sellWindow.setVisible(true);
             buyWindow.setVisible(true);
             chestUI.setVisibile(true);
-            sellWindow.update(dt);
-            buyWindow.update(dt);
         }else{
             sellWindow.setVisible(false);
             buyWindow.setVisible(false);
-            chestUI.setVisibile(false);
         }
+        sellWindow.update(dt);
+        buyWindow.update(dt);
     }
 
     public Skin getSkin() {
