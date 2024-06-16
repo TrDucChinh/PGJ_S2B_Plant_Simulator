@@ -60,7 +60,7 @@ public class SoundManager {
             if(currentItem.equals("Axe")){
                 getSound(HARVEST_SOUND).play(soundScale);
             }
-            if(currentItem.equals("Corn Seed")){
+            if(currentItem.equals("Corn Seed") || currentItem.equals("Tomato Seed")){
                 getSound(PLANTING_SOUND).play(soundScale);
             }
         }
