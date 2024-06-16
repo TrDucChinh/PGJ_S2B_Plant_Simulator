@@ -15,7 +15,7 @@ import com.pgj.s2bplantsimulator.ultis.ResourceLoader;
 import java.util.*;
 
 public class BuyWindow extends ItemHolderBoard{
-    private final float PANEL_WIDTH = 200;
+    private final float PANEL_WIDTH = 250;
     private final float PANEL_HEIGHT = 298;
     private float PANEL_POS_Y = Gdx.graphics.getHeight() / 2 - PANEL_HEIGHT / 2;
     private float PANEL_POS_X = Gdx.graphics.getWidth() / 2 + 382 / 2 + 20;
@@ -101,8 +101,7 @@ public class BuyWindow extends ItemHolderBoard{
         buyTable.clear();
         displayedSellItems = new HashSet<>(itemsToBuy);
         for(Item item : displayedSellItems){
-            String textLabel = new String(" " + item.getName() + "x" + item.getQuantity());
-
+            String textLabel = new String(" " + item.getName() + " x " + item.getQuantity() + " " + item.getPrice() + "$");
             ImageTextButton imageTextButton = new ImageTextButton(null, skin);
             imageTextButton.add(new Label(textLabel, skin));
 //            imageTextButton.setDebug(true);
