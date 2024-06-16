@@ -261,7 +261,7 @@ public class Player extends Sprite {
                     try {
                         for (Seed seed : MainGame.seedList) {
                             if (body.getPosition().x >= seed.xSeed && body.getPosition().x <= seed.xSeed + 0.5 && body.getPosition().y >= seed.ySeed && body.getPosition().y <= seed.ySeed + 0.5 && seed.harvestable) {
-                                inventory.addPlant(seed.getName(), 5);
+                                inventory.addItem(seed.getName(), 5);
                             }
                         }
                         MainGame.seedList.removeIf(seed -> body.getPosition().x >= seed.xSeed && body.getPosition().x <= seed.xSeed + 0.5 && body.getPosition().y >= seed.ySeed && body.getPosition().y <= seed.ySeed + 0.5 && seed.harvestable);
@@ -284,6 +284,7 @@ public class Player extends Sprite {
                     if (seed.getName().equals("tomato")) {
                         seed.age += seed.maxAge;
                     }
+
                 }
             } else if (body.getPosition().x >= game.traderPosition.x && body.getPosition().x <= game.traderPosition.x + 1 && body.getPosition().y >= game.traderPosition.y && body.getPosition().y <= game.traderPosition.y + 1) {
                 this.setTrading(!this.isTrading());
