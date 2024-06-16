@@ -16,16 +16,19 @@ public class SellWindow extends ItemHolderBoard{
     private final float PANEL_POS_X = Gdx.graphics.getWidth() / 2 - 382 / 2 - 20 - PANEL_WIDTH;
     private Label.LabelStyle labelStyle;
 
-    Button decreaseQuantityButton;
-    Button increaseQuantityButton;
-    Button sellButton;
+    private Button decreaseQuantityButton;
+    private Button increaseQuantityButton;
+    private Button sellButton;
+    private Label priceLabel;
+    private Label quantityLabel;
+    private Label nameLabel;
+    private Item itemToSell;
+    private MovingImageContainer itemToSellContainer;
     public SellWindow(MainGame mainGame) {
         super(mainGame);
         labelStyle = getSkin().get("text", Label.LabelStyle.class);
     }
-    private Label nameLabel;
-    private Item itemToSell;
-    private MovingImageContainer itemToSellContainer;
+
     @Override
     public void initUI() {
         getItemPanel().setFillParent(false);
@@ -52,12 +55,12 @@ public class SellWindow extends ItemHolderBoard{
         getItemPanel().add(nameLabel).padTop(10);
         getItemPanel().getCell(nameLabel).size(160, nameLabel.getHeight());
 
-        Label quantityLabel = new Label("Quantity: ", labelStyle);
+        quantityLabel = new Label("Quantity: ", labelStyle);
         getItemPanel().row();
         getItemPanel().add(quantityLabel).padTop(10);
         getItemPanel().getCell(quantityLabel).size(160, quantityLabel.getHeight());
 
-        Label priceLabel = new Label("Price: ", labelStyle);
+        priceLabel = new Label("Price: ", labelStyle);
         getItemPanel().row();
         getItemPanel().add(priceLabel).padTop(10);
         getItemPanel().getCell(priceLabel).size(160, priceLabel.getPrefHeight());
@@ -92,19 +95,12 @@ public class SellWindow extends ItemHolderBoard{
 
     }
     public void update(float dt){
-        if(getItemPanel().isVisible() == true){
-            if(itemToSellContainer.getActor() != null){
-                MovingImage movingImage = (MovingImage) itemToSellContainer.getActor();
-                itemToSell = movingImage.getItem();
-                nameLabel.setText("Name: " + itemToSell.getName());
-
-            }else{
-                resetLabel();
-            }
-        }
+        updateOnScreenPos();
     }
     public void resetLabel(){
         nameLabel.setText("Name: ");
+        priceLabel.setText("Price: ");
+        quantityLabel.setText("Quantity: ");
     }
 
     @Override
@@ -113,5 +109,18 @@ public class SellWindow extends ItemHolderBoard{
     }
     public void setVisible(boolean visible){
         getItemPanel().setVisible(visible);
+    }
+    public void updateOnScreenPos(){
+        if(getItemPanel().isVisible() == true){
+            if(itemToSellContainer.getActor() != null){
+                MovingImage movingImage = (MovingImage) itemToSellContainer.getActor();
+                itemToSell = movingImage.getItem();
+                nameLabel.setText("Name: " + itemToSell.getName());
+                priceLabel.setText("Price: " + itemToSell.getPrice());
+                quantityLabel.setText("Quantity: " + movingImage.getQuantityLabel());
+            }else{
+                resetLabel();
+            }
+        }
     }
 }
