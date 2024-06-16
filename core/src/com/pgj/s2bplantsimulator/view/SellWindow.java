@@ -77,6 +77,17 @@ public class SellWindow extends ItemHolderBoard{
         getItemPanel().add(sellButtonTable).padTop(10f);
 
         decreaseQuantityButton = new Button(getSkin(), "button_decrease");
+        decreaseQuantityButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(itemToSellContainer.getActor() != null){
+                    MovingImage movingImage = (MovingImage) itemToSellContainer.getActor();
+                    if(movingImage.getQuantityLabel() > 1){
+                        movingImage.setQuantityLabel(movingImage.getQuantityLabel() - 1);
+                    }
+                }
+            }
+        });
         sellButtonTable.add(decreaseQuantityButton).pad(10f).size(15, 20);
 
 
@@ -92,6 +103,17 @@ public class SellWindow extends ItemHolderBoard{
 
 
         increaseQuantityButton = new Button(getSkin(), "button_increase");
+        increaseQuantityButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(itemToSellContainer.getActor() != null){
+                    MovingImage movingImage = (MovingImage) itemToSellContainer.getActor();
+                    if(movingImage.getQuantityLabel() < movingImage.getItem().getQuantity()){
+                        movingImage.setQuantityLabel(movingImage.getQuantityLabel() + 1);
+                    }
+                }
+            }
+        });
         sellButtonTable.add(increaseQuantityButton).pad(10f).size(15, 20);
         toggleVisible();
     }
