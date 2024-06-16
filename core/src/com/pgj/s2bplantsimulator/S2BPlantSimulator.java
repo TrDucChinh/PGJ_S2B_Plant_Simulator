@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.pgj.s2bplantsimulator.model.Player;
 import com.pgj.s2bplantsimulator.screens.MenuGame;
 
 public class S2BPlantSimulator extends Game {
@@ -42,4 +43,6 @@ public class S2BPlantSimulator extends Game {
 	public MenuGame getMenuGame() {
 		return menuGame;
 	}
+
+
 }
