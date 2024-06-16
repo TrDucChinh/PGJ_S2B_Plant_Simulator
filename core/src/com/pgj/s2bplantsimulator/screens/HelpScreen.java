@@ -28,7 +28,7 @@ public class HelpScreen extends MenuScreenComponent{
         container.setBackground(getSkin().getDrawable("round_button"));
         container.align(Align.topLeft);
 
-        container.setDebug(true);
+//        container.setDebug(true);
         label.setSize(container.getWidth(), container.getHeight());
         label.setWrap(true);
         label.setDebug(true);

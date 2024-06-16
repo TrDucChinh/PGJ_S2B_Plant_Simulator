@@ -315,6 +315,9 @@ public class Player extends Sprite {
             }
 
         }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+            this.setMove(!this.isMove());
+        }
 
 
         velX = 0;
@@ -352,10 +355,12 @@ public class Player extends Sprite {
                 || Gdx.input.isKeyPressed(Input.Keys.D));
     }
 
+
     public boolean isAction() {
         if (currentItem != null) {
             return Gdx.input.isKeyJustPressed(Input.Keys.SPACE);
         }
         return false;
     }
+
 }

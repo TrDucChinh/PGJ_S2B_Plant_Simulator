@@ -1,14 +1,17 @@
 package com.pgj.s2bplantsimulator.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.pgj.s2bplantsimulator.S2BPlantSimulator;
 import com.pgj.s2bplantsimulator.common.constant.GameConstant;
+import com.pgj.s2bplantsimulator.model.Player;
 import com.pgj.s2bplantsimulator.ultis.ResourceLoader;
 
 
@@ -22,7 +25,7 @@ public class MenuGame implements Screen {
     private MainGame mainGame;
     public MenuGame(S2BPlantSimulator game) {
         stage = new Stage();
-        stage.setDebugAll(true);
+//        stage.setDebugAll(true);
         Gdx.input.setInputProcessor(stage);
         this.game = game;
         mainGame = new MainGame(this.game);
@@ -40,6 +43,7 @@ public class MenuGame implements Screen {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
                 game.setScreen(mainGame);
+
             }
         });
         Label label = new Label("S2B PLANT SIMULATOR", skin, "game-open-title");

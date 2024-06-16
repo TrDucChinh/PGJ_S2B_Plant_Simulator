@@ -20,7 +20,7 @@ public class CreditScreen extends MenuScreenComponent{
                 "Le Dinh Hiep\n\n" +
                 "Moc Thu Huyen\n\n", getSkin(), "helpText");
         label.setWrap(true);
-        label.setDebug(true);
+//        label.setDebug(true);
         label.setPosition(0, 0);
         label.setAlignment(Align.top);
 
@@ -30,7 +30,7 @@ public class CreditScreen extends MenuScreenComponent{
 
         Table table = new Table();
 
-        table.setDebug(true);
+//        table.setDebug(true);
         table.add(logo).growX().padTop(20);
         table.row();
         table.add(label).growX().padTop(20);
