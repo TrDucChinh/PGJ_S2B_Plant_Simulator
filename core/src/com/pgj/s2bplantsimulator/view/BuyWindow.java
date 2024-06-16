@@ -21,6 +21,7 @@ public class BuyWindow extends ItemHolderBoard{
     private float PANEL_POS_X = Gdx.graphics.getWidth() / 2 + 382 / 2 + 20;
     private Set<Item> selectedItems = new HashSet<>();
     private Set<Item> itemsToBuy = new HashSet<>();
+    private Set<Item> displayedSellItems = new HashSet<>();
     private Skin skin = ResourceLoader.getInstance().getSkin();
     private Inventory inventory;
     Table buyTable;
@@ -29,10 +30,7 @@ public class BuyWindow extends ItemHolderBoard{
         super(mainGame);
         inventory = mainGame.getPlayer().getInventory();
         Map<String, Item> items = EquipmentsLoader.getInstance().load(mainGame);
-        for(Item item : items.values()){
-            itemsToBuy.add(item);
-        }
-
+        itemsToBuy.addAll(items.values());
     }
 
     public void udpate(float dt){
@@ -92,7 +90,7 @@ public class BuyWindow extends ItemHolderBoard{
         setVisible(false);
     }
     public void setOnBuyButtonClick(){
-        itemsToBuy.removeIf(item -> (selectedItems.contains(item)));
+        displayedSellItems.removeIf(item -> (selectedItems.contains(item)));
         for(Item item : selectedItems){
             inventory.addItem(item.getName(), item.getQuantity());
         }
@@ -101,7 +99,8 @@ public class BuyWindow extends ItemHolderBoard{
     }
     public void updateOnScreenBuyTable(){
         buyTable.clear();
-        for(Item item : itemsToBuy){
+        displayedSellItems = new HashSet<>(itemsToBuy);
+        for(Item item : displayedSellItems){
             String textLabel = new String(" " + item.getName() + "x" + item.getQuantity());
 
             ImageTextButton imageTextButton = new ImageTextButton(null, skin);

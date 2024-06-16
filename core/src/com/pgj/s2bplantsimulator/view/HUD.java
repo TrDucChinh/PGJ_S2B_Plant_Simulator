@@ -30,7 +30,7 @@ public class HUD implements Screen {
         playerEquipmentUI = new PlayerEquipmentBoard(mainGame);
         sellWindow = new SellWindow(mainGame);
         buyWindow = new BuyWindow(mainGame);
-        MoneyUI moneyUI = new MoneyUI(mainGame);
+        moneyUI = new MoneyUI(mainGame);
 
         sellWindow.show();
         buyWindow.show();
@@ -84,9 +84,11 @@ public class HUD implements Screen {
             buyWindow.setVisible(true);
             chestUI.setVisibile(true);
         }else{
+            chestUI.setVisibile(false);
             sellWindow.setVisible(false);
             buyWindow.setVisible(false);
         }
+        moneyUI.update();
         sellWindow.update(dt);
         buyWindow.update(dt);
     }

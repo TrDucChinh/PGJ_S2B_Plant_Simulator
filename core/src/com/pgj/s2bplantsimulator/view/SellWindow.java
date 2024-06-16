@@ -26,10 +26,13 @@ public class SellWindow extends ItemHolderBoard{
     private Label nameLabel;
     private Item itemToSell;
     private MovingImageContainer itemToSellContainer;
+    private MainGame mainGame;
+    private int priceSell = 0;
     public SellWindow(MainGame mainGame) {
         super(mainGame);
         labelStyle = getSkin().get("text", Label.LabelStyle.class);
         inventory = mainGame.getPlayer().getInventory();
+        this.mainGame = mainGame;
     }
 
     @Override
@@ -126,7 +129,8 @@ public class SellWindow extends ItemHolderBoard{
                 MovingImage movingImage = (MovingImage) itemToSellContainer.getActor();
                 itemToSell = movingImage.getItem();
                 nameLabel.setText("Name: " + itemToSell.getName());
-                amountPriceLabel.setText("Price: " + itemToSell.getPrice());
+                amountPriceLabel.setText("Price: " + itemToSell.getPrice() * movingImage.getQuantityLabel());
+                this.priceSell = itemToSell.getPrice() * movingImage.getQuantityLabel();
                 quantityLabel.setText("Quantity: " + movingImage.getQuantityLabel());
             }else{
                 resetLabel();
@@ -137,6 +141,7 @@ public class SellWindow extends ItemHolderBoard{
         if(itemToSell != null){
             inventory.getItems().get(itemToSell.getName()).setQuantity(itemToSell.getQuantity() - itemToSell.getQuantity());
             itemToSellContainer.setActor(null);
+            mainGame.getPlayer().setMoney(mainGame.getPlayer().getMoney() + priceSell);
             resetLabel();
         }
     }
