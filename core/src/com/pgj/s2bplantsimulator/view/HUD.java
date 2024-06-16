@@ -26,6 +26,7 @@ public class HUD implements Screen {
         skin = new Skin(Gdx.files.internal("Skin/ui_skin.json"));
     }
     public void show() {
+        Gdx.input.setInputProcessor(stage);
         chestUI = new ChestBoard(mainGame);
         playerEquipmentUI = new PlayerEquipmentBoard(mainGame);
         sellWindow = new SellWindow(mainGame);
