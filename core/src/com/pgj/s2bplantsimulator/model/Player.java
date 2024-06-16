@@ -15,6 +15,7 @@ import com.pgj.s2bplantsimulator.inventory.Inventory;
 import com.pgj.s2bplantsimulator.screens.MainGame;
 import com.pgj.s2bplantsimulator.ultis.ResourceLoader;
 
+
 import static com.pgj.s2bplantsimulator.common.constant.GameConstant.PPM;
 
 public class Player extends Sprite {
@@ -46,6 +47,14 @@ public class Player extends Sprite {
         this.moving = move;
     }
 
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
     public enum State {IDLE, UP, DOWN, LEFT, RIGHT, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT, HOE, WATER}
 
     public enum Direction {UP, DOWN, LEFT, RIGHT, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT}
@@ -53,6 +62,7 @@ public class Player extends Sprite {
     private boolean isSleep;
     private boolean isTrading;
     private boolean moving;
+    private int money;
 
     public Item currentItem;
     public Direction direction;
@@ -89,6 +99,7 @@ public class Player extends Sprite {
         stateTimer = 0;
         this.speed = 10f;
         this.body = body;
+        this.money = 1000;
         setBounds(body.getPosition().x, body.getPosition().y, 48 / PPM, 48 / PPM);
 
 

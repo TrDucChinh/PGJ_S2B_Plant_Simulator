@@ -27,7 +27,7 @@ public class Inventory {
         return currentItem;
     }
     public void addItem(String name, int quantity){
-        if(items.containsKey(name) == false){
+        if(!items.containsKey(name)){
             Plant plant = new Plant(name, 0);
             items.put(name, plant);
         }

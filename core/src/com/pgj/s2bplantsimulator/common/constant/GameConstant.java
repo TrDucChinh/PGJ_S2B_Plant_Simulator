@@ -17,10 +17,7 @@ public class GameConstant {
     public static final String PLAY_PRESS_BUTTON = "button/playpress.png";
     public static final String ABOUT_PRESS_BUTTON = "button/aboutpress.png";
     public static final String REPLAY_PRESS_BUTTON = "button/replaypress.png";
-    public static final Map<String, Integer> PRICE = new HashMap<String, Integer>() {{
-        put("corn", 10);
-        put("tomato", 20);
-    }};
+    public static final int maxPrice = 150, minPrice = 50;
     public static final Map<String, Float> GROW_SPEED = new HashMap<String, Float>() {{
         put("corn", 100.0f);
         put("tomato", 0.7f);

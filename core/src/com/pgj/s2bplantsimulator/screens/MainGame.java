@@ -12,6 +12,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pgj.s2bplantsimulator.S2BPlantSimulator;
+import com.pgj.s2bplantsimulator.common.constant.GameConstant;
+import com.pgj.s2bplantsimulator.controller.RandomPrice;
 import com.pgj.s2bplantsimulator.controller.TileMapHelper;
 import com.pgj.s2bplantsimulator.model.Dirt;
 import com.pgj.s2bplantsimulator.model.Player;
@@ -58,7 +60,6 @@ public class MainGame implements Screen {
         hud = new HUD(this);
 
         this.transition = new Transition(player);
-
         soundManager = new SoundManager(this);
     }
 
@@ -97,10 +98,6 @@ public class MainGame implements Screen {
         if (player.isSleep()) {
             this.transition.play();
         }
-        if (player.isTrading()) {
-            // Này để mở giao diện trade
-        }
-
         soundManager.update();
     }
 
@@ -156,9 +153,6 @@ public class MainGame implements Screen {
         hud.render(delta);
         if (player.isSleep()) {
             this.transition.play();
-        }
-        if (player.isTrading()) {
-            // Này để mở giao diện trade
         }
     }
 

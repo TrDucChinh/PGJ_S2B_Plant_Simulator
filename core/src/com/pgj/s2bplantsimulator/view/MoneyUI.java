@@ -12,6 +12,7 @@ import com.pgj.s2bplantsimulator.screens.MainGame;
 
 public class MoneyUI {
     private Skin skin = new Skin(Gdx.files.internal("Skin/ui_skin.json"));
+    private MainGame mainGame;
     Table table;
     Stage stage;
     private Label moneyLabel;
@@ -21,6 +22,7 @@ public class MoneyUI {
         table = new Table();
         stage = mainGame.getHud().getStage();
         stage.addActor(table);
+        this.mainGame = mainGame;
     }
     public void show(){
         table.setPosition(POS_X, POS_Y);
@@ -28,7 +30,8 @@ public class MoneyUI {
         Image image = new Image(skin.getDrawable("money"));
         image.setScaling(Scaling.fit);
         table.add(image).size(50, 50);
-        moneyLabel = new Label("1000", skin.get("moneyLabel", Label.LabelStyle.class));
+        String money = mainGame.getPlayer().getMoney() + "";
+        moneyLabel = new Label(money, skin.get("moneyLabel", Label.LabelStyle.class));
 
         table.add(moneyLabel).padLeft(10);
     }

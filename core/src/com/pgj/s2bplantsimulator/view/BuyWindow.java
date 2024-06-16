@@ -30,9 +30,7 @@ public class BuyWindow extends ItemHolderBoard{
         super(mainGame);
         inventory = mainGame.getPlayer().getInventory();
         Map<String, Item> items = EquipmentsLoader.getInstance().load(mainGame);
-        for(Item item : items.values()){
-            itemsToBuy.add(item);
-        }
+        itemsToBuy.addAll(items.values());
     }
 
     public void udpate(float dt){
