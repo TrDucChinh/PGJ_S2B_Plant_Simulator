@@ -78,8 +78,17 @@ public class HUD implements Screen {
 
         playerEquipmentUI.update(dt);
         chestUI.update(dt);
-        sellWindow.update(dt);
-        buyWindow.udpate(dt);
+        if(mainGame.getPlayer().isTrading()){
+            sellWindow.setVisible(true);
+            buyWindow.setVisible(true);
+            chestUI.setVisibile(true);
+            sellWindow.update(dt);
+            buyWindow.update(dt);
+        }else{
+            sellWindow.setVisible(false);
+            buyWindow.setVisible(false);
+            chestUI.setVisibile(false);
+        }
     }
 
     public Skin getSkin() {

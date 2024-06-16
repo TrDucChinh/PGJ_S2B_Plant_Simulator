@@ -42,8 +42,8 @@ public abstract class ItemHolderBoard implements UI {
     }
     public void updateItemPanel(){
         for(Cell cell : itemPanel.getCells()){
-            MovingImageContainer movingImageContainer = (MovingImageContainer) cell.getActor();
-            if(movingImageContainer.getActor() == null){
+            if(cell.getActor() != null && cell.getActor() instanceof MovingImageContainer){
+                MovingImageContainer movingImageContainer = (MovingImageContainer) cell.getActor();
                 for(Item item : items.values()){
                     for(MovingImage movingImage : item.getMovingImageList()){
 
@@ -76,6 +76,9 @@ public abstract class ItemHolderBoard implements UI {
     }
     public void toggleVisible() {
         itemPanel.setVisible(!itemPanel.isVisible());
+    }
+    public void setVisibile(boolean visible){
+        itemPanel.setVisible(visible);
     }
 
     public Table getItemPanel() {

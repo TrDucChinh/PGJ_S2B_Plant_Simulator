@@ -44,7 +44,6 @@ public abstract class Item {
 
     public void setQuantity(int quantity) {
         udpateMovingImageList(this.quantity, quantity);
-
         this.quantity = quantity;
     }
     public void udpateMovingImageList(int bef, int aft){

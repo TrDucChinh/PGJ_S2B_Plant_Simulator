@@ -78,7 +78,7 @@ public class SellWindow extends ItemHolderBoard{
 
         increaseQuantityButton = new Button(getSkin(), "button_increase");
         sellButtonTable.add(increaseQuantityButton).pad(10f).size(15, 20);
-
+        toggleVisible();
     }
 
     @Override
@@ -106,6 +106,12 @@ public class SellWindow extends ItemHolderBoard{
     public void resetLabel(){
         nameLabel.setText("Name: ");
     }
-    public void addListnerToButton(){
+
+    @Override
+    public void toggleVisible() {
+        super.toggleVisible();
+    }
+    public void setVisible(boolean visible){
+        getItemPanel().setVisible(visible);
     }
 }
