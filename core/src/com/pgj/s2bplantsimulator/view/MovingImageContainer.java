@@ -24,7 +24,7 @@ public class MovingImageContainer extends Container {
        }
        stack.clearChildren();
        stack.add(movingImage);
-       System.out.println("quantity label: " + movingImage.getQuantityLabel());
+//       System.out.println("quantity label: " + movingImage.getQuantityLabel());
        label = new Label(String.valueOf(movingImage.getQuantityLabel()), ResourceLoader.getInstance().getSkin());
 //       label.setDebug(true);
        label.setAlignment(Align.bottomRight);

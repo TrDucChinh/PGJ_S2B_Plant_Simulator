@@ -229,8 +229,8 @@ public class Player extends Sprite {
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             if (currentItem != null) {
-                System.out.println("Current Item: " + currentItem.getName());
-                System.out.println(getMoney());
+//                System.out.println("Current Item: " + currentItem.getName());
+//                System.out.println(getMoney());
                 if (currentItem.equals("Hoe")) {
                     for (Dirt dirt : MainGame.plantDirtList) {
                         if (body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5) {
@@ -242,7 +242,7 @@ public class Player extends Sprite {
                             }
                         }
                     }
-                    System.out.println(MainGame.soilList.size());
+//                    System.out.println(MainGame.soilList.size());
                 } else if (currentItem.equals("Watering Pot")) {
                     if (!MainGame.soilList.isEmpty()) {
                         for (Dirt dirt : MainGame.soilList) {
@@ -255,7 +255,7 @@ public class Player extends Sprite {
                                 }
                             }
                         }
-                        System.out.println(MainGame.waterDirt.size());
+//                        System.out.println(MainGame.waterDirt.size());
                     }
                 } else if (currentItem.equals("Corn Seed")) {
                     // Tạm thời mới trồng trước cây ngô

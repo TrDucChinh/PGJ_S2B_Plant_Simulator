@@ -1,6 +1,7 @@
 package com.pgj.s2bplantsimulator.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
@@ -22,7 +23,7 @@ public class BuyWindow extends ItemHolderBoard{
     private float PANEL_POS_X = Gdx.graphics.getWidth() / 2 + 382 / 2 + 20;
     private Set<Item> selectedItems = new HashSet<>();
     private Set<Item> itemsToBuy = new HashSet<>();
-    private Set<Item> displayedSellItems = new HashSet<>();
+    private Set<Item> displayedBuyItems = new HashSet<>();
     private Skin skin = ResourceLoader.getInstance().getSkin();
     private Inventory inventory;
     private int totalBuyPrice = 0;
@@ -66,13 +67,14 @@ public class BuyWindow extends ItemHolderBoard{
 //        buyTable.setFillParent(true);
 //        buyTable.align(Align.top);
         Label label = new Label("SHOPPING", skin, "text");
+        label.setColor(Color.BLACK);
         getItemPanel().add(label).padBottom(10f);
 
 
 
         ScrollPane scrollPane = new ScrollPane(buyTable, skin);
         scrollPane.setFillParent(true);
-        scrollPane.setDebug(true);
+        scrollPane.setDebug(false);
 
         getItemPanel().row();
         getItemPanel().add(scrollPane);
@@ -94,11 +96,12 @@ public class BuyWindow extends ItemHolderBoard{
     public void setOnBuyButtonClick(){
         totalBuyPrice = 0;
         for(Item item : selectedItems){
-            inventory.addItem(item.getName(), item.getQuantity());
             totalBuyPrice += item.getPrice();
         }
-        System.out.println("Total buy price: " + totalBuyPrice);
         if (totalBuyPrice <= mainGame.getPlayer().getMoney()){
+            for (Item item : selectedItems){
+                inventory.addItem(item.getName(), item.getQuantity());
+            }
             mainGame.getPlayer().setMoney(mainGame.getPlayer().getMoney() - totalBuyPrice);
             selectedItems.clear();
         }
@@ -107,8 +110,8 @@ public class BuyWindow extends ItemHolderBoard{
     }
     public void updateOnScreenBuyTable(){
         buyTable.clear();
-        displayedSellItems = new HashSet<>(itemsToBuy);
-        for(Item item : displayedSellItems){
+        displayedBuyItems = new HashSet<>(itemsToBuy);
+        for(Item item : displayedBuyItems){
             String textLabel = new String(" " + item.getName() + " x " + item.getQuantity() + " " + item.getPrice() + "$");
             ImageTextButton imageTextButton = new ImageTextButton(null, skin);
             imageTextButton.add(new Label(textLabel, skin));
