@@ -24,6 +24,8 @@ public class SellWindow extends ItemHolderBoard{
         labelStyle = getSkin().get("text", Label.LabelStyle.class);
     }
     private Label nameLabel;
+    private Label priceLabel;
+    private Label quantityLabel;
     private Item itemToSell;
     private MovingImageContainer itemToSellContainer;
     @Override
@@ -57,7 +59,7 @@ public class SellWindow extends ItemHolderBoard{
         getItemPanel().add(quantityLabel).padTop(10);
         getItemPanel().getCell(quantityLabel).size(160, quantityLabel.getHeight());
 
-        Label priceLabel = new Label("Price: ", labelStyle);
+        priceLabel = new Label("Price: ", labelStyle);
         getItemPanel().row();
         getItemPanel().add(priceLabel).padTop(10);
         getItemPanel().getCell(priceLabel).size(160, priceLabel.getPrefHeight());
@@ -92,16 +94,7 @@ public class SellWindow extends ItemHolderBoard{
 
     }
     public void update(float dt){
-        if(getItemPanel().isVisible() == true){
-            if(itemToSellContainer.getActor() != null){
-                MovingImage movingImage = (MovingImage) itemToSellContainer.getActor();
-                itemToSell = movingImage.getItem();
-                nameLabel.setText("Name: " + itemToSell.getName());
-
-            }else{
-                resetLabel();
-            }
-        }
+        updateOnScreenSellTable();
     }
     public void resetLabel(){
         nameLabel.setText("Name: ");
@@ -114,4 +107,13 @@ public class SellWindow extends ItemHolderBoard{
     public void setVisible(boolean visible){
         getItemPanel().setVisible(visible);
     }
+    public void updateOnScreenSellTable(){
+        if(itemToSell != null){
+            itemToSellContainer.setActor(itemToSell.getMovingImageList().get(0));
+            nameLabel.setText("Name: " + itemToSell.getName());
+            priceLabel.setText("Price: " + itemToSell.getPrice());
+            quantityLabel.setText("Quantity: " + itemToSell.getMovingImageList().get(0).getQuantityLabel());
+        }
+    }
+
 }

@@ -15,6 +15,7 @@ public abstract class Item {
     private MovingImageContainer selectedContainer;
     private Image baseImage;
     private int quantity;
+    private int price = 0;
     public boolean equals(String name){
         return this.name.equals(name);
     }
@@ -99,5 +100,13 @@ public abstract class Item {
 
     public void setBaseImage(Image baseImage) {
         this.baseImage = baseImage;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }
