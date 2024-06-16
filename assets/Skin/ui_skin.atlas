@@ -4,18 +4,57 @@ size: 2048, 2048
 format: RGBA8888
 filter: Linear, Linear
 repeat: none
-button
+logo
   rotate: false
-  xy: 1, 264
+  xy: 1, 1
+  size: 1316, 1316
+  orig: 1316, 1316
+  offset: 0, 0
+  index: -1
+
+ui_skin2.png
+size: 2048, 2048
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+button_1_down
+  rotate: false
+  xy: 1, 134
   size: 26, 26
-  split: 5, 5, 5, 5
+  split: 4, 4, 4, 4
   pad: 0, 0, 0, 0
   orig: 26, 26
   offset: 0, 0
   index: -1
+button_1_over
+  rotate: false
+  xy: 1283, 1487
+  size: 26, 28
+  split: 4, 4, 4, 5
+  pad: 0, 0, 0, 0
+  orig: 26, 28
+  offset: 0, 0
+  index: -1
+button_1_up
+  rotate: false
+  xy: 1028, 943
+  size: 26, 26
+  split: 4, 4, 4, 4
+  pad: 0, 0, 0, 0
+  orig: 26, 26
+  offset: 0, 0
+  index: -1
+button_decrease
+  rotate: false
+  xy: 48, 148
+  size: 7, 12
+  split: 0, 0, 0, 0
+  orig: 7, 12
+  offset: 0, 0
+  index: -1
 button_hover
   rotate: false
-  xy: 509, 333
+  xy: 509, 258
   size: 26, 26
   split: 5, 5, 5, 5
   pad: 0, 0, 0, 0
@@ -24,23 +63,107 @@ button_hover
   index: -1
 button_pressed6
   rotate: false
-  xy: 1028, 1025
+  xy: 509, 235
   size: 20, 21
   split: 5, 5, 5, 7
   pad: 0, 0, 0, 0
   orig: 20, 21
   offset: 0, 0
   index: -1
+unchecked
+  rotate: false
+  xy: 509, 235
+  size: 20, 21
+  split: 0, 0, 0, 0
+  orig: 20, 21
+  offset: 0, 0
+  index: -1
+checked
+  rotate: false
+  xy: 1823, 1836
+  size: 22, 22
+  split: 0, 0, 0, 0
+  orig: 22, 22
+  offset: 0, 0
+  index: -1
+corn_product
+  rotate: false
+  xy: 1028, 925
+  size: 16, 16
+  split: 2, 2, 2, 2
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+money
+  rotate: false
+  xy: 1791, 1804
+  size: 22, 22
+  orig: 22, 22
+  offset: 0, 0
+  index: -1
 PixeloidMono-d94EV
   rotate: false
-  xy: 1, 292
+  xy: 1283, 1791
   size: 506, 67
   orig: 506, 67
   offset: 0, 0
   index: -1
+PixeloidMono-d94EV(2)
+  rotate: false
+  xy: 1, 231
+  size: 506, 53
+  orig: 506, 53
+  offset: 0, 0
+  index: -1
+PixeloidSansBold-PKnYd
+  rotate: false
+  xy: 1, 162
+  size: 505, 67
+  orig: 505, 67
+  offset: 0, 0
+  index: -1
+PixeloidSansBold-PKnYd(1)
+  rotate: false
+  xy: 1283, 1517
+  size: 504, 55
+  orig: 504, 55
+  offset: 0, 0
+  index: -1
+PixeloidSansBold-PKnYd(2)
+  rotate: false
+  xy: 1283, 1574
+  size: 506, 215
+  orig: 506, 215
+  offset: 0, 0
+  index: -1
+selected_overlay
+  rotate: false
+  xy: 1028, 971
+  size: 32, 32
+  split: 12, 14, 13, 14
+  pad: 7, 9, 8, 9
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tomato_product
+  rotate: false
+  xy: 1791, 1786
+  size: 16, 16
+  split: 0, 0, 0, 0
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+tomato_seed_equipment
+  rotate: false
+  xy: 1090, 987
+  size: 16, 16
+  split: 0, 0, 0, 0
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
 window
   rotate: false
-  xy: 1028, 1048
+  xy: 1791, 1828
   size: 30, 30
   split: 8, 8, 8, 8
   pad: 0, 0, 0, 0
@@ -49,42 +172,80 @@ window
   index: -1
 Screenshot 2024-05-20 175757
   rotate: false
-  xy: 1, 361
+  xy: 1, 286
   size: 1025, 717
   orig: 1025, 717
   offset: 0, 0
   index: -1
 axe
   rotate: false
-  xy: 537, 343
+  xy: 559, 268
   size: 13, 16
   orig: 13, 16
   offset: 0, 0
   index: -1
+background_reduced
+  rotate: false
+  xy: 1, 1005
+  size: 1280, 853
+  orig: 1280, 853
+  offset: 0, 0
+  index: -1
+button
+  rotate: false
+  xy: 1062, 977
+  size: 26, 26
+  orig: 26, 26
+  offset: 0, 0
+  index: -1
+corn_seed_equipment
+  rotate: false
+  xy: 1311, 1499
+  size: 16, 16
+  split: 2, 2, 2, 1
+  pad: 0, 0, 0, 0
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
 cropped_image_0
   rotate: false
-  xy: 1028, 1011
+  xy: 1, 98
   size: 7, 12
+  orig: 7, 12
+  offset: 0, 0
+  index: -1
+button_increase
+  rotate: false
+  xy: 1, 98
+  size: 7, 12
+  split: 0, 0, 0, 0
   orig: 7, 12
   offset: 0, 0
   index: -1
 cropped_image_8
   rotate: false
-  xy: 1060, 1057
+  xy: 537, 263
   size: 20, 21
   orig: 20, 21
   offset: 0, 0
   index: -1
+cropped_image_9
+  rotate: false
+  xy: 1, 112
+  size: 18, 20
+  orig: 18, 20
+  offset: 0, 0
+  index: -1
 hoe
   rotate: false
-  xy: 509, 316
+  xy: 1847, 1843
   size: 13, 15
   orig: 13, 15
   offset: 0, 0
   index: -1
 round_button
   rotate: false
-  xy: 1, 244
+  xy: 29, 142
   size: 17, 18
   split: 7, 7, 8, 9
   pad: 7, 7, 7, 9
@@ -93,7 +254,7 @@ round_button
   index: -1
 water_pot
   rotate: false
-  xy: 29, 280
+  xy: 1283, 1475
   size: 16, 10
   orig: 16, 10
   offset: 0, 0

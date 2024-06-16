@@ -15,14 +15,13 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
+import com.pgj.s2bplantsimulator.model.Dirt;
 import com.pgj.s2bplantsimulator.model.Player;
 import com.pgj.s2bplantsimulator.screens.MainGame;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.pgj.s2bplantsimulator.common.constant.GameConstant.PPM;
-import static com.pgj.s2bplantsimulator.screens.MainGame.dirtPositionList;
+import static com.pgj.s2bplantsimulator.screens.MainGame.plantDirtList;
 
 
 public class TileMapHelper {
@@ -35,10 +34,9 @@ public class TileMapHelper {
     }
 
     public OrthogonalTiledMapRenderer setupMap() {
-        map = new TmxMapLoader().load("map.tmx");
+        map = new TmxMapLoader().load("newMap.tmx");
         parseMapObjects(map.getLayers().get("block").getObjects());
         parseMapObjects(map.getLayers().get("soil").getObjects());
-//        parseMapObjects(map.getLayers().get("player").getObjects());
 
         return new OrthogonalTiledMapRenderer(map);
     }
@@ -52,7 +50,7 @@ public class TileMapHelper {
                 Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
                 String rectangleName = mapObject.getName();
 
-                if (rectangleName.equals("player")) {
+                if (rectangleName.equals("Player")) {
                     Body body = BodyHelperService.createBody(
                             rectangle.getX() + rectangle.getWidth() / 2,
                             rectangle.getY() + rectangle.getHeight() / 2,
@@ -62,12 +60,14 @@ public class TileMapHelper {
                             gameScreen.world
                     );
                     gameScreen.player = new Player(gameScreen, body);
-                } else if (rectangleName.equals("dirt")){
+                } else if (rectangleName.equals("Dirt")) {
                     xDirt = rectangle.getX() / 32;
                     yDirt = rectangle.getY() / 32;
-                    Vector4 dirtVector = new Vector4(xDirt, yDirt, rectangle.getWidth(), rectangle.getHeight());
-                    dirtPositionList.add(dirtVector);
-
+                    plantDirtList.add(new Dirt(xDirt, yDirt, rectangle.getWidth(), rectangle.getHeight(), "sprites_basic_pack/dirt.png", false, false, false));
+                } else if (rectangleName.equals("Bed")) {
+                    gameScreen.bedPosition = new Vector2(rectangle.getX() / 32, rectangle.getY() / 32);
+                } else if (rectangleName.equals("Trader")) {
+                    gameScreen.traderPosition = new Vector2(rectangle.getX() / 32, rectangle.getY() / 32);
                 }
             }
         }

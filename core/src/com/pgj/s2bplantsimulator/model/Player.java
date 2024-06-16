@@ -6,29 +6,72 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector4;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.pgj.s2bplantsimulator.common.constant.GameConstant;
+import com.pgj.s2bplantsimulator.controller.Random;
 import com.pgj.s2bplantsimulator.controller.TileMapHelper;
-import com.pgj.s2bplantsimulator.inventory.Chest;
-import com.pgj.s2bplantsimulator.inventory.Equipment;
 
+
+import com.pgj.s2bplantsimulator.inventory.Inventory;
 import com.pgj.s2bplantsimulator.screens.MainGame;
+import com.pgj.s2bplantsimulator.loader.ResourceLoader;
+
 
 import static com.pgj.s2bplantsimulator.common.constant.GameConstant.PPM;
 
 public class Player extends Sprite {
+    public boolean isSleep() {
+        return isSleep;
+    }
+
+    public void setSleep(boolean sleep) {
+        isSleep = sleep;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public boolean isTrading() {
+        return isTrading;
+    }
+
+    public void setTrading(boolean trading) {
+        isTrading = trading;
+    }
+
+    public boolean isMove() {
+        return moving;
+    }
+
+    public void setMove(boolean move) {
+        this.moving = move;
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
     public enum State {IDLE, UP, DOWN, LEFT, RIGHT, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT, HOE, WATER}
 
     public enum Direction {UP, DOWN, LEFT, RIGHT, UPLEFT, UPRIGHT, DOWNLEFT, DOWNRIGHT}
 
-    public String currentItem;
+    private boolean isSleep;
+    private boolean isTrading;
+    private boolean moving;
+    private int money;
+
+    public Item currentItem;
     public Direction direction;
     public State currentState;
     public State previousState;
     public Dirt plantDirt = new Dirt();
-    public Equipment equipment;
-    private Chest chest;
+    private final Inventory inventory;
     public TileMapHelper tileMapHelper;
 
     public Texture playerTexture;
@@ -42,19 +85,23 @@ public class Player extends Sprite {
     public Animation[] hoe;
     public Animation[] water;
     public float speed, velX, velY, stateTimer;
+    public MainGame game;
 
 
     public Player(MainGame gameScreen, Body body) {
-        this.currentItem = "hoe";
         this.world = gameScreen.world;
+        this.game = gameScreen;
+        this.setSleep(false);
+        this.setTrading(false);
+        this.setMove(true);
         this.tileMapHelper = new TileMapHelper(gameScreen);
-        equipment = new Equipment(gameScreen);
-        chest = new Chest(gameScreen);
+        inventory = new Inventory(gameScreen);
         currentState = State.IDLE;
         previousState = State.IDLE;
         stateTimer = 0;
         this.speed = 10f;
         this.body = body;
+        this.money = 1000;
         setBounds(body.getPosition().x, body.getPosition().y, 48 / PPM, 48 / PPM);
 
 
@@ -66,7 +113,8 @@ public class Player extends Sprite {
         hoe = new Animation[1];
         water = new Animation[1];
 
-        playerTexture = new Texture("Basic Charakter Spritesheet.png");
+//        playerTexture = new Texture("Basic Charakter Spritesheet.png");
+        playerTexture = ResourceLoader.getInstance().getTexture("Basic Charakter Spritesheet.png");
         TextureRegion[][] playerTextureRegion = TextureRegion.split(playerTexture, 48, 48);
         TextureRegion[] rollFrames = new TextureRegion[4 * 4];
         int index = 0;
@@ -86,7 +134,8 @@ public class Player extends Sprite {
         right[0].setPlayMode(Animation.PlayMode.LOOP);
         stand[0].setPlayMode(Animation.PlayMode.LOOP);
 
-        playerTexture = new Texture("sprites_basic_pack/Characters/Basic Charakter Actions/Basic Charakter Actions.png");
+//        playerTexture = new Texture("sprites_basic_pack/Characters/Basic Charakter Actions/Basic Charakter Actions.png");
+        playerTexture = ResourceLoader.getInstance().getTexture("sprites_basic_pack/Characters/Basic Charakter Actions/Basic Charakter Actions.png");
         playerTextureRegion = TextureRegion.split(playerTexture, 48, 48);
         rollFrames = new TextureRegion[12 * 2];
         index = 0;
@@ -105,6 +154,7 @@ public class Player extends Sprite {
         checkUserInput();
         setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
         setRegion(getFrame(dt));
+        currentItem = inventory.getCurrentItem();
     }
 
     public TextureRegion getFrame(float dt) {
@@ -177,88 +227,157 @@ public class Player extends Sprite {
             currentState = State.IDLE;
             direction = Direction.DOWN;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
-            currentItem = "hoe";
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
-            currentItem = "water";
-            System.out.println("water");
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)) {
-            currentItem = "seed";
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            if (currentItem.equals("hoe")) {
-                for (Vector4 dirtPos : MainGame.dirtPositionList) {
-                    if (body.getPosition().x >= dirtPos.x && body.getPosition().x <= dirtPos.x + 0.5 && body.getPosition().y >= dirtPos.y && body.getPosition().y <= dirtPos.y + 0.5) {
-                        currentState = State.HOE;
-                        plantDirt = new Dirt(dirtPos.x, dirtPos.y, dirtPos.z, dirtPos.w, "dirt.png", true, false, false);
-                        plantDirt.isDirt = true;
-                        MainGame.plantDirtList.add(plantDirt);
-                    }
-                }
-            } else if (currentItem.equals("water")) {
-                if (!MainGame.plantDirtList.isEmpty()) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            if (currentItem != null) {
+//                System.out.println("Current Item: " + currentItem.getName());
+//                System.out.println(getMoney());
+                if (currentItem.equals("Hoe")) {
                     for (Dirt dirt : MainGame.plantDirtList) {
                         if (body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5) {
-                            if (dirt.isWatered == false) {
-                                dirt.isWatered = true;
-                                currentState = State.WATER;
-                                plantDirt = new Dirt(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "water.png", dirt.isDirt, true, dirt.isPlanted);
+                            if (!dirt.isDirt) {
+                                currentState = State.HOE;
+                                plantDirt = new Dirt(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "sprites_basic_pack/dirt.png", true, dirt.isWatered, dirt.isPlanted);
                                 MainGame.soilList.add(plantDirt);
+                                dirt.isDirt = true;
+                            }
+                        }
+                    }
+//                    System.out.println(MainGame.soilList.size());
+                } else if (currentItem.equals("Watering Pot")) {
+                    if (!MainGame.soilList.isEmpty()) {
+                        for (Dirt dirt : MainGame.soilList) {
+                            if (body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5) {
+                                if (!dirt.isWatered && dirt.isDirt) {
+                                    dirt.isWatered = true;
+                                    currentState = State.WATER;
+                                    plantDirt = new Dirt(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "sprites_basic_pack/water.png", dirt.isDirt, true, dirt.isPlanted);
+                                    MainGame.waterDirt.add(plantDirt);
+                                }
+                            }
+                        }
+//                        System.out.println(MainGame.waterDirt.size());
+                    }
+                } else if (currentItem.equals("Corn Seed")) {
+                    // Tạm thời mới trồng trước cây ngô
+                    if (!MainGame.soilList.isEmpty()) {
+                        for (Dirt dirt : MainGame.soilList) {
+                            if (body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5) {
+                                if (!dirt.isPlanted && dirt.isWatered) {
+                                    MainGame.waterDirt.stream().filter(dirt1 -> dirt1.xDirt == dirt.xDirt && dirt1.yDirt == dirt.yDirt).forEach(dirt1 -> dirt1.isPlanted = true);
+                                    dirt.isPlanted = true;
+                                    Seed seed = new Seed(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "fruit/corn/0.png", "corn");
+                                    MainGame.seedList.add(seed);
+                                    currentItem.setQuantity(currentItem.getQuantity() - 1);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                } else if (currentItem.equals("Tomato Seed")) {
+                    // Tạm thời mới trồng trước cây cà chua
+                    if (!MainGame.soilList.isEmpty()) {
+                        for (Dirt dirt : MainGame.soilList) {
+                            if (body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5) {
+                                if (!dirt.isPlanted && dirt.isWatered) {
+                                    MainGame.waterDirt.stream().filter(dirt1 -> dirt1.xDirt == dirt.xDirt && dirt1.yDirt == dirt.yDirt).forEach(dirt1 -> dirt1.isPlanted = true);
+                                    dirt.isPlanted = true;
+                                    Seed seed = new Seed(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "fruit/tomato/0.png", "tomato");
+                                    MainGame.seedList.add(seed);
+                                    currentItem.setQuantity(currentItem.getQuantity() - 1);
+                                    break;
+                                }
                             }
                         }
                     }
                 }
-            } else if (currentItem.equals("seed")) { // Tạm thời mới trồng trước cây ngô
-                if (!MainGame.plantDirtList.isEmpty()) {
-                    for (Dirt dirt : MainGame.plantDirtList) {
-                        if (body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5) {
-                            if (dirt.isPlanted == false) {
-                                dirt.isPlanted = true;
-                                Seed seed = new Seed(dirt.xDirt, dirt.yDirt, dirt.height, dirt.width, "seed.png", "corn");
-                                MainGame.seedList.add(seed);
+                else if (currentItem.equals("Axe")) {
+                    try {
+                        for (Seed seed : MainGame.seedList) {
+                            if (body.getPosition().x >= seed.xSeed && body.getPosition().x <= seed.xSeed + 0.5 && body.getPosition().y >= seed.ySeed && body.getPosition().y <= seed.ySeed + 0.5 && seed.harvestable) {
+                                inventory.addItem(seed.getName(), Random.randomQuantity(GameConstant.MIN_QUANTITY, GameConstant.MAX_QUANTITY));
+                                MainGame.plantDirtList.stream().filter(dirt -> dirt.xDirt == seed.xSeed && dirt.yDirt == seed.ySeed).forEach(dirt -> dirt.isDirt = false);
+                                MainGame.soilList.removeIf(dirt -> body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5 && dirt.isWatered && dirt.isPlanted && dirt.isDirt);
+                                MainGame.waterDirt.removeIf(dirt -> body.getPosition().x >= dirt.xDirt && body.getPosition().x <= dirt.xDirt + 0.5 && body.getPosition().y >= dirt.yDirt && body.getPosition().y <= dirt.yDirt + 0.5 && dirt.isDirt && dirt.isPlanted && dirt.isWatered);
                             }
                         }
+                        MainGame.seedList.removeIf(seed -> body.getPosition().x >= seed.xSeed && body.getPosition().x <= seed.xSeed + 0.5 && body.getPosition().y >= seed.ySeed && body.getPosition().y <= seed.ySeed + 0.5 && seed.harvestable);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }
+        }
+        //Going to bed
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
+            if (body.getPosition().x >= game.bedPosition.x && body.getPosition().x <= game.bedPosition.x + 0.5 && body.getPosition().y >= game.bedPosition.y && body.getPosition().y <= game.bedPosition.y + 0.5) {
+                this.setSleep(true);
+                for (Seed seed : MainGame.seedList) {
+                    if (seed.getName().equals("corn")) {
+                        seed.age += seed.maxAge * 0.75f;
+                    }
+                    if (seed.getName().equals("tomato")) {
+                        seed.age += seed.maxAge;
+                    }
 
+                }
+                int dailyPrice = Random.randomPrice(GameConstant.MIN_PRICE, GameConstant.MAX_PRICE);
+                if (inventory.getItems().containsKey("corn")) {
+                    inventory.getItems().get("corn").setSellPrice(dailyPrice);
+                } else if (inventory.getItems().containsKey("tomato")) {
+                    inventory.getItems().get("tomato").setSellPrice(dailyPrice * 75 / 100);
+                }
+            } else if (body.getPosition().x >= game.traderPosition.x && body.getPosition().x <= game.traderPosition.x + 1 && body.getPosition().y >= game.traderPosition.y && body.getPosition().y <= game.traderPosition.y + 1) {
+                this.setTrading(!this.isTrading());
+                this.setMove(!this.isMove());
+            }
 
         }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+            this.setMove(!this.isMove());
+        }
+
 
         velX = 0;
         velY = 0;
-        if (currentState == State.UP) {
-            velY = 0.5f;
-        } else if (currentState == State.DOWN) {
-            velY = -0.5f;
-        } else if (currentState == State.LEFT) {
-            velX = -0.5f;
-        } else if (currentState == State.RIGHT) {
-            velX = 0.5f;
-        } else if (currentState == State.UPLEFT) {
-            velX = -0.35f;
-            velY = 0.35f;
-        } else if (currentState == State.UPRIGHT) {
-            velX = 0.35f;
-            velY = 0.35f;
-        } else if (currentState == State.DOWNLEFT) {
-            velX = -0.35f;
-            velY = -0.35f;
-        } else if (currentState == State.DOWNRIGHT) {
-            velX = 0.35f;
-            velY = -0.35f;
+        if (this.isMove()) {
+            if (currentState == State.UP) {
+                velY = 0.5f;
+            } else if (currentState == State.DOWN) {
+                velY = -0.5f;
+            } else if (currentState == State.LEFT) {
+                velX = -0.5f;
+            } else if (currentState == State.RIGHT) {
+                velX = 0.5f;
+            } else if (currentState == State.UPLEFT) {
+                velX = -0.35f;
+                velY = 0.35f;
+            } else if (currentState == State.UPRIGHT) {
+                velX = 0.35f;
+                velY = 0.35f;
+            } else if (currentState == State.DOWNLEFT) {
+                velX = -0.35f;
+                velY = -0.35f;
+            } else if (currentState == State.DOWNRIGHT) {
+                velX = 0.35f;
+                velY = -0.35f;
+            }
+            body.setLinearVelocity(velX * speed, velY * speed);
         }
-        body.setLinearVelocity(velX * speed, velY * speed);
     }
 
-    public Chest getChest() {
-        return chest;
+    public boolean isMoving() {
+        return (velX != 0 || velY != 0) && (Gdx.input.isKeyPressed(Input.Keys.W)
+                || Gdx.input.isKeyPressed(Input.Keys.A)
+                || Gdx.input.isKeyPressed(Input.Keys.S)
+                || Gdx.input.isKeyPressed(Input.Keys.D));
     }
 
-    public Equipment getEquipment() {
-        return equipment;
+
+    public boolean isAction() {
+        if (currentItem != null) {
+            return Gdx.input.isKeyJustPressed(Input.Keys.SPACE);
+        }
+        return false;
     }
 
 }

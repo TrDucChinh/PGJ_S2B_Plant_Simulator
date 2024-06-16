@@ -2,67 +2,90 @@ package com.pgj.s2bplantsimulator.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.pgj.s2bplantsimulator.S2BPlantSimulator;
-import com.pgj.s2bplantsimulator.common.constant.GameConstant;
 
 
 public class MenuGame implements Screen {
-    private static final int BUTTON_WIDTH = 200;
-    private static final int BUTTON_HEIGHT = 80;
-    Texture play, playPress, about, aboutPress, replay, replayPress;
+
+    private Stage stage;
+    private Skin skin = new Skin(Gdx.files.internal("Skin/ui_skin.json"));
     private S2BPlantSimulator game;
-
+    private CreditScreen creditScreen;
+    private HelpScreen helpScreen;
+    private MainGame mainGame;
     public MenuGame(S2BPlantSimulator game) {
+        stage = new Stage();
+//        stage.setDebugAll(true);
+        Gdx.input.setInputProcessor(stage);
         this.game = game;
-        createTexture();
+        mainGame = new MainGame(this.game);
+        creditScreen = new CreditScreen(this);
+        helpScreen = new HelpScreen(this);
     }
+    public void initUI(){
+        Table table = new Table();
+        table.setFillParent(true);
+        table.setBackground(skin.getDrawable("background_reduced"));
+        stage.addActor(table);
 
-    public void drawButton(Texture button, Texture buttonPress, int y, int choice) {
-        int x = (GameConstant.WINDOW_WIDTH - BUTTON_WIDTH) / 2;
-        if (Gdx.input.getX() >= x && Gdx.input.getX() <= x + BUTTON_WIDTH && GameConstant.WINDOW_HEIGHT - Gdx.input.getY() >= y && GameConstant.WINDOW_HEIGHT - Gdx.input.getY() <= y + BUTTON_HEIGHT) {
-            game.batch.draw(buttonPress, (float) (GameConstant.WINDOW_WIDTH - BUTTON_WIDTH) / 2, y, BUTTON_WIDTH, BUTTON_HEIGHT);
-            if (Gdx.input.isTouched()) {
-                if (choice == 1) {
-//                    game.setScreen(new MainGame(game));
-                    game.setScreen(new MainGame(game));
-                } else {
-                    if (choice == 2) {
-                        //options
-                        System.out.println("Options");
-                    } else {
-                        Gdx.app.exit();
-                    }
-                }
+        TextButton playButton = new TextButton("Play", skin);
+        playButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
+                game.setScreen(mainGame);
+
             }
-        } else {
-            game.batch.draw(button, (float) (GameConstant.WINDOW_WIDTH - BUTTON_WIDTH) / 2, y, BUTTON_WIDTH, BUTTON_HEIGHT);
-        }
+        });
+        Label label = new Label("S2B PLANT SIMULATOR", skin, "game-open-title");
+        label.setAlignment(Align.center);
+        table.add(label).padBottom(20).size(label.getWidth() + 20, label.getHeight() + 20).row();
+        table.add(playButton).padBottom(20).row();
+        table.getCell(playButton).size(200, 50);
+
+        TextButton helpButton = new TextButton("Help", skin);
+        helpButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
+                game.setScreen(helpScreen);
+            }
+        });
+        table.add(helpButton).size(200, 50).padBottom(20).row();
+
+        TextButton creditButton = new TextButton("Credit", skin);
+        table.add(creditButton).size(200, 50).padBottom(20).row();
+        creditButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
+                game.setScreen(creditScreen);
+            }
+        });
+
+        TextButton exitButton = new TextButton("Exit", skin);
+        table.add(exitButton).size(90, 50).padRight(10);
+        exitButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
+                Gdx.app.exit();
+            }
+        });
     }
 
-    public void createTexture() {
-        play = new Texture(GameConstant.PLAY_BUTTON);
-        playPress = new Texture(GameConstant.PLAY_PRESS_BUTTON);
-        about = new Texture(GameConstant.ABOUT_BUTTON);
-        aboutPress = new Texture(GameConstant.ABOUT_PRESS_BUTTON);
-        replay = new Texture(GameConstant.REPLAY_BUTTON);
-        replayPress = new Texture(GameConstant.REPLAY_PRESS_BUTTON);
-    }
+
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(stage);
+        initUI();
     }
 
     @Override
     public void render(float v) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(Gdx.gl.GL_COLOR_BUFFER_BIT);
-        game.batch.begin();
-        drawButton(play, playPress, 400, 1);
-        drawButton(about, aboutPress, 200, 3);
-        drawButton(replay, replayPress, 300, 2);
-        game.batch.end();
+        stage.act();
+        stage.draw();
     }
 
     @Override
@@ -88,5 +111,13 @@ public class MenuGame implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    public S2BPlantSimulator getGame() {
+        return game;
+    }
+
+    public void setGame(S2BPlantSimulator game) {
+        this.game = game;
     }
 }

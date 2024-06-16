@@ -9,7 +9,6 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.math.Vector4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pgj.s2bplantsimulator.S2BPlantSimulator;
@@ -17,10 +16,11 @@ import com.pgj.s2bplantsimulator.controller.TileMapHelper;
 import com.pgj.s2bplantsimulator.model.Dirt;
 import com.pgj.s2bplantsimulator.model.Player;
 import com.pgj.s2bplantsimulator.model.Seed;
+import com.pgj.s2bplantsimulator.sound.SoundManager;
+import com.pgj.s2bplantsimulator.transition.Transition;
 import com.pgj.s2bplantsimulator.view.HUD;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static com.pgj.s2bplantsimulator.common.constant.GameConstant.PPM;
 
@@ -30,35 +30,41 @@ public class MainGame implements Screen {
     public World world;
     public Player player;
     public TileMapHelper tileMapHelper;
-    public TiledMap map = new TmxMapLoader().load("map.tmx");
+    public TiledMap map = new TmxMapLoader().load("newMap.tmx");
     public OrthogonalTiledMapRenderer renderer;
     public Box2DDebugRenderer box2DDebugRenderer;
-    public static List<Vector4> dirtPositionList = new ArrayList<>();
-    public static List<Dirt> plantDirtList = new ArrayList<>();
-    public static List<Dirt> soilList = new ArrayList<>();
-    public static List<Dirt> plantList = new ArrayList<>();
-    public static List<Seed> seedList = new ArrayList<>();
+    public static Set<Dirt> plantDirtList = new HashSet<>();
+    public static Set<Dirt> waterDirt = new HashSet<>();
+    public static Set<Dirt> soilList = new HashSet<>();
+    public static Set<Seed> seedList = new HashSet<>();
+    //reset day
+    public Vector2 bedPosition;
+    public Vector2 traderPosition;
 
-    public OrthographicCamera staticCamera;
-    public OrthographicCamera playerCamera;
+    private Transition transition;
+
+    private SoundManager soundManager;
     private HUD hud;
 
-    public int[] Water = new int[]{0}, Grass = new int[]{1}, Dirt = new int[]{2}, Wood = new int[]{6}; // Lấy index của layer
+    public int[] Water = new int[]{0}, Grass = new int[]{1}, House = new int[]{2}, HouseFurniture = new int[]{3}, Fence = new int[]{4}, Wood = new int[]{10}, Carpet = new int[]{5}, Trader = new int[]{6}, Desk = new int[]{7}; // Lấy index của layer
 
     public MainGame(S2BPlantSimulator game) {
         this.world = new World(new Vector2(0, 0), false);
         this.game = game;
         this.box2DDebugRenderer = new Box2DDebugRenderer();
         box2DDebugRenderer.setDrawBodies(false);
-        box2DDebugRenderer.setDrawJoints(true);
+        box2DDebugRenderer.setDrawJoints(false);
         this.tileMapHelper = new TileMapHelper(this);
         this.renderer = tileMapHelper.setupMap();
         hud = new HUD(this);
+
+        this.transition = new Transition(player);
+        soundManager = new SoundManager(this);
     }
 
     @Override
     public void show() {
-//        staticCamera = new OrthographicCamera(512, 360);
+        soundManager.create();
         game.camera = new OrthographicCamera(512 / 2, 360 / 2);
         hud.show();
 
@@ -66,12 +72,10 @@ public class MainGame implements Screen {
 
     public void update(float dt) {
         world.step(1 / 60f, 6, 2);
-//        inventoryUI.update();
         Vector3 position = game.camera.position;
         position.x = player.body.getPosition().x * PPM * 10 / 10f;
         position.y = player.body.getPosition().y * PPM * 10 / 10f;
         game.camera.position.set(position);
-//        staticCamera.position.set(position);
         if (game.camera.position.x < game.camera.viewportWidth / 2) {
             game.camera.position.x = game.camera.viewportWidth / 2;
         }
@@ -90,7 +94,10 @@ public class MainGame implements Screen {
         player.update(dt);
         game.camera.update();
         hud.update(dt);
-//        staticCamera.update();
+        if (player.isSleep()) {
+            this.transition.play();
+        }
+        soundManager.update();
     }
 
     @Override
@@ -101,35 +108,48 @@ public class MainGame implements Screen {
         // render map theo layer index
         renderer.render(Water);
         renderer.render(Grass);
-        renderer.render(Dirt);
+        renderer.render(House);
+        renderer.render(HouseFurniture);
+        renderer.render(Fence);
+        renderer.render(Carpet);
+        renderer.render(Trader);
+        renderer.render(Desk);
         box2DDebugRenderer.render(world, game.camera.combined.scl(PPM));
-//        box2DDebugRenderer.render(world, staticCamera.combined.scl(PPM));
 
         stateTime += delta;
-
-
-
         game.batch.begin();
         game.batch.setProjectionMatrix(game.camera.combined);
         this.update(delta);
-        for (Dirt dirt : plantDirtList) {
-            game.batch.draw(dirt, dirt.getX() + 0.5f, dirt.getY() + 0.5f, 0.5f, 0.5f);
-        }
-        for (Dirt soil : soilList) {
-            if (soil.isWatered) {
-                game.batch.draw(soil, soil.getX() + 0.5f, soil.getY() + 0.5f, 0.5f, 0.5f);
+        try {
+            for (Dirt dirt : soilList) {
+                if (dirt.isDirt) {
+                    game.batch.draw(dirt, dirt.getX() + 0.5f, dirt.getY() + 0.5f, 0.5f, 0.5f);
+                }
             }
+            if (!waterDirt.isEmpty()) {
+                for (Dirt soil : waterDirt) {
+                    if (soil.isWatered) {
+                        game.batch.draw(soil, soil.getX() + 0.5f, soil.getY() + 0.5f, 0.5f, 0.5f);
+                    }
+                }
+
+            }
+            for (Seed seed : seedList) {
+                game.batch.draw(seed, seed.getX() + 0.5f, seed.getY() + 0.5f, 0.5f, 0.5f);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-//        for (Dirt plant : plantList) {
-//            game.batch.draw(plant, plant.getX() + 0.5f, plant.getY() + 0.5f, 0.5f, 0.5f);
-//        }
-        for (Seed seed : seedList) {
-            game.batch.draw(seed, seed.getX() + 0.5f, seed.getY() + 0.5f, 0.5f, 0.5f);
-        }
+//        if (player.isMove()) {
         player.draw(game.batch);
+//        }
         game.batch.end();
         renderer.render(Wood);
         hud.render(delta);
+        if (player.isSleep()) {
+            this.transition.play();
+        }
     }
 
     @Override
@@ -165,5 +185,9 @@ public class MainGame implements Screen {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public S2BPlantSimulator getGame() {
+        return game;
     }
 }
